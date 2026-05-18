@@ -4,3 +4,7 @@ streamlit
 streamlit-folium
 plotly
 openpyxl
+streamlit
+streamlit-folium
+plotly
+openpyxl
