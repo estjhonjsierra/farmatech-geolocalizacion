@@ -3,8 +3,8 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 
-# Configuración inicial forzando el diseño responsive de pantalla completa de alta gama
-st.set_page_config(page_title="FarmaTech - Entorno Maestro 3D", layout="wide")
+# Configuración inicial de gala forzando el diseño responsive de pantalla completa
+st.set_page_config(page_title="FarmaTech Ltda. - Entorno Maestro 3D", layout="wide")
 
 # Control geométrico extremo para eliminar márgenes muertos laterales y optimizar la ventana
 st.markdown("""
@@ -48,22 +48,22 @@ st.sidebar.subheader("📸 Herramientas de Reporte")
 if st.sidebar.button("📷 Guardar Maqueta de Ingeniería 3D (PDF)"):
     st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
 
-# --- CUERPO PRINCIPAL DEL DASHBOARD ---
+# --- CUERPO PRINCIPAL DEL DASHBOARD (INYECCIÓN DE NOMBRE INTEGRADO) ---
 st.markdown(f"""
     <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #117a65; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📐 Entorno Maestro de Distribución Industrial e Instrumentación Física (80 m²)</h2>
-        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">FarmaTech Ltda. &mdash; Simulación Completa de Estructuras, Mobiliario, Inventarios y Alertas Sanitarias (BPA Compliance).</p>
+        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">🧪 FARMATECH LTDA. &mdash; Entorno Maestro de Distribución Industrial </h2>
+        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">Simulación Completa de Estructuras, Mobiliario, Inventarios y Alertas Sanitarias de Planta (BPA Compliance - 80 m²).</p>
     </div>
 """, unsafe_allow_html=True)
 
 # --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-2.5m) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
-    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4, 8], "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
-    {"name": "Nodo Logístico de Alistamiento", "x_range": [4, 8], "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
+    {"name": "Zona de Dispensación y Atención", "x_range":, "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
+    {"name": "Bodega de Almacenamiento General", "x_range":, "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range":, "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
+    {"name": "Nodo Logístico de Alistamiento", "x_range":, "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
     {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#b2babb", "desc": "Oficina administrativa y servidores de control central ERP."},
-    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
+    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aisolation térmica para la custodia de medicamentos termolábiles."},
     {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#d4efdf", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
     {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
     {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#f5cba7", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
@@ -100,17 +100,14 @@ iconos_interactivos = [
 
 # --- FUNCIÓN GEOMÉTRICA DE PRISMAS SÓLIDOS PERFECTOS ---
 def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opacidad, grosor_borde):
-    # Definición de los 8 vértices vectoriales de un prisma en coordenadas cartesianas reales
-    x = [x_rng[0], x_rng[1], x_rng[1], x_rng[0], x_rng[0], x_rng[1], x_rng[1], x_rng[0]]
-    y = [y_rng[0], y_rng[0], y_rng[1], y_rng[1], y_rng[0], y_rng[0], y_rng[1], y_rng[1]]
-    z = [z_rng[0], z_rng[0], z_rng[0], z_rng[0], z_rng[1], z_rng[1], z_rng[1], z_rng[1]]
+    x = [x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng]
+    y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
+    z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
     
-    # Índices matemáticos fijos para la triangulación e iluminación de las 6 caras
-    i = [0, 0, 4, 4, 0, 0, 1, 1, 2, 2, 3, 3]
-    j = [1, 2, 5, 6, 4, 5, 2, 3, 3, 0, 0, 1]
-    k = [2, 3, 6, 7, 5, 7, 6, 7, 0, 1, 1, 2]
+    i =
+    j =
+    k =
     
-    # Cuerpo del prisma sólido
     fig.add_trace(go.Mesh3d(
         x=x, y=y, z=z, i=i, j=j, k=k,
         color=color, opacity=opacidad, name=name,
@@ -118,8 +115,7 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
         lighting=dict(ambient=0.75, diffuse=0.65, roughness=0.2, specular=0.1)
     ))
     
-    # Líneas de contorno arquitectónico (Wireframe) para delimitar las esquinas
-    lineas_indices = [0, 1, 2, 3, 0, 4, 5, 6, 7, 4, 5, 1, 2, 6, 7, 3]
+    lineas_indices =
     lx = [x[idx] for idx in lineas_indices]
     ly = [y[idx] for idx in lineas_indices]
     lz = [z[idx] for idx in lineas_indices]
