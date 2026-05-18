@@ -9,7 +9,7 @@ st.set_page_config(page_title="FarmaTech - Inteligencia Geográfica", layout="wi
 st.title("📍 Dashboard de Inteligencia Geográfica — FarmaTech Ltda.")
 st.write("Herramienta analítica para el control de cobertura logística y segmentación comercial en tiempo real.")
 
-# --- BASE DE DATOS ESTRATÉGICA COHERENTE CON FOTOS REALES ---
+# --- BASE DE DATOS ESTRATÉGICA COHERENTE CON CORTES 1 Y 2 ---
 sede_lat, sede_lon = 6.2372, -75.5976
 
 puntos_interes = [
@@ -87,7 +87,7 @@ puntos_interes = [
     }
 ]
 
-# --- FUNCIÓN MATEMÁTICA DE GEODESIA (Fórmula de Haversine para distancias exactas) ---
+# --- FUNCIÓN MATEMÁTICA DE GEODESIA (Fórmula de Haversine para distancias reales) ---
 def calcular_distancia(lat1, lon1, lat2, lon2):
     r_tierra = 6371000  # En metros
     d_lat = math.radians(lat2 - lat1)
@@ -107,7 +107,7 @@ categorias_seleccionadas = st.sidebar.multiselect(
     default=categorias_disponibles
 )
 
-# 2. Filtro por Nombre Específico (Basado en la categoría seleccionada)
+# 2. Filtro por Nombre Específico (Dinámico)
 establecimientos_filtrados_cat = [p for p in puntos_interes if p["cat"] in categorias_seleccionadas]
 nombres_disponibles = [p["name"] for p in establecimientos_filtrados_cat]
 
@@ -133,16 +133,24 @@ if distancia_cliente <= 1500:
 else:
     st.sidebar.error(f"❌ **FUERA DE COBERTURA STANDARD**\n\nDistancia: {distancia_cliente:.0f} metros.\nRequiere recargo o despacho ampliado.")
 
-# 4. Botón de Captura / Reporte Técnico
+# 4. NUEVO GLOSARIO DE ICONOS PARA LA BARRA LATERAL
+st.sidebar.markdown("---")
+st.sidebar.subheader("📖 Glosario de Iconos del Mapa")
+st.sidebar.markdown("""
+🟢 **Icono Verde (Cruz):** Sede central de **FarmaTech Ltda.** en Mall La 33.
+🔴 **Icono Rojo (Canasta):** Competidores directos (**Droguerías de Barrio**).
+🟠 **Icono Naranja (Dólar):** Grandes cadenas de farmacias corporativas.
+🔵 **Icono Azul (Usuario):** Ubicación simulada en tiempo real del cliente.
+🌐 **Icono Turquesa (Médico):** Clínicas e IPS (Nodos generadores de demanda).
+🔴 **Línea de Perímetro Roja:** Límite operativo estricto de **1.5 Kilómetros**.
+""")
+
+# 5. Botón de Captura / Reporte Técnico
 st.sidebar.markdown("---")
 st.sidebar.subheader("📸 Herramientas de Reporte")
 if st.sidebar.button("📷 Capturar Pantallazo / Guardar Reporte"):
-    st.components.v1.html("""
-        <script>
-            window.parent.print();
-        </script>
-    """, height=0, width=0)
-    st.sidebar.caption("💡 Tip: En el menú que se abre, selecciona 'Guardar como PDF' para conservar el estado actual.")
+    st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
+    st.sidebar.caption("💡 Tip: Selecciona 'Guardar como PDF' para archivar.")
 
 # --- CONSTRUCCIÓN DINÁMICA DEL MAPA ---
 m = folium.Map(location=[sede_lat, sede_lon], zoom_start=15, control_scale=True)
@@ -159,7 +167,7 @@ folium.Circle(
     tooltip="Área de Influencia Logística: 1.5 Kilómetros"
 ).add_to(m)
 
-# INYECCIÓN HTML CON IMAGEN WEB PARA LA SEDE PRINCIPAL
+# INYECCIÓN HTML PARA LA SEDE PRINCIPAL (FarmaTech)
 html_popup_sede = """
 <div style="font-family: Arial, sans-serif; width: 260px; line-height: 1.4;">
     <h4 style="margin:0 0 5px 0; color:#1e7e34;">FarmaTech Ltda.</h4>
@@ -170,7 +178,6 @@ html_popup_sede = """
 </div>
 """
 
-# Sede Principal FarmaTech con Popup Fotográfico
 folium.Marker(
     [sede_lat, sede_lon],
     popup=folium.Popup(html_popup_sede, max_width=290),
@@ -189,10 +196,10 @@ folium.Marker(
 # Línea visual entre la farmacia y el cliente
 folium.PolyLine([[sede_lat, sede_lon], [sim_lat, sim_lon]], color="gray", weight=2, dash_array="5, 5").add_to(m)
 
-# Renderizado de Marcadores Filtrados con su FOTO INDIVIDUAL Y CORRECCIÓN DE DISTANCIA
+# Renderizado de Marcadores Filtrados con su FOTO INDIVIDUAL (CORRECCIÓN DE EXTRACCIÓN DE COORDENADAS)
 for punto in puntos_finales:
-    # CORRECCIÓN AQUÍ: Extraer de forma individual latitud y longitud para evitar errores matemáticos
-    dist_comp = calcular_distancia(sede_lat, sede_lon, punto["loc"][0], punto["loc"][1])
+    lat_dest, lon_dest = punto["loc"][0], punto["loc"][1]
+    dist_comp = calcular_distancia(sede_lat, sede_lon, lat_dest, lon_dest)
     estado_cobertura = "DENTRO DEL RADIO" if dist_comp <= 1500 else "FUERA DE COBERTURA"
     
     if punto["cat"] == "Droguería de Barrio":
@@ -205,7 +212,6 @@ for punto in puntos_finales:
         color_icono, tipo_icono = "cadetblue", "user-md"
         color_titulo = "#17a2b8"
         
-    # Estructura del Popup con foto para CADA competidor
     html_popup_comp = f"""
     <div style="font-family: Arial, sans-serif; width: 250px; line-height: 1.4;">
         <h4 style="margin:0 0 5px 0; color:{color_titulo};">{punto['name']}</h4>
@@ -227,7 +233,7 @@ for punto in puntos_finales:
 # Renderizar mapa principal
 st_folium(m, width=1200, height=600)
 
-# --- PANEL DE INDICADORES EN TIEMPO REAL (CORREGIDO PARA MOSTRAR VALORES REALES DE LA BD) ---
+# --- PANEL DE INDICADORES EN TIEMPO REAL ---
 st.markdown("### 📊 Indicadores de Entorno de Mercado en Pantalla")
 col1, col2, col3 = st.columns(3)
 
@@ -237,3 +243,20 @@ with col2:
     st.metric(label="Grandes Cadenas en Pantalla", value=sum(1 for p in puntos_finales if p["cat"] == "Gran Cadena"))
 with col3:
     st.metric(label="Nodos de Salud Activos", value=sum(1 for p in puntos_finales if p["cat"] == "Infraestructura de Salud"))
+
+# --- NUEVA SECCIÓN DE NOTAS DE CAMPO Y ANÁLISIS ESTRATÉGICO POR AFUERA DEL MAPA ---
+st.markdown("---")
+st.markdown("### 📝 Notas Analíticas de Localización y Red de Distribución")
+nota_col1, nota_col2 = st.columns(2)
+
+with nota_col1:
+    st.info("""
+    💡 **Sustento del Radio de Influencia Logística (1.5 km):**
+    El perímetro delimitado por la circunferencia roja representa el área de cobertura crítica para nuestro modelo de farmacia omnicanal de alta rotación. Este rango garantiza que las tres motocicletas de nuestra flota propia efectúen entregas express en un intervalo controlado de 20 a 45 minutos sin incurrir en sobrecostos operativos, blindando el flujo de caja del proyecto.
+    """)
+
+with nota_col2:
+    st.warning("""
+    ⚠️ **Análisis de Densidad Competitiva Recurrente:**
+    La visualización cartográfica evidencia que el eje comercial de la Avenida 33 concentra el mayor foco de saturación por parte de droguerías tradicionales de barrio. Para mitigar este riesgo comercial, FarmaTech Ltda. basa su propuesta de valor en la rapidez del servicio digital (WhatsApp Business) y la fidelización del paciente crónico, evitando la guerra directa de precios en el mostrador físico.
+    """)
