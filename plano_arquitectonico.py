@@ -3,10 +3,10 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 
-# Configuración inicial forzando el diseño responsive de pantalla completa
-st.set_page_config(page_title="FarmaTech - Maqueta 3D HD", layout="wide")
+# Configuración inicial forzando el diseño responsive de pantalla completa de alta gama
+st.set_page_config(page_title="FarmaTech - Entorno Maestro 3D", layout="wide")
 
-# Control geométrico para eliminar márgenes muertos laterales y optimizar la visualización
+# Control geométrico extremo para eliminar márgenes muertos laterales y optimizar la ventana
 st.markdown("""
     <style>
     .block-container {
@@ -20,7 +20,7 @@ st.markdown("""
 
 # --- PANEL DE CONTROL SIDEBAR ---
 st.sidebar.header("⚙️ Control de Infraestructura e Ingeniería 3D")
-st.sidebar.write("Modelado de volumetrías físicas y equipamiento técnico bajo normativas INVIMA, Decreto 2200/2005 y Resolución 1403/2007.")
+st.sidebar.write("Modelado volumétrico de alta fidelidad, inventarios e instrumentación médica bajo normativas INVIMA.")
 
 st.sidebar.subheader("📐 Desglose Técnico de Áreas (80 m²)")
 st.sidebar.markdown("""
@@ -44,117 +44,134 @@ if st.sidebar.button("📷 Guardar Maqueta de Ingeniería 3D (PDF)"):
 # --- CUERPO PRINCIPAL DEL DASHBOARD ---
 st.markdown(f"""
     <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #117a65; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📐 Modelado Físico y Distribución Industrial de Detalle (80 m²)</h2>
-        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">FarmaTech Ltda. &mdash; Simulación Realista de Estructuras, Mobiliario y Equipamiento de Planta (BPA Compliance).</p>
+        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📐 Entorno Maestro de Distribución Industrial e Instrumentación Física (80 m²)</h2>
+        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">FarmaTech Ltda. &mdash; Simulación Completa de Estructuras, Mobiliario, Inventarios y Alertas Sanitarias (BPA Compliance).</p>
     </div>
 """, unsafe_allow_html=True)
 
-# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (80 m² Totales, Prismas Rectangulares Perfectos) ---
+# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (80 m² Totales, Prismas Rectangulares) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
-    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4, 8], "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
-    {"name": "Nodo Logístico de Alistamiento", "x_range": [4, 8], "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
+    {"name": "Zona de Dispensación y Atención", "x_range":, "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
+    {"name": "Bodega de Almacenamiento General", "x_range":, "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range":, "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
+    {"name": "Nodo Logístico de Alistamiento", "x_range":, "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
     {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#b2babb", "desc": "Oficina administrativa y servidores de control central ERP."},
-    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
+    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aisolation térmica para la custodia de medicamentos termolábiles."},
     {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#d4efdf", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
     {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
     {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#f5cba7", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
     {"name": "Corredores y Circulación Interna", "x_range": [1.6, 6.8], "y_range": [8.75, 9.53], "z_range": [0, 0.05], "area": 4, "color": "#d5f5e3", "desc": "Pasillos demarcados para tránsito seguro de personal y carros de carga."}
 ]
 
-# --- 🚀 NUEVA BASE DE DATOS DE MOBILIARIO REALISTA EN 3D SÓLIDO (CUBOS INDEPENDIENTES REALES) ---
+# --- BASE DE DATOS DE MOBILIARIO REALISTA EN 3D SÓLIDO (CUBOS INDEPENDIENTES REALES) ---
 mobiliario_3d = [
-    # Mostrador Comercial Frontal en Zona de Dispensación
     {"name": "🛋️ Mostrador Ergonómico POS Principal", "x": [1.0, 7.0], "y": [1.0, 1.6], "z": [0, 1.1], "color": "#ffffff", "desc": "Mesa de dispensación lineal que alberga las 3 cajas registradoras."},
-    # Estanterías Industriales de la Bodega General
     {"name": "🛋️ Estantería Modular Pesada - Módulo A", "x": [0.2, 0.8], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para almacenamiento de medicamentos OTC."},
     {"name": "🛋️ Estantería Modular Pesada - Módulo B", "x": [1.4, 2.0], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para medicamentos de prescripción crónica (SOM)."},
-    # Mobiliario del Consultorio del Químico Farmacéutico (QF)
     {"name": "🛋️ Escritorio de Consulta Clínica QF", "x": [5.0, 7.0], "y": [3.0, 4.0], "z": [0, 0.8], "color": "#eaecee", "desc": "Módulo administrativo del Regente para atención personalizada."},
-    # Mobiliario del Nodo Logístico de Domicilios
     {"name": "🛋️ Mesa Técnica de Alistamiento y Despacho", "x": [5.0, 7.0], "y": [5.0, 6.0], "z": [0, 0.9], "color": "#ebf5fb", "desc": "Superficie de embalaje, etiquetado y picking omnicanal."},
-    # Equipamiento del Cuarto de Cadena de Frío
     {"name": "🛋️ Refrigerador Clínico Horizontal No. 1", "x": [2.6, 3.4], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión con termohigrómetro integrado para insulinas."},
     {"name": "🛋️ Refrigerador Clínico Horizontal No. 2", "x": [3.8, 4.6], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión para custodia estable de biológicos y vacunas."},
-    # Equipamiento de la Bahía de Recepción y Cuarentena
     {"name": "🛋️ Mesa de Inspección de Acero Inoxidable", "x": [5.0, 6.6], "y": [6.6, 7.6], "z": [0, 0.9], "color": "#bdc3c7", "desc": "Superficie aséptica para la validación y muestreo de lotes mayoristas."},
     {"name": "🛋️ Estiba de Madera Regulada (Cuarentena)", "x": [5.0, 6.6], "y": [7.8, 8.6], "z": [0, 0.15], "color": "#ba4a00", "desc": "Plataforma de aislamiento del suelo exigida por las Buenas Prácticas (BPA)."},
-    # Contenedor Autorizado Punto Azul en Unidad de Residuos
     {"name": "🛋️ Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."}
+]
+
+# --- 🚀 CAPA SUPREMA: ICONOS DE INSTRUMENTACIÓN E INVENTARIO INTERACTIVO (DIAMANTES FLOTANTES DE CONTROL) ---
+iconos_interactivos = [
+    {"name": "📌 Terminal POS de Dispensación - Caja 1", "x": 1.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Terminal integrada conectada al ERP central de FarmaTech Ltda."},
+    {"name": "📌 Terminal POS de Dispensación - Caja 2", "x": 4.0, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Punto de cobro intermedio habilitado para periodos de alta rotación."},
+    {"name": "📌 Terminal POS de Dispensación - Caja 3", "x": 6.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Terminal del canal digital orientada a la facturación de domicilios."},
+    {"name": "📌 Termohigrómetro de Control - Bodega", "x": 2.0, "y": 5.5, "z": 2.2, "color": "#dc3545", "symbol": "cross", "size": 12, "desc": "Monitoreo INVIMA Compliance. Temperatura óptima ambiente: 21.4°C | Humedad: 62%."},
+    {"name": "📌 Termohigrómetro de Control - Cadena Frío", "x": 3.0, "y": 8.2, "z": 2.2, "color": "#dc3545", "symbol": "cross", "size": 12, "desc": "Alerta crítica de refrigeración. Temperatura actual: 4.5°C | Humedad: 58% (Rango 2°C-8°C)."},
+    {"name": "📌 Lote Medicamentos OTC: Analgésicos", "x": 0.5, "y": 3.5, "z": 0.8, "color": "#007bff", "symbol": "circle", "size": 9, "desc": "Acetaminofén e Ibuprofeno mayorista. Stock de seguridad para 45 días."},
+    {"name": "📌 Medicamentos Crónicos: Antihipertensivos", "x": 1.7, "y": 4.5, "z": 1.5, "color": "#28a745", "symbol": "circle", "size": 9, "desc": "Losartán y Enalapril (Estrategia de Nicho SOM - Core del negocio)."},
+    {"name": "📌 Custodia de Insulinas Glargina (Nevera 1)", "x": 3.0, "y": 7.5, "z": 1.4, "color": "#17a2b8", "symbol": "square", "size": 10, "desc": "Medicamentos termolábiles de alta sensibilidad almacenados de forma hermética."},
+    {"name": "📌 Renovador Mecánico de Aire (Inyector)", "x": 7.5, "y": 9.0, "z": 2.4, "color": "#6c757d", "symbol": "hourglass", "size": 11, "desc": "Extractor industrial para garantizar los ciclos de renovación de aire (Resolución 1403/2007)."},
+    {"name": "📌 Guardián de Seguridad de Desechos", "x": 7.4, "y": 7.5, "z": 1.6, "color": "#fd7e14", "symbol": "triangle-up", "size": 10, "desc": "Dispositivo rígido para el descarte de agujas e implementos cortopunzantes (PGIRHS)."}
 ]
 
 # --- FUNCIÓN GEOMÉTRICA DE PRISMAS SÓLIDOS PERFECTOS ---
 def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opacidad, grosor_borde):
-    # Coordenadas ordenadas de los 8 vértices del prisma rectangular
-    x = [x_rng[0], x_rng[1], x_rng[1], x_rng[0], x_rng[0], x_rng[1], x_rng[1], x_rng[0]]
-    y = [y_rng[0], y_rng[0], y_rng[1], y_rng[1], y_rng[0], y_rng[0], y_rng[1], y_rng[1]]
-    z = [z_rng[0], z_rng[0], z_rng[0], z_rng[0], z_rng[1], z_rng[1], z_rng[1], z_rng[1]]
+    x = [x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng]
+    y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
+    z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
     
-    # Índices fijos de Plotly para renderizar las 6 caras del cubo sin errores de triangulación
-    i = [0, 0, 0, 1, 1, 2, 4, 4, 4, 5, 5, 6]
-    j = [1, 2, 3, 2, 5, 3, 5, 6, 7, 6, 1, 7]
-    k = [2, 3, 7, 5, 6, 7, 6, 7, 3, 1, 2, 3]
+    i =
+    j =
+    k =
     
-    # Trace 1: Cuerpo sólido opaco del cuarto/mueble
+    # Trace 1: Cuerpo del prisma
     fig.add_trace(go.Mesh3d(
         x=x, y=y, z=z, i=i, j=j, k=k,
-        color=color,
-        opacity=opacidad,
-        name=name,
-        text=hover_text,
-        hoverinfo="text",
-        flatshading=True,
+        color=color, opacity=opacidad, name=name,
+        text=hover_text, hoverinfo="text", flatshading=True,
         lighting=dict(ambient=0.7, diffuse=0.6, roughness=0.2, specular=0.1)
     ))
     
-    # Trace 2: Efecto Wireframe de Alta Definición (Líneas de contorno/paredes negras)
-    # Conecta los vértices para dibujar las aristas y darle hiperrealismo de diseño industrial
-    lineas_x = [x[0], x[1], x[2], x[3], x[0], x[4], x[5], x[1], x[5], x[6], x[2], x[6], x[7], x[3], x[7], x[4]]
-    lineas_y = [y[0], y[1], y[2], y[3], y[0], y[4], y[5], y[1], y[5], y[6], y[2], y[6], y[7], y[3], y[7], y[4]]
-    lineas_z = [z[0], z[1], z[2], z[3], z[0], z[4], z[5], z[1], z[5], z[6], z[2], z[6], z[7], z[3], z[7], z[4]]
+    # Trace 2: Líneas de contorno arquitectónico (Wireframe)
+    lineas_x = [x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x]
+    lineas_y = [y, y, y, y, y, y, y, y, y, y, y, y, y, y, y, y]
+    lineas_z = [z, z, z, z, z, z, z, z, z, z, z, z, z, z, z, z]
     
     fig.add_trace(go.Scatter3d(
         x=lineas_x, y=lineas_y, z=lineas_z,
-        mode="lines",
-        line=dict(color="black", width=grosor_borde),
-        hoverinfo="skip",
-        showlegend=False
+        mode="lines", line=dict(color="black", width=grosor_borde),
+        hoverinfo="skip", showlegend=False
     ))
 
-# Instanciación del mapa tridimensional
+# Instanciación de la maqueta
 fig = go.Figure()
 
-# 1. CAPA BASE: Renderizar las paredes de los cuartos técnicos (Opacidad media para ver el interior)
+# 1. Capa Arquitectónica: Cuartos técnicos (Translúcidos)
 for zona in zonas_3d:
-    html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Infraestructura: Techo a 2.5m<br>{zona['desc']}"
-    construir_solido_hd(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], html_zona, opacidad=0.35, grosor_borde=1.5)
+    html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Altura libre 2.5m<br>{zona['desc']}"
+    construir_solido_hd(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], html_zona, opacidad=0.32, grosor_borde=1.5)
 
-# 2. 🔥 CAPA SUPERIOR: Renderizar el Mobiliario y la Mercancía en 3D Sólido Real (Opacidad alta y bordes gruesos)
+# 2. Capa Industrial: Mobiliario y Maquinaria (Opacos)
 for mob in mobiliario_3d:
-    html_mob = f"<b>{mob['name']}</b><br>{mob['desc']}<br>Dimensiones y ubicación métrica exacta."
+    html_mob = f"<b>{mob['name']}</b><br>{mob['desc']}<br>Ubicación métrica real instalada."
     construir_solido_hd(fig, mob["x"], mob["y"], mob["z"], mob["color"], mob["name"], html_mob, opacidad=0.95, grosor_borde=3.0)
 
-# Configuración técnica del entorno de visualización y cámara isométrica
+# 3. 🚀 NUEVA CAPA SUPREMA: Inyectar los Iconos e Instrumentos Interactivos Flotantes de antes (go.Scatter3d)
+for ico in iconos_interactivos:
+    html_ico = f"<b>{ico['name']}</b><br>{ico['desc']}<br><i>Coordenadas de ingeniería: X={ico['x']}, Y={ico['y']}, Z={ico['z']}</i>"
+    
+    fig.add_trace(go.Scatter3d(
+        x=[ico["x"]], y=[ico["y"]], z=[ico["z"]],
+        mode="markers",
+        marker=dict(
+            size=ico["size"],
+            color=ico["color"],
+            symbol=ico["symbol"],
+            line=dict(color="black", width=2)
+        ),
+        name=ico["name"],
+        text=html_ico,
+        hoverinfo="text"
+    ))
+
+# Configuración del entorno global, cámara isométrica y leyendas cruzadas
 fig.update_layout(
-    title=dict(text="🏢 Distribución de Planta de Detalle e Ingeniería de Mobiliario (Layout Realista 3D HD)", font=dict(size=18)),
+    title=dict(text="🏢 Distribución de Planta de Detalle, Mobiliario e Instrumentación (Layout Unificado 3D HD)", font=dict(size=18)),
     scene=dict(
-        xaxis=dict(title="Frente Comercial (Metros)", range=[-0.5, 8.5], dtick=1, backgroundcolor="rgb(245, 245, 245)", gridcolor="rgba(0,0,0,0.1)", showbackground=True),
-        yaxis=dict(title="Fondo Comercial (Metros)", range=[-0.5, 11.5], dtick=1, backgroundcolor="rgb(235, 235, 235)", gridcolor="rgba(0,0,0,0.1)", showbackground=True),
-        zaxis=dict(title="Altura Locativa (Metros)", range=[0, 3.5], dtick=1, backgroundcolor="rgb(225, 225, 225)", gridcolor="rgba(0,0,0,0.1)", showbackground=True),
+        xaxis=dict(title="Frente Comercial (Metros)", range=[-0.5, 8.5], dtick=1, backgroundcolor="rgb(245, 245, 245)", gridcolor="rgba(0,0,0,0.08)", showbackground=True),
+        yaxis=dict(title="Fondo Comercial (Metros)", range=[-0.5, 11.5], dtick=1, backgroundcolor="rgb(235, 235, 235)", gridcolor="rgba(0,0,0,0.08)", showbackground=True),
+        zaxis=dict(title="Altura Locativa (Metros)", range=[0, 3.5], dtick=1, backgroundcolor="rgb(225, 225, 225)", gridcolor="rgba(0,0,0,0.08)", showbackground=True),
         camera=dict(
-            eye=dict(x=1.35, y=-1.35, z=1.55), # Ángulo isométrico perfecto que revela el interior
+            eye=dict(x=1.40, y=-1.40, z=1.60),
             up=dict(x=0, y=0, z=1)
         ),
         aspectmode="data"
     ),
     margin=dict(l=10, r=10, t=50, b=10),
     template="plotly_white",
-    height=680,
-    hoverlabel=dict(bgcolor="white", font_size=13, font_family="Arial")
+    height=700,
+    hoverlabel=dict(bgcolor="white", font_size=13, font_family="Arial"),
+    showlegend=True # Muestra la leyenda interactiva a la derecha para encender/apagar elementos
 )
 
-# Proyectar el entorno de producción en Streamlit Cloud
+# Proyectar el entorno de producción unificado en Streamlit Cloud
 st.plotly_chart(fig, use_container_width=True)
 
 # --- CUADRO DE VALIDACIÓN SANITARIA (POR FUERA DEL MAPA) ---
