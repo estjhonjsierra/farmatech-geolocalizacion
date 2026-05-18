@@ -49,7 +49,7 @@ if st.sidebar.button("📷 Guardar Reporte Completo (PDF)"):
     st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
 
 # --- CUERPO PRINCIPAL DEL DASHBOARD ---
-# NUEVA CABECERA ELEGANTE: Reemplaza la imagen rota por un contenedor ejecutivo nativo
+# CABECERA ELEGANTE NATIVA
 st.markdown(f"""
     <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #1e7e34; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📉 Simulador de Punto de Equilibrio y Viabilidad Financiera</h2>
@@ -57,9 +57,23 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# --- MODELADO DE LA CURVA DE CRECIMIENTO MES A MES ---
+# --- MODELADO OPTIMIZADO DE LA CURVA DE CRECIMIENTO (Coherencia Estricta con Tabla 5) ---
 meses = [f"Mes {i}" for i in range(1, 13)]
-transacciones_base = [1100, 1300, 1500, 1750, 2000, 2300, 2520, 2700, 2900, 3050, 3200, 3300]
+# Se utilizan valores optimizados dentro de tus rangos para asegurar el equilibrio real en el Mes 7
+transacciones_base = [
+    1350,  # Mes 1: Arranque (Rango 900 - 1500)
+    1420,  # Mes 2: Arranque
+    1500,  # Mes 3: Arranque
+    1950,  # Mes 4: Crecimiento (Rango 1650 - 2400)
+    2150,  # Mes 5: Crecimiento
+    2380,  # Mes 6: Crecimiento
+    2520,  # MES 7: PUNTO DE EQUILIBRIO EXACTO (Supera las 2516 requeridas)
+    2750,  # Mes 8: Estable (Rango 2520 - 3300)
+    2900,  # Mes 9: Estable
+    3050,  # Mes 10: Estable
+    3180,  # Mes 11: Estable
+    3300   # Mes 12: Estable
+]
 
 # Estructuración y cálculo de datos dinámicos usando matrices de Pandas
 ingresos = [t * ticket_sim for t in transacciones_base]
@@ -109,7 +123,7 @@ if mes_cruce != "No alcanzado":
 fig.update_layout(
     title=dict(text="📊 Curva Analítica de Intersección Financiera (Break-Even Point)", font=dict(size=18)),
     xaxis_title="Horizonte Temporal Evaluado (Primer Año Crítico)",
-    yaxis_title="Montos Liquidados en COP ($)",
+    yaxis_title="Montos Financieros en COP ($)",
     legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0.8)"),
     margin=dict(l=10, r=10, t=50, b=10),
     hovermode="x unified",
@@ -133,9 +147,9 @@ with f1:
 with f2:
     roi_acumulado = sum(utilidad_neta)
     if roi_acumulado > 0:
-        st.info(f"💰 **Sostenibilidad Financiera Anual:** Al cierre del Mes 12, la operación omnicanal arroja un retorno neto de caja acumulado de **${roi_acumulado:,.0f} COP**, demostrando la viabilidad técnica de la escala de producción propuesta.")
+        st.info(f"💰 **Sostenibilidad Financiera Anual:** Al cierre del Mes 12, la operación omnicanal arroja un retorno neto de caja acumulado de **${roi_acumulado:,.0f} COP**, demostrando la viabilidad técnica y absorbiendo los déficits de la etapa de arranque.")
     else:
-        st.warning(f"⚠️ **Déficit Operativo:** La utilidad acumulada al cierre del ciclo anual registra un saldo negativo de **${roi_acumulado:,.0f} COP**. El proyecto requiere inyección suplementaria de capital.")
+        st.warning(f"⚠️ **Déficit Operativo:** La utilidad acumulada al cierre del ciclo anual registra un saldo negativo de **${roi_acumulado:,.0f} COP**. El proyecto requiere reajuste paramétrico.")
 
 # --- MÓDULO EXCLUSIVO: DESCARGA INTERACTIVA A EXCEL ---
 st.markdown("---")
