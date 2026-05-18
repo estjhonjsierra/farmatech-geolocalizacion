@@ -49,14 +49,14 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (80 m² Totales, Prismas Rectangulares) ---
+# --- 🚀 BASE DE DATOS GEOMÉTRICA DE ÁREAS CORREGIDA (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-2.5m) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x_range":, "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
-    {"name": "Bodega de Almacenamiento General", "x_range":, "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range":, "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
-    {"name": "Nodo Logístico de Alistamiento", "x_range":, "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
+    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
+    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4, 8], "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
+    {"name": "Nodo Logístico de Alistamiento", "x_range": [4, 8], "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
     {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#b2babb", "desc": "Oficina administrativa y servidores de control central ERP."},
-    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aisolation térmica para la custodia de medicamentos termolábiles."},
+    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
     {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#d4efdf", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
     {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
     {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#f5cba7", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
@@ -77,7 +77,7 @@ mobiliario_3d = [
     {"name": "🛋️ Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."}
 ]
 
-# --- 🚀 CAPA SUPREMA: ICONOS DE INSTRUMENTACIÓN E INVENTARIO INTERACTIVO (DIAMANTES FLOTANTES DE CONTROL) ---
+# --- CAPA SUPREMA: ICONOS DE INSTRUMENTACIÓN E INVENTARIO INTERACTIVO (DIAMANTES FLOTANTES DE CONTROL) ---
 iconos_interactivos = [
     {"name": "📌 Terminal POS de Dispensación - Caja 1", "x": 1.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Terminal integrada conectada al ERP central de FarmaTech Ltda."},
     {"name": "📌 Terminal POS de Dispensación - Caja 2", "x": 4.0, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Punto de cobro intermedio habilitado para periodos de alta rotación."},
@@ -93,15 +93,16 @@ iconos_interactivos = [
 
 # --- FUNCIÓN GEOMÉTRICA DE PRISMAS SÓLIDOS PERFECTOS ---
 def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opacidad, grosor_borde):
-    x = [x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng]
-    y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
-    z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
+    # Definición de vértices isométricos para un cubo perfecto tridimensional
+    x = [x_rng[0], x_rng[1], x_rng[1], x_rng[0], x_rng[0], x_rng[1], x_rng[1], x_rng[0]]
+    y = [y_rng[0], y_rng[0], y_rng[1], y_rng[1], y_rng[0], y_rng[0], y_rng[1], y_rng[1]]
+    z = [z_rng[0], z_rng[0], z_rng[0], z_rng[0], z_rng[1], z_rng[1], z_rng[1], z_rng[1]]
     
-    i =
-    j =
-    k =
+    i = [7, 0, 0, 0, 4, 4, 1, 1, 2, 2, 3, 3]
+    j = [0, 4, 3, 1, 5, 7, 2, 5, 6, 3, 7, 2]
+    k = [4, 7, 1, 2, 7, 6, 5, 6, 3, 6, 2, 7]
     
-    # Trace 1: Cuerpo del prisma
+    # Cuerpo del prisma sólido
     fig.add_trace(go.Mesh3d(
         x=x, y=y, z=z, i=i, j=j, k=k,
         color=color, opacity=opacidad, name=name,
@@ -109,13 +110,14 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
         lighting=dict(ambient=0.7, diffuse=0.6, roughness=0.2, specular=0.1)
     ))
     
-    # Trace 2: Líneas de contorno arquitectónico (Wireframe)
-    lineas_x = [x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x]
-    lineas_y = [y, y, y, y, y, y, y, y, y, y, y, y, y, y, y, y]
-    lineas_z = [z, z, z, z, z, z, z, z, z, z, z, z, z, z, z, z]
+    # Líneas de contorno arquitectónico (Wireframe) para delimitar las esquinas
+    lineas_indices = [0, 1, 2, 3, 0, 4, 5, 1, 5, 6, 2, 6, 7, 3, 7, 4]
+    lx = [x[idx] for idx in lineas_indices]
+    ly = [y[idx] for idx in lineas_indices]
+    lz = [z[idx] for idx in lineas_indices]
     
     fig.add_trace(go.Scatter3d(
-        x=lineas_x, y=lineas_y, z=lineas_z,
+        x=lx, y=ly, z=lz,
         mode="lines", line=dict(color="black", width=grosor_borde),
         hoverinfo="skip", showlegend=False
     ))
@@ -133,7 +135,7 @@ for mob in mobiliario_3d:
     html_mob = f"<b>{mob['name']}</b><br>{mob['desc']}<br>Ubicación métrica real instalada."
     construir_solido_hd(fig, mob["x"], mob["y"], mob["z"], mob["color"], mob["name"], html_mob, opacidad=0.95, grosor_borde=3.0)
 
-# 3. 🚀 NUEVA CAPA SUPREMA: Inyectar los Iconos e Instrumentos Interactivos Flotantes de antes (go.Scatter3d)
+# 3. Capa Suprema: Inyectar los Iconos e Instrumentos Interactivos Flotantes (go.Scatter3d)
 for ico in iconos_interactivos:
     html_ico = f"<b>{ico['name']}</b><br>{ico['desc']}<br><i>Coordenadas de ingeniería: X={ico['x']}, Y={ico['y']}, Z={ico['z']}</i>"
     
@@ -168,7 +170,7 @@ fig.update_layout(
     template="plotly_white",
     height=700,
     hoverlabel=dict(bgcolor="white", font_size=13, font_family="Arial"),
-    showlegend=True # Muestra la leyenda interactiva a la derecha para encender/apagar elementos
+    showlegend=True
 )
 
 # Proyectar el entorno de producción unificado en Streamlit Cloud
