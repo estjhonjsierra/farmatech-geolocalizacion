@@ -1,12 +1,11 @@
 import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
-import numpy as np
 
-# Configuración inicial forzando el diseño responsive y limpio
+# Configuración inicial forzando el diseño responsive y limpio sin márgenes excesivos
 st.set_page_config(page_title="FarmaTech - Plano 3D", layout="wide")
 
-# Control estricto de la geometría de la ventana para eliminar espacios vacíos laterales
+# Control de la geometría de la ventana para eliminar espacios vacíos laterales
 st.markdown("""
     <style>
     .block-container {
@@ -51,85 +50,61 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# --- BASE DE DATOS GEOMÉTRICA (Coordenadas X, Y a escala métrica real para un local de 8m x 10m x 2.5m de alto) ---
-# Definimos los prismas 3D de cada área comercial [x_min, x_max, y_min, y_max, z_min, z_max]
+# --- BASE DE DATOS GEOMÉTRICA (Coordenadas X, Y, Z a escala métrica real para un local de 8m x 10m x 2.5m de alto) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x": [0, 8], "y": [0, 2.5], "z": [0, 2.5], "area": 20, "color": "#2ca02c", "desc": "Frente comercial. 3 módulos POS simultáneos para atención presencial."},
-    {"name": "Bodega de Almacenamiento General", "x": [0, 4], "y": [2.5, 6.25], "z": [0, 2.5], "area": 15, "color": "#ff7f0e", "desc": "Custodia técnica de inventarios de alta rotación (30-45 días de stock)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x": [4, 8], "y": [2.5, 4.5], "z": [0, 2.5], "area": 8, "color": "#1f77b4", "desc": "Orientación técnica personalizada al paciente crónico y captación de datos."},
-    {"name": "Nodo Logístico de Alistamiento", "x": [4, 8], "y": [4.5, 6.5], "z": [0, 2.5], "area": 8, "color": "#9467bd", "desc": "Embalaje, picking y despacho centralizado de pedidos de WhatsApp Business."},
-    {"name": "Área Administrativa y Control", "x": [0, 2.4], "y": [6.25, 8.75], "z": [0, 2.5], "area": 6, "color": "#7f7f7f", "desc": "Gestión contable, monitoreo del sistema ERP y tesorería."},
-    {"name": "Cuarto de Cadena de Frío", "x": [2.4, 4.8], "y": [6.25, 8.75], "z": [0, 2.5], "area": 6, "color": "#17becf", "desc": "Custodia controlada de biológicos e insulinas (Neveras de 2°C a 8°C)."},
-    {"name": "Bahía de Recepción y Cuarentena", "x": [4.8, 6.8], "y": [6.25, 8.75], "z": [0, 2.5], "area": 5, "color": "#bcbd22", "desc": "Inspección técnica de lotes, control de fechas de vencimiento y calidad."},
-    {"name": "Unidad de Bioseguridad y Punto Azul", "x": [6.8, 8], "y": [6.5, 9.83], "z": [0, 2.5], "area": 4, "color": "#d62728", "desc": "Segregación de residuos hospitalarios y contenedor de fármacos posconsumo."},
-    {"name": "Servicios Sanitarios y Vestier", "x": [0, 1.6], "y": [8.75, 11.25], "z": [0, 2.5], "area": 4, "color": "#e377c2", "desc": "Área de higiene, vestuario y bienestar para el personal operativo (BPA)."},
-    {"name": "Corredores y Circulación Interna", "x": [1.6, 6.8], "y": [8.75, 9.53], "z": [0, 0.2], "area": 4, "color": "#8c564b", "desc": "Pasadizos e interconexiones técnicas para movilidad de mercancías."},
+    {"name": "Zona de Dispensación y Atención", "x": [0, 8, 8, 0, 0, 8, 8, 0], "y": [0, 0, 2.5, 2.5, 0, 0, 2.5, 2.5], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 20, "color": "#2ca02c", "desc": "Frente comercial. 3 módulos POS simultáneos para atención presencial."},
+    {"name": "Bodega de Almacenamiento General", "x": [0, 4, 4, 0, 0, 4, 4, 0], "y": [2.5, 2.5, 6.25, 6.25, 2.5, 2.5, 6.25, 6.25], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 15, "color": "#ff7f0e", "desc": "Custodia técnica de inventarios de alta rotación (30-45 días de stock)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x": [4, 8, 8, 4, 4, 8, 8, 4], "y": [2.5, 2.5, 4.5, 4.5, 2.5, 2.5, 4.5, 4.5], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 8, "color": "#1f77b4", "desc": "Orientación técnica personalizada al paciente crónico y captación de datos."},
+    {"name": "Nodo Logístico de Alistamiento", "x": [4, 8, 8, 4, 4, 8, 8, 4], "y": [4.5, 4.5, 6.5, 6.5, 4.5, 4.5, 6.5, 6.5], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 8, "color": "#9467bd", "desc": "Embalaje, picking y despacho centralizado de pedidos de WhatsApp Business."},
+    {"name": "Área Administrativa y Control", "x": [0, 2.4, 2.4, 0, 0, 2.4, 2.4, 0], "y": [6.25, 6.25, 8.75, 8.75, 6.25, 6.25, 8.75, 8.75], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 6, "color": "#7f7f7f", "desc": "Gestión contable, monitoreo del sistema ERP y tesorería."},
+    {"name": "Cuarto de Cadena de Frío", "x": [2.4, 4.8, 4.8, 2.4, 2.4, 4.8, 4.8, 2.4], "y": [6.25, 6.25, 8.75, 8.75, 6.25, 6.25, 8.75, 8.75], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 6, "color": "#17becf", "desc": "Custodia controlada de biológicos e insulinas (Neveras de 2°C a 8°C)."},
+    {"name": "Bahía de Recepción y Cuarentena", "x": [4.8, 6.8, 6.8, 4.8, 4.8, 6.8, 6.8, 4.8], "y": [6.25, 6.25, 8.75, 8.75, 6.25, 6.25, 8.75, 8.75], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 5, "color": "#bcbd22", "desc": "Inspección técnica de lotes, control de fechas de vencimiento y calidad."},
+    {"name": "Unidad de Bioseguridad y Punto Azul", "x": [6.8, 8, 8, 6.8, 6.8, 8, 8, 6.8], "y": [6.5, 6.5, 9.83, 9.83, 6.5, 6.5, 9.83, 9.83], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 4, "color": "#d62728", "desc": "Segregación de residuos hospitalarios y contenedor de fármacos posconsumo."},
+    {"name": "Servicios Sanitarios y Vestier", "x": [0, 1.6, 1.6, 0, 0, 1.6, 1.6, 0], "y": [8.75, 8.75, 11.25, 11.25, 8.75, 8.75, 11.25, 11.25], "z": [0, 0, 0, 0, 2.5, 2.5, 2.5, 2.5], "area": 4, "color": "#e377c2", "desc": "Área de higiene, vestuario y bienestar para el personal operativo (BPA)."},
+    {"name": "Corredores y Circulación Interna", "x": [1.6, 6.8, 6.8, 1.6, 1.6, 6.8, 6.8, 1.6], "y": [8.75, 8.75, 9.53, 9.53, 8.75, 8.75, 9.53, 9.53], "z": [0, 0, 0, 0, 0.2, 0.2, 0.2, 0.2], "area": 4, "color": "#8c564b", "desc": "Pasadizos e interconexiones técnicas para movilidad de mercancías."},
 ]
 
 # --- CONSTRUCCIÓN DEL ENTORNO TRIDIMENSIONAL (PLOTLY 3D MESH) ---
 fig = go.Figure()
 
-# Función matemática interna para construir las 6 caras de un cubo volumétrico 3D a partir de rangos mínimos y máximos
-def agregar_cubo_3d(fig, x_range, y_range, z_range, color, name, texto_hover):
-    # Coordenadas de los 8 vértices del prisma
-    x = [x_range[0], x_range[1], x_range[1], x_range[0], x_range[0], x_range[1], x_range[1], x_range[0]]
-    y = [y_range[0], y_range[0], y_range[1], y_range[1], y_range[0], y_range[0], y_range[1], y_range[1]]
-    z = [z_range[0], z_range[0], z_range[0], z_range[0], z_range[1], z_range[1], z_range[1], z_range[1]]
-    
-    # Índices de los triángulos que forman las 6 caras cuadradas del sólido
-    i = [0, 0, 4, 4, 0, 0, 1, 1, 2, 2, 3, 3]
-    j = [1, 2, 5, 6, 4, 5, 2, 3, 6, 7, 0, 1]
-    k = [2, 3, 6, 7, 1, 2, 5, 6, 3, 7, 4, 5]
-    
-    # Añadir el objeto volumétrico 3D
-    fig.add_trace(go.Mesh3d(
-        x=x, y=y, z=z, i=i, j=j, k=k,
-        color=color,
-        opacity=0.75,
-        name=name,
-        text=texto_hover,
-        hoverinfo="text",
-        flatshading=True,
-        lighting=dict(ambient=0.6, diffuse=0.5, roughness=0.3, specular=0.2),
-    ))
+# Índices fijos para construir los 12 triángulos de las 6 caras del prisma rectangular
+i_indices = [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3]
+j_indices = [1, 2, 3, 0, 4, 5, 6, 7, 4, 5, 7, 6]
+k_indices = [4, 5, 6, 7, 5, 6, 7, 4, 1, 2, 6, 5]
 
-# Dibujar cada zona funcional como un bloque volumétrico 3D real
+# Dibujar cada zona funcional como un bloque volumétrico 3D real sin elementos de texto fijos conflictivos
 for zona in zonas_3d:
     html_hover = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Altura: 2.5 metros<br>{zona['desc']}"
-    agregar_cubo_3d(fig, zona["x"], zona["y"], zona["z"], zona["color"], zona["name"], html_hover)
     
-    # Calcular coordenadas centrales para colocar etiquetas de identificación en el espacio 3D
-    cx = sum(zona["x"]) / 2
-    cy = sum(zona["y"]) / 2
-    cz = 2.6 # Un poco por encima del techo de los bloques para que flote el texto
-    
-    fig.add_trace(go.Scatter3d(
-        x=[cx], y=[cy], z=[cz],
-        mode="text",
-        text=[f"<b>{zona['name'][:12]}...</b><br>{zona['area']}m²"],
-        textposition="top center",
-        font=dict(size=10, color="black"),
-        hoverinfo="skip",
-        showlegend=False
+    fig.add_trace(go.Mesh3d(
+        x=zona["x"], y=zona["y"], z=zona["z"],
+        i=i_indices, j=j_indices, k=k_indices,
+        color=zona["color"],
+        opacity=0.80,
+        name=zona["name"],
+        text=html_hover,
+        hoverinfo="text",
+        flatshading=True,
+        lighting=dict(ambient=0.6, diffuse=0.6, roughness=0.3, specular=0.2)
     ))
 
-# Configuración del entorno de visualización y cámara tridimensional
+# Configuración de los ejes y el ángulo inicial de la cámara isométrica
 fig.update_layout(
     title=dict(text="🏢 Maqueta Virtual de Distribución de Planta (Layout Especializado 3D Real)", font=dict(size=18)),
     scene=dict(
-        xaxis=dict(title="Frente (Metros)", range=[-0.5, 8.5], backgroundcolor="rgb(240, 240, 240)", gridcolor="white", showbackground=True),
-        yaxis=dict(title="Fondo (Metros)", range=[-0.5, 11.5], backgroundcolor="rgb(230, 230, 230)", gridcolor="white", showbackground=True),
-        zaxis=dict(title="Altura (Metros)", range=[0, 3.5], backgroundcolor="rgb(220, 220, 220)", gridcolor="white", showbackground=True),
+        xaxis=dict(title="Frente (Metros)", range=[-0.5, 8.5], dtick=1, backgroundcolor="rgb(240, 240, 240)", gridcolor="white", showbackground=True),
+        yaxis=dict(title="Fondo (Metros)", range=[-0.5, 11.5], dtick=1, backgroundcolor="rgb(230, 230, 230)", gridcolor="white", showbackground=True),
+        zaxis=dict(title="Altura (Metros)", range=[0, 3.5], dtick=1, backgroundcolor="rgb(220, 220, 220)", gridcolor="white", showbackground=True),
         camera=dict(
-            eye=dict(x=1.5, y=-1.5, z=1.8), # Ángulo de cámara isométrico perfecto inicial
+            eye=dict(x=1.6, y=-1.6, z=1.8),
             up=dict(x=0, y=0, z=1)
         ),
-        aspectmode="data" # Mantiene las proporciones de escala reales (8m x 10m x 2.5m)
+        aspectmode="data"
     ),
     margin=dict(l=10, r=10, t=50, b=10),
     template="plotly_white",
-    showlegend=False,
-    height=650
+    height=650,
+    hoverlabel=dict(bgcolor="white", font_size=13, font_family="Arial")
 )
 
 # Renderizar el gráfico interactivo 3D
