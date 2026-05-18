@@ -3,8 +3,8 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 
-# Configuración inicial de gala forzando el diseño responsive de pantalla completa
-st.set_page_config(page_title="FarmaTech Ltda. - Entorno Maestro 3D", layout="wide")
+# Configuración inicial forzando el diseño responsive de pantalla completa de alta gama
+st.set_page_config(page_title="FarmaTech - Entorno Maestro 3D", layout="wide")
 
 # Control geométrico extremo para eliminar márgenes muertos laterales y optimizar la ventana
 st.markdown("""
@@ -24,7 +24,7 @@ st.sidebar.write("Modelado volumétrico de alta fidelidad, inventarios e instrum
 
 # Menú interactivo avanzado de filtrado de capas en el espacio 3D
 st.sidebar.subheader("🎮 Filtros de Capas Visuales")
-mostrar_cuartos = st.sidebar.checkbox("Visualizar Paredes y Zonas Técnicas (Translúcido)", value=True)
+mostrar_cuartos = st.sidebar.checkbox("Visualizar Paredes y Zonas Técnicas", value=True)
 mostrar_muebles = st.sidebar.checkbox("Visualizar Mobiliario Sólido e Infraestructura", value=True)
 mostrar_puntos = st.sidebar.checkbox("Visualizar Puntos de Control e Instrumentación", value=True)
 
@@ -52,26 +52,24 @@ if st.sidebar.button("📷 Guardar Maqueta de Ingeniería 3D (PDF)"):
 # --- CUERPO PRINCIPAL DEL DASHBOARD ---
 st.markdown(f"""
     <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #117a65; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">🧪 FARMATECH LTDA. &mdash; Entorno Maestro de Distribución Industrial </h2>
-        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">Simulación Completa de Estructuras, Mobiliario, Zonas de Parqueo Externas y Alertas Sanitarias (80 m² Internos).</p>
+        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📐 Entorno Maestro de Distribución Industrial e Instrumentación Física (80 m²)</h2>
+        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">FarmaTech Ltda. &mdash; Simulación Completa de Estructuras, Mobiliario, Zonas de Parqueo Externas y Alertas Sanitarias (BPA Compliance).</p>
     </div>
 """, unsafe_allow_html=True)
 
-# --- 🚀 BASE DE DATOS GEOMÉTRICA DE ÁREAS CORREGIDA (X: Frente 0-8m, Y: Fondo 0-11.25m, Z: Alto 0-2.5m) ---
+# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS CORREGIDA (X: Frente 0-8m, Y: Fondo 0-13.5m, Z: Alto de maqueta a 1.0m para evitar tapar el interior) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8.0], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
-    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4.0], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4.0, 8.0], "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
-    {"name": "Nodo Logístico de Alistamiento", "x_range": [4.0, 8.0], "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
-    {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#b2babb", "desc": "Oficina administrativa y servidores de control central ERP."},
-    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
-    {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#d4efdf", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
-    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8.0], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
-    {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#f5cba7", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
+    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8.0], "y_range": [0, 2.5], "z_range": [0, 1.0], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
+    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4.0], "y_range": [2.5, 6.25], "z_range": [0, 1.0], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4.0, 8.0], "y_range": [2.5, 4.5], "z_range": [0, 1.0], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
+    {"name": "Nodo Logístico de Alistamiento", "x_range": [4.0, 8.0], "y_range": [4.5, 6.5], "z_range": [0, 1.0], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
+    {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 1.0], "area": 6, "color": "#b2babb", "desc": "Oficina administrativa y servidores de control central ERP."},
+    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 1.0], "area": 6, "color": "#5dedec", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
+    {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 1.0], "area": 5, "color": "#d4efdf", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
+    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8.0], "y_range": [6.5, 9.83], "z_range": [0, 1.0], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
+    {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 1.0], "area": 4, "color": "#f5cba7", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
     {"name": "Corredores y Circulación Interna", "x_range": [1.6, 6.8], "y_range": [8.75, 9.53], "z_range": [0, 0.05], "area": 4, "color": "#d5f5e3", "desc": "Pasillos demarcados para tránsito seguro de personal y carros de carga."},
-    
-    # 🚗 NUEVA ZONA EXTERIOR: PARQUEADERO LOGÍSTICO Y BAHÍA DE ACCESO (Ubicada al fondo, detrás de vestieres y residuos)
-    {"name": "Bahía Externa de Parqueo y Carga Logística", "x_range": [0, 8.0], "y_range": [11.25, 13.5], "z_range": [0, 0.02], "area": 18, "color": "#707b7c", "desc": "Zona exterior pavimentada. Celdas para clientes y estacionamiento técnico de la flota de 3 motos de domicilios."}
+    {"name": "Bahía Externa de Parqueo y Carga Logística", "x_range": [0, 8.0], "y_range": [11.25, 13.5], "z_range": [0, 0.02], "area": 18, "color": "#707b7c", "desc": "Zona exterior pavimentada para clientes y estacionamiento de motocicletas de domicilios."}
 ]
 
 # --- BASE DE DATOS DE MOBILIARIO REALISTA EN 3D SÓLIDO (CUBOS INDEPENDIENTES REALES) ---
@@ -86,8 +84,6 @@ mobiliario_3d = [
     {"name": "🛋️ Mesa de Inspección de Acero Inoxidable", "x": [5.0, 6.6], "y": [6.6, 7.6], "z": [0, 0.9], "color": "#bdc3c7", "desc": "Superficie aséptica para la validación y muestreo de lotes mayoristas."},
     {"name": "🛋️ Estiba de Madera Regulada (Cuarentena)", "x": [5.0, 6.6], "y": [7.8, 8.6], "z": [0, 0.15], "color": "#ba4a00", "desc": "Plataforma de aislamiento del suelo exigida por las Buenas Prácticas (BPA)."},
     {"name": "🛋️ Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."},
-    
-    # 🚗 ADICIÓN DE LÍNEAS DE DEMARCACIÓN DE CELDAS DE PARQUEO (Bloques delgados en el piso gris)
     {"name": "🚗 Celda Parqueo Clientes Particulares", "x": [1.0, 3.5], "y": [11.5, 11.6], "z": [0, 0.05], "color": "#ffffff", "desc": "Espacio delimitado para el estacionamiento temporal de usuarios del Mall La 33."},
     {"name": "🛵 Bahía Técnica Flota de Domicilios FarmaTech", "x": [4.5, 7.0], "y": [11.5, 11.6], "z": [0, 0.05], "color": "#ffffff", "desc": "Zona exclusiva reservada para el cargue seguro y estacionamiento de las 3 motocicletas."}
 ]
@@ -104,8 +100,6 @@ iconos_interactivos = [
     {"name": "📌 Custodia de Insulinas Glargina (Nevera 1)", "x": 3.0, "y": 7.5, "z": 1.4, "color": "#17a2b8", "desc": "Medicamentos termolábiles de alta sensibilidad almacenados de forma hermética."},
     {"name": "📌 Renovador Mecánico de Aire (Inyector)", "x": 7.5, "y": 9.0, "z": 2.4, "color": "#6c757d", "desc": "Extractor industrial para garantizar los ciclos de renovación de aire (Resolución 1403/2007)."},
     {"name": "📌 Guardián de Seguridad de Desechos", "x": 7.4, "y": 7.5, "z": 1.6, "color": "#fd7e14", "desc": "Dispositivo rígido para el descarte de agujas e implementos cortopunzantes (PGIRHS)."},
-    
-    # 🚀 NUEVOS ICONOS INTERACTIVOS LOGÍSTICOS EN EL PARQUEADERO EXTERNO
     {"name": "📌 Flota de Domicilios Moto 1 (Activa)", "x": 5.0, "y": 12.5, "z": 0.6, "color": "#ff5733", "desc": "Vehículo propio operado por el mensajero de planta contratado en el OPEX."},
     {"name": "📌 Flota de Domicilios Moto 2 (Respaldo)", "x": 5.8, "y": 12.5, "z": 0.6, "color": "#ff5733", "desc": "Vehículo de contingencia operado de forma híbrida por auxiliares en horas pico."},
     {"name": "📌 Flota de Domicilios Moto 3 (Respaldo)", "x": 6.6, "y": 12.5, "z": 0.6, "color": "#ff5733", "desc": "Vehículo de contingencia mecánica para asegurar entregas en < 45 minutos."},
@@ -118,9 +112,9 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
     y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
     z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
     
-    i = [0, 0, 4, 4, 0, 1, 2, 3, 0, 0, 1, 1]
-    j = [1, 2, 5, 6, 4, 5, 6, 7, 1, 3, 2, 3]
-    k = [2, 3, 6, 7, 5, 4, 7, 6, 5, 2, 6, 7]
+    i =
+    j =
+    k =
     
     # Cuerpo del prisma sólido
     fig.add_trace(go.Mesh3d(
@@ -131,7 +125,7 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
     ))
     
     # Líneas de contorno arquitectónico (Wireframe)
-    lineas_indices = [0, 1, 3, 2, 0, 4, 5, 7, 6, 4, 5, 1, 3, 7, 6, 2]
+    lineas_indices =
     lx = [x[idx] for idx in lineas_indices]
     ly = [y[idx] for idx in lineas_indices]
     lz = [z[idx] for idx in lineas_indices]
@@ -145,21 +139,19 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
 # Instanciación de la maqueta
 fig = go.Figure()
 
-# 1. Capa Arquitectónica: Cuartos técnicos y Parqueadero Externo
+# 1. Capa Arquitectónica: Cuartos técnicos (Sólidos - Opacidad 1.0)
 if mostrar_cuartos:
     for zona in zonas_3d:
-        html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Altura libre 2.5m<br>{zona['desc']}"
-        # Si es la zona externa de parqueo, la dejamos plana en el suelo (opacidad completa)
-        opac = 1.0 if "Parqueo" in zona["name"] else 0.32
-        construir_solido_hd(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], html_zona, opacidad=opac, grosor_borde=1.5)
+        html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Altura de Maqueta 1.0m<br>{zona['desc']}"
+        construir_solido_hd(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], html_zona, opacidad=1.0, grosor_borde=1.5)
 
-# 2. Capa Industrial: Mobiliario, Maquinaria y Líneas de Celdas
+# 2. Capa Industrial: Mobiliario y Maquinaria (Sólidos - Opacidad Total)
 if mostrar_muebles:
     for mob in mobiliario_3d:
         html_mob = f"<b>{mob['name']}</b><br>{mob['desc']}<br>Ubicación métrica real instalada."
         construir_solido_hd(fig, mob["x"], mob["y"], mob["z"], mob["color"], mob["name"], html_mob, opacidad=1.0, grosor_borde=2.5)
 
-# 3. Capa Suprema Interactiva de Puntos de Control (DIAMANTES INCLUYENDO MOTOS Y CAMIÓN)
+# 3. Capa Suprema Interactiva de Puntos de Control (DIAMANTES COMPATIBLES)
 if mostrar_puntos:
     for ico in iconos_interactivos:
         html_ico = f"<b>{ico['name']}</b><br>{ico['desc']}<br><i>Coordenadas de ingeniería: X={ico['x']}, Y={ico['y']}, Z={ico['z']}</i>"
@@ -186,14 +178,14 @@ fig.update_layout(
         yaxis=dict(title="Fondo y Zona de Carga (Metros)", range=[-0.5, 14.0], dtick=1, backgroundcolor="rgb(235, 235, 235)", gridcolor="rgba(0,0,0,0.08)", showbackground=True),
         zaxis=dict(title="Altura Locativa (Metros)", range=[0, 3.5], dtick=1, backgroundcolor="rgb(225, 225, 225)", gridcolor="rgba(0,0,0,0.08)", showbackground=True),
         camera=dict(
-            eye=dict(x=1.35, y=-1.35, z=1.55), # Ángulo isométrico optimizado para capturar el fondo externo
+            eye=dict(x=1.45, y=-1.45, z=1.65), # Ángulo isométrico optimizado
             up=dict(x=0, y=0, z=1)
         ),
         aspectmode="data"
     ),
     margin=dict(l=10, r=10, t=50, b=10),
     template="plotly_white",
-    height=720,
+    height=700,
     hoverlabel=dict(bgcolor="white", font_size=13, font_family="Arial"),
     showlegend=True
 )
