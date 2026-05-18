@@ -98,7 +98,7 @@ categorias_seleccionadas = st.sidebar.multiselect(
     default=categorias_disponibles
 )
 
-# 2. Filtro por Nombre Específico
+# 2. Filtro por Nombre Específico (Basado en la categoría seleccionada)
 establecimientos_filtrados_cat = [p for p in puntos_interes if p["cat"] in categorias_seleccionadas]
 nombres_disponibles = [p["name"] for p in establecimientos_filtrados_cat]
 
@@ -108,7 +108,7 @@ nombres_seleccionados = st.sidebar.multiselect(
     default=nombres_disponibles
 )
 
-# Filtro final de datos cruzados
+# Filtro final cruzado de datos
 puntos_finales = [p for p in establecimientos_filtrados_cat if p["name"] in nombres_seleccionados]
 
 # 3. Simulador de Pedidos Express
@@ -150,14 +150,14 @@ folium.Circle(
     tooltip="Área de Influencia Logística: 1.5 Kilómetros"
 ).add_to(m)
 
-# 🚀 INYECCIÓN HTML CON FOTO REAL DE CAMPO PARA LA SEDE PRINCIPAL
+# 🚀 INYECCIÓN HTML CON IMAGEN WEB CORREGIDA Y ACTIVA PARA LA SEDE PRINCIPAL
 html_popup_sede = """
 <div style="font-family: Arial, sans-serif; width: 260px; line-height: 1.4;">
     <h4 style="margin:0 0 5px 0; color:#1e7e34;">FarmaTech Ltda.</h4>
     <b>Sede Principal Mall La 33</b><br>
     <span style="color:#555;">Dirección: Av. 33 # 80-07</span><br>
     <small style="color:#007bff; font-weight:bold;">Centro Operativo Omnicanal</small><br><br>
-    <img src="https://ibb.co" width="100%" style="border-radius:6px; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);" alt="Fachada FarmaTech">
+    <img src="https://unsplash.com" width="100%" style="border-radius:6px; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);" alt="Fachada FarmaTech">
 </div>
 """
 
