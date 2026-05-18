@@ -56,16 +56,16 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-2.5m) ---
+# --- 🚀 BASE DE DATOS GEOMÉTRICA DE ÁREAS CORREGIDA (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-2.5m) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x_range":, "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
-    {"name": "Bodega de Almacenamiento General", "x_range":, "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range":, "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
-    {"name": "Nodo Logístico de Alistamiento", "x_range":, "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
+    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8.0], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
+    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4.0], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4.0, 8.0], "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
+    {"name": "Nodo Logístico de Alistamiento", "x_range": [4.0, 8.0], "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
     {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#b2babb", "desc": "Oficina administrativa y servidores de control central ERP."},
     {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aisolation térmica para la custodia de medicamentos termolábiles."},
     {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#d4efdf", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
-    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
+    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8.0], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
     {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#f5cba7", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
     {"name": "Corredores y Circulación Interna", "x_range": [1.6, 6.8], "y_range": [8.75, 9.53], "z_range": [0, 0.05], "area": 4, "color": "#d5f5e3", "desc": "Pasillos demarcados para tránsito seguro de personal y carros de carga."}
 ]
@@ -100,13 +100,13 @@ iconos_interactivos = [
 
 # --- FUNCIÓN GEOMÉTRICA DE PRISMAS SÓLIDOS PERFECTOS ---
 def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opacidad, grosor_borde):
-    x = [x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng]
-    y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
-    z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
+    x = [x_rng[0], x_rng[1], x_rng[1], x_rng[0], x_rng[0], x_rng[1], x_rng[1], x_rng[0]]
+    y = [y_rng[0], y_rng[0], y_rng[1], y_rng[1], y_rng[0], y_rng[0], y_rng[1], y_rng[1]]
+    z = [z_rng[0], z_rng[0], z_rng[0], z_rng[0], z_rng[1], z_rng[1], z_rng[1], z_rng[1]]
     
-    i =
-    j =
-    k =
+    i = [7, 0, 0, 0, 4, 4, 1, 1, 2, 2, 3, 3]
+    j = [0, 7, 1, 2, 5, 6, 2, 5, 3, 6, 0, 7]
+    k = [4, 3, 2, 3, 6, 7, 5, 1, 6, 7, 7, 4]
     
     fig.add_trace(go.Mesh3d(
         x=x, y=y, z=z, i=i, j=j, k=k,
@@ -115,7 +115,7 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
         lighting=dict(ambient=0.75, diffuse=0.65, roughness=0.2, specular=0.1)
     ))
     
-    lineas_indices =
+    lineas_indices = [0, 1, 2, 3, 0, 4, 5, 6, 7, 4, 5, 1, 2, 6, 7, 3]
     lx = [x[idx] for idx in lineas_indices]
     ly = [y[idx] for idx in lineas_indices]
     lz = [z[idx] for idx in lineas_indices]
