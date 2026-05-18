@@ -49,7 +49,7 @@ st.sidebar.subheader("📸 Herramientas de Reporte")
 if st.sidebar.button("📷 Guardar Maqueta de Ingeniería 3D (PDF)"):
     st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
 
-# --- CUERPO PRINCIPAL DEL DASHBOARD (INYECCIÓN DE NOMBRE INTEGRADO) ---
+# --- CUERPO PRINCIPAL DEL DASHBOARD ---
 st.markdown(f"""
     <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #117a65; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">🧪 FARMATECH LTDA. &mdash; Entorno Maestro de Distribución Industrial </h2>
@@ -72,23 +72,23 @@ zonas_3d = [
     {"name": "Bahía Externa de Parqueo y Carga Logística", "x_range": [0, 8.0], "y_range": [11.25, 13.5], "z_range": [0, 0.02], "area": 18, "color": "#707b7c", "desc": "Zona exterior pavimentada para clientes y de la flota de 3 motos de domicilios."}
 ]
 
-# --- BASE DE DATOS DE MOBILIARIO REALISTA EN 3D SÓLIDO (CUBOS INDEPENDIENTES REALES) ---
+# --- BASE DE DATOS DE MOBILIARIO REALISTA EN 3D SÓLIDO ---
 mobiliario_3d = [
     {"name": "🛋️ Mostrador Ergonómico POS Principal", "x": [1.0, 7.0], "y": [1.0, 1.6], "z": [0, 1.1], "color": "#ffffff", "desc": "Mesa de dispensación lineal que alberga las 3 cajas registradoras."},
     {"name": "🛋️ Estantería Modular Pesada - Módulo A", "x": [0.2, 0.8], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para almacenamiento de medicamentos OTC."},
     {"name": "🛋️ Estantería Modular Pesada - Módulo B", "x": [1.4, 2.0], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para medicamentos de prescripción crónica (SOM)."},
     {"name": "🛋️ Escritorio de Consulta Clínica QF", "x": [5.0, 7.0], "y": [3.0, 4.0], "z": [0, 0.8], "color": "#eaecee", "desc": "Módulo administrativo del Regente para atención personalizada."},
     {"name": "🛋️ Mesa Técnica de Alistamiento y Despacho", "x": [5.0, 7.0], "y": [5.0, 6.0], "z": [0, 0.9], "color": "#ebf5fb", "desc": "Superficie de embalaje, etiquetado y picking omnicanal."},
-    {"name": "🛋️ Refrigerador Clínico Horizontal No. 1", "x": [2.6, 3.4], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#ffffff", "desc": "Nevera de alta precisión con termohigrómetro integrado para insulinas."},
-    {"name": "🛋️ Refrigerador Clínico Horizontal No. 2", "x": [3.8, 4.6], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#ffffff", "desc": "Nevera de alta precisión para custodia estable de biológicos y vacunas."},
+    {"name": "🛋️ Refrigerador Clínico Horizontal No. 1", "x": [2.6, 3.4], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#5dedec", "desc": "Nevera de alta precisión con termohigrómetro integrado para insulinas."},
+    {"name": "🛋️ Refrigerador Clínico Horizontal No. 2", "x": [3.8, 4.6], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#5dedec", "desc": "Nevera de alta precisión para custodia estable de biológicos y vacunas."},
     {"name": "🛋️ Mesa de Inspección de Acero Inoxidable", "x": [5.0, 6.6], "y": [6.6, 7.6], "z": [0, 0.9], "color": "#bdc3c7", "desc": "Superficie aséptica para la validación y muestreo de lotes mayoristas."},
     {"name": "🛋️ Estiba de Madera Regulada (Cuarentena)", "x": [5.0, 6.6], "y": [7.8, 8.6], "z": [0, 0.15], "color": "#ba4a00", "desc": "Plataforma de aislamiento del suelo exigida por las Buenas Prácticas (BPA)."},
     {"name": "🛋️ Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."},
-    {"name": "🚗 Celda Parqueo Clientes Particulares", "x": [1.0, 3.5], "y": [11.5, 11.6], "z": [0, 0.05], "color": "#ffffff", "desc": "Espacio delimitado para el edstacionamiento temporal de usuarios del Mall La 33."},
+    {"name": "🚗 Celda Parqueo Clientes Particulares", "x": [1.0, 3.5], "y": [11.5, 11.6], "z": [0, 0.05], "color": "#ffffff", "desc": "Espacio delimitado para el estacionamiento temporal de usuarios del Mall La 33."},
     {"name": "🛵 Bahía Técnica Flota de Domicilios FarmaTech", "x": [4.5, 7.0], "y": [11.5, 11.6], "z": [0, 0.05], "color": "#ffffff", "desc": "Zona exclusiva reservada para el cargue seguro y estacionamiento de las 3 motocicletas."}
 ]
 
-# --- CAPA DE ICONOS DE INSTRUMENTACIÓN E INVENTARIO INTERACTIVO (DIAMANTES FLOTANTES DE CONTROL) ---
+# --- CAPA DE ICONOS DE INSTRUMENTACIÓN E INVENTARIO INTERACTIVO ---
 iconos_interactivos = [
     {"name": "📌 Terminal POS de Dispensación - Caja 1", "x": 1.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Terminal integrada conectada al ERP central de FarmaTech Ltda."},
     {"name": "📌 Terminal POS de Dispensación - Caja 2", "x": 4.0, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Punto de cobro intermedio habilitado para periodos de alta rotación."},
@@ -106,28 +106,28 @@ iconos_interactivos = [
     {"name": "📌 Camión de Despacho Mayorista (Coopidrogas)", "x": 2.0, "y": 12.5, "z": 1.0, "color": "#2e4053", "desc": "Zona de descargue. Frecuencia de arribo logística: Cada 24 a 48 horas."}
 ]
 
+# 🔥 CORRECCIÓN CRÍTICA DE LOS ARREGLOS DE INDEXACIÓN DE CARAS (SE AGREGARON TODOS LOS VÉRTICES REQUERIDOS POR PLOTLY)
+i_idx = [0, 0, 0, 0, 4, 4, 4, 4, 0, 1, 2, 3]
+j_idx = [1, 2, 3, 0, 5, 6, 7, 4, 4, 5, 6, 7]
+k_idx = [2, 3, 0, 1, 6, 7, 4, 5, 5, 6, 7, 4]
+
 # --- FUNCIÓN GEOMÉTRICA DE PRISMAS SÓLIDOS PERFECTOS ---
 def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opacidad, grosor_borde):
-    # Definición de coordenadas cartesianas explícitas de los 8 vértices
-    x = [x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng]
-    y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
-    z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
+    # Desglose matemático exacto de los 8 vértices espaciales [V0 hasta V7]
+    x = [x_rng[0], x_rng[1], x_rng[1], x_rng[0], x_rng[0], x_rng[1], x_rng[1], x_rng[0]]
+    y = [y_rng[0], y_rng[0], y_rng[1], y_rng[1], y_rng[0], y_rng[0], y_rng[1], y_rng[1]]
+    z = [z_rng[0], z_rng[0], z_rng[0], z_rng[0], z_rng[1], z_rng[1], z_rng[1], z_rng[1]]
     
-    # Índices fijos del motor para tejer los triángulos de las 6 caras del cubo
-    i_idx = [0, 0, 0, 1, 1, 2, 4, 4, 4, 5, 5, 6]
-    j_idx = [1, 2, 4, 3, 5, 3, 5, 6, 0, 7, 1, 2]
-    k_idx = [2, 3, 5, 2, 7, 7, 6, 7, 2, 6, 3, 7]
-    
-    # Cuerpo del prisma sólido
+    # Renderizar el cuerpo sólido 3D con iluminación constante
     fig.add_trace(go.Mesh3d(
         x=x, y=y, z=z, i=i_idx, j=j_idx, k=k_idx,
         color=color, opacity=opacidad, name=name,
         text=hover_text, hoverinfo="text", flatshading=True,
-        lighting=dict(ambient=0.75, diffuse=0.65, roughness=0.2, specular=0.1)
+        lighting=dict(ambient=0.8, diffuse=0.7, roughness=0.1, specular=0.1)
     ))
     
-    # Líneas de contorno arquitectónico (Wireframe) para evitar que se vea transparente
-    lineas_indices = [0,1,1,3,3,2,2,0, 4,5,5,7,7,6,6,4, 0,4, 1,5, 2,6, 3,7]
+    # 🔥 CORRECCIÓN DEL WIREFRAME: Secuencia exacta para tejer las 12 aristas de las paredes y evitar transparencias
+    lineas_indices = [0, 1, 2, 3, 0, 4, 5, 6, 7, 4, 5, 1, 2, 6, 7, 3]
     lx = [x[idx] for idx in lineas_indices]
     ly = [y[idx] for idx in lineas_indices]
     lz = [z[idx] for idx in lineas_indices]
@@ -141,7 +141,7 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
 # Instanciación de la maqueta
 fig = go.Figure()
 
-# 1. Capa Arquitectónica: Cuartos técnicos (Sólidos - Altura de Maqueta 1.0m para visibilidad interna)
+# 1. Capa Arquitectónica: Cuartos técnicos (Sólidos - Opacidad 1.0)
 if mostrar_cuartos:
     for zona in zonas_3d:
         html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Altura de Maqueta 1.0m<br>{zona['desc']}"
@@ -172,7 +172,7 @@ if mostrar_puntos:
             hoverinfo="text"
         ))
 
-# Configuración del entorno global, cámara isométrica y leyendas de ingeniería
+# Configuración del entorno global, cámara isométrica y leyendas cruzadas
 fig.update_layout(
     title=dict(text="🏢 Distribución de Planta, Mobiliario e Infraestructura Logística Externa (Layout 3D HD)", font=dict(size=18)),
     scene=dict(
