@@ -26,7 +26,9 @@ st.sidebar.write("Modifique las variables críticas para recalcular el punto de 
 # Filtros deslizantes para simulación de escenarios de mercado
 ticket_sim = st.sidebar.slider("Ticket Promedio de Venta ($)", min_value=30000, max_value=80000, value=55000, step=5000, format="$%d")
 opex_sim = st.sidebar.slider("OPEX Mensual Comprometido ($)", min_value=30000000, max_value=55000000, value=41500000, step=500000, format="$%d")
-margen_sim = st.sidebar.slider("Margen de Contribución Bruto (%)", min_value=20, max_value=45, value=30, step=5, format="%d%%")
+
+# 🔥 CORRECCIÓN CRÍTICA: Ajuste del step=1 para permitir saltos de 1% en 1% y sintonía fina
+margen_sim = st.sidebar.slider("Margen de Contribución Bruto (%)", min_value=20, max_value=45, value=30, step=1, format="%d%%")
 
 # Cálculos automatizados basados en los filtros dinámicos
 margen_porcentaje = margen_sim / 100
