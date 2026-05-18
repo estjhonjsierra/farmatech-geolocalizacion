@@ -49,7 +49,7 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# --- 🚀 BASE DE DATOS GEOMÉTRICA DE ÁREAS CORREGIDA (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-2.5m) ---
+# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-2.5m) ---
 zonas_3d = [
     {"name": "Zona de Dispensación y Atención", "x_range": [0, 8], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
     {"name": "Bodega de Almacenamiento General", "x_range": [0, 4], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
@@ -65,42 +65,41 @@ zonas_3d = [
 
 # --- BASE DE DATOS DE MOBILIARIO REALISTA EN 3D SÓLIDO (CUBOS INDEPENDIENTES REALES) ---
 mobiliario_3d = [
-    {"name": "🛋️ Mostrador Ergonómico POS Principal", "x": [1.0, 7.0], "y": [1.0, 1.6], "z": [0, 1.1], "color": "#ffffff", "desc": "Mesa de dispensación lineal que alberga las 3 cajas registradoras."},
-    {"name": "🛋️ Estantería Modular Pesada - Módulo A", "x": [0.2, 0.8], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para almacenamiento de medicamentos OTC."},
-    {"name": "🛋️ Estantería Modular Pesada - Módulo B", "x": [1.4, 2.0], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para medicamentos de prescripción crónica (SOM)."},
-    {"name": "🛋️ Escritorio de Consulta Clínica QF", "x": [5.0, 7.0], "y": [3.0, 4.0], "z": [0, 0.8], "color": "#eaecee", "desc": "Módulo administrativo del Regente para atención personalizada."},
-    {"name": "🛋️ Mesa Técnica de Alistamiento y Despacho", "x": [5.0, 7.0], "y": [5.0, 6.0], "z": [0, 0.9], "color": "#ebf5fb", "desc": "Superficie de embalaje, etiquetado y picking omnicanal."},
-    {"name": "🛋️ Refrigerador Clínico Horizontal No. 1", "x": [2.6, 3.4], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión con termohigrómetro integrado para insulinas."},
-    {"name": "🛋️ Refrigerador Clínico Horizontal No. 2", "x": [3.8, 4.6], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión para custodia estable de biológicos y vacunas."},
-    {"name": "🛋️ Mesa de Inspección de Acero Inoxidable", "x": [5.0, 6.6], "y": [6.6, 7.6], "z": [0, 0.9], "color": "#bdc3c7", "desc": "Superficie aséptica para la validación y muestreo de lotes mayoristas."},
-    {"name": "🛋️ Estiba de Madera Regulada (Cuarentena)", "x": [5.0, 6.6], "y": [7.8, 8.6], "z": [0, 0.15], "color": "#ba4a00", "desc": "Plataforma de aislamiento del suelo exigida por las Buenas Prácticas (BPA)."},
-    {"name": "🛋️ Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."}
+    {"name": "🛋 ... Mostrador Ergonómico POS Principal", "x": [1.0, 7.0], "y": [1.0, 1.6], "z": [0, 1.1], "color": "#ffffff", "desc": "Mesa de dispensación lineal que alberga las 3 cajas registradoras."},
+    {"name": "🛋 ... Estantería Modular Pesada - Módulo A", "x": [0.2, 0.8], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para almacenamiento de medicamentos OTC."},
+    {"name": "🛋 ... Estantería Modular Pesada - Módulo B", "x": [1.4, 2.0], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para medicamentos de prescripción crónica (SOM)."},
+    {"name": "🛋 ... Escritorio de Consulta Clínica QF", "x": [5.0, 7.0], "y": [3.0, 4.0], "z": [0, 0.8], "color": "#eaecee", "desc": "Módulo administrativo del Regente para atención personalizada."},
+    {"name": "🛋 ... Mesa Técnica de Alistamiento y Despacho", "x": [5.0, 7.0], "y": [5.0, 6.0], "z": [0, 0.9], "color": "#ebf5fb", "desc": "Superficie de embalaje, etiquetado y picking omnicanal."},
+    {"name": "🛋 ... Refrigerador Clínico Horizontal No. 1", "x": [2.6, 3.4], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión con termohigrómetro integrado para insulinas."},
+    {"name": "🛋 ... Refrigerador Clínico Horizontal No. 2", "x": [3.8, 4.6], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión para custodia estable de biológicos y vacunas."},
+    {"name": "🛋 ... Mesa de Inspección de Acero Inoxidable", "x": [5.0, 6.6], "y": [6.6, 7.6], "z": [0, 0.9], "color": "#bdc3c7", "desc": "Superficie aséptica para la validación y muestreo de lotes mayoristas."},
+    {"name": "🛋 ... Estiba de Madera Regulada (Cuarentena)", "x": [5.0, 6.6], "y": [7.8, 8.6], "z": [0, 0.15], "color": "#ba4a00", "desc": "Plataforma de aislamiento del suelo exigida por las Buenas Prácticas (BPA)."},
+    {"name": "🛋 ... Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."}
 ]
 
-# --- CAPA SUPREMA: ICONOS DE INSTRUMENTACIÓN E INVENTARIO INTERACTIVO (DIAMANTES FLOTANTES DE CONTROL) ---
+# --- 🚀 CORRECCIÓN DEFINITIVA DE SIMBOLOS COMPATIBLES: Todos configurados en "diamond" para evitar fallas 3D ---
 iconos_interactivos = [
-    {"name": "📌 Terminal POS de Dispensación - Caja 1", "x": 1.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Terminal integrada conectada al ERP central de FarmaTech Ltda."},
-    {"name": "📌 Terminal POS de Dispensación - Caja 2", "x": 4.0, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Punto de cobro intermedio habilitado para periodos de alta rotación."},
-    {"name": "📌 Terminal POS de Dispensación - Caja 3", "x": 6.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "symbol": "diamond", "size": 11, "desc": "Terminal del canal digital orientada a la facturación de domicilios."},
-    {"name": "📌 Termohigrómetro de Control - Bodega", "x": 2.0, "y": 5.5, "z": 2.2, "color": "#dc3545", "symbol": "cross", "size": 12, "desc": "Monitoreo INVIMA Compliance. Temperatura óptima ambiente: 21.4°C | Humedad: 62%."},
-    {"name": "📌 Termohigrómetro de Control - Cadena Frío", "x": 3.0, "y": 8.2, "z": 2.2, "color": "#dc3545", "symbol": "cross", "size": 12, "desc": "Alerta crítica de refrigeración. Temperatura actual: 4.5°C | Humedad: 58% (Rango 2°C-8°C)."},
-    {"name": "📌 Lote Medicamentos OTC: Analgésicos", "x": 0.5, "y": 3.5, "z": 0.8, "color": "#007bff", "symbol": "circle", "size": 9, "desc": "Acetaminofén e Ibuprofeno mayorista. Stock de seguridad para 45 días."},
-    {"name": "📌 Medicamentos Crónicos: Antihipertensivos", "x": 1.7, "y": 4.5, "z": 1.5, "color": "#28a745", "symbol": "circle", "size": 9, "desc": "Losartán y Enalapril (Estrategia de Nicho SOM - Core del negocio)."},
-    {"name": "📌 Custodia de Insulinas Glargina (Nevera 1)", "x": 3.0, "y": 7.5, "z": 1.4, "color": "#17a2b8", "symbol": "square", "size": 10, "desc": "Medicamentos termolábiles de alta sensibilidad almacenados de forma hermética."},
-    {"name": "📌 Renovador Mecánico de Aire (Inyector)", "x": 7.5, "y": 9.0, "z": 2.4, "color": "#6c757d", "symbol": "hourglass", "size": 11, "desc": "Extractor industrial para garantizar los ciclos de renovación de aire (Resolución 1403/2007)."},
-    {"name": "📌 Guardián de Seguridad de Desechos", "x": 7.4, "y": 7.5, "z": 1.6, "color": "#fd7e14", "symbol": "triangle-up", "size": 10, "desc": "Dispositivo rígido para el descarte de agujas e implementos cortopunzantes (PGIRHS)."}
+    {"name": "📌 Terminal POS de Dispensación - Caja 1", "x": 1.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Terminal integrada conectada al ERP central de FarmaTech Ltda."},
+    {"name": "📌 Terminal POS de Dispensación - Caja 2", "x": 4.0, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Punto de cobro intermedio habilitado para periodos de alta rotación."},
+    {"name": "📌 Terminal POS de Dispensación - Caja 3", "x": 6.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Terminal del canal digital orientada a la facturación de domicilios."},
+    {"name": "📌 Termohigrómetro de Control - Bodega", "x": 2.0, "y": 5.5, "z": 2.2, "color": "#dc3545", "desc": "Monitoreo INVIMA Compliance. Temperatura óptima ambiente: 21.4°C | Humedad: 62%."},
+    {"name": "📌 Termohigrómetro de Control - Cadena Frío", "x": 3.0, "y": 8.2, "z": 2.2, "color": "#dc3545", "desc": "Alerta crítica de refrigeración. Temperatura actual: 4.5°C | Humedad: 58% (Rango 2°C-8°C)."},
+    {"name": "📌 Lote Medicamentos OTC: Analgésicos", "x": 0.5, "y": 3.5, "z": 0.8, "color": "#007bff", "desc": "Acetaminofén e Ibuprofeno mayorista. Stock de seguridad para 45 días."},
+    {"name": "📌 Medicamentos Crónicos: Antihipertensivos", "x": 1.7, "y": 4.5, "z": 1.5, "color": "#28a745", "desc": "Losartán y Enalapril (Estrategia de Nicho SOM - Core del negocio)."},
+    {"name": "📌 Custodia de Insulinas Glargina (Nevera 1)", "x": 3.0, "y": 7.5, "z": 1.4, "color": "#17a2b8", "desc": "Medicamentos termolábiles de alta sensibilidad almacenados de forma hermética."},
+    {"name": "📌 Renovador Mecánico de Aire (Inyector)", "x": 7.5, "y": 9.0, "z": 2.4, "color": "#6c757d", "desc": "Extractor industrial para garantizar los ciclos de renovación de aire (Resolución 1403/2007)."},
+    {"name": "📌 Guardián de Seguridad de Desechos", "x": 7.4, "y": 7.5, "z": 1.6, "color": "#fd7e14", "desc": "Dispositivo rígido para el descarte de agujas e implementos cortopunzantes (PGIRHS)."}
 ]
 
 # --- FUNCIÓN GEOMÉTRICA DE PRISMAS SÓLIDOS PERFECTOS ---
 def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opacidad, grosor_borde):
-    # Definición de vértices isométricos para un cubo perfecto tridimensional
-    x = [x_rng[0], x_rng[1], x_rng[1], x_rng[0], x_rng[0], x_rng[1], x_rng[1], x_rng[0]]
-    y = [y_rng[0], y_rng[0], y_rng[1], y_rng[1], y_rng[0], y_rng[0], y_rng[1], y_rng[1]]
-    z = [z_rng[0], z_rng[0], z_rng[0], z_rng[0], z_rng[1], z_rng[1], z_rng[1], z_rng[1]]
+    x = [x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng]
+    y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
+    z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
     
-    i = [7, 0, 0, 0, 4, 4, 1, 1, 2, 2, 3, 3]
-    j = [0, 4, 3, 1, 5, 7, 2, 5, 6, 3, 7, 2]
-    k = [4, 7, 1, 2, 7, 6, 5, 6, 3, 6, 2, 7]
+    i = [0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 1, 1]
+    j = [1, 2, 3, 0, 3, 7, 2, 6, 4, 5, 5, 7]
+    k = [2, 3, 0, 1, 7, 6, 6, 5, 5, 6, 7, 4]
     
     # Cuerpo del prisma sólido
     fig.add_trace(go.Mesh3d(
@@ -110,8 +109,8 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
         lighting=dict(ambient=0.7, diffuse=0.6, roughness=0.2, specular=0.1)
     ))
     
-    # Líneas de contorno arquitectónico (Wireframe) para delimitar las esquinas
-    lineas_indices = [0, 1, 2, 3, 0, 4, 5, 1, 5, 6, 2, 6, 7, 3, 7, 4]
+    # Líneas de contorno arquitectónico (Wireframe)
+    lineas_indices = [0, 1, 3, 2, 0, 4, 5, 7, 6, 4, 5, 1, 3, 7, 6, 2]
     lx = [x[idx] for idx in lineas_indices]
     ly = [y[idx] for idx in lineas_indices]
     lz = [z[idx] for idx in lineas_indices]
@@ -135,7 +134,7 @@ for mob in mobiliario_3d:
     html_mob = f"<b>{mob['name']}</b><br>{mob['desc']}<br>Ubicación métrica real instalada."
     construir_solido_hd(fig, mob["x"], mob["y"], mob["z"], mob["color"], mob["name"], html_mob, opacidad=0.95, grosor_borde=3.0)
 
-# 3. Capa Suprema: Inyectar los Iconos e Instrumentos Interactivos Flotantes (go.Scatter3d)
+# 3. Capa Suprema Interactiva de Puntos de Control (DIAMANTES COMPATIBLES)
 for ico in iconos_interactivos:
     html_ico = f"<b>{ico['name']}</b><br>{ico['desc']}<br><i>Coordenadas de ingeniería: X={ico['x']}, Y={ico['y']}, Z={ico['z']}</i>"
     
@@ -143,9 +142,9 @@ for ico in iconos_interactivos:
         x=[ico["x"]], y=[ico["y"]], z=[ico["z"]],
         mode="markers",
         marker=dict(
-            size=ico["size"],
+            size=11,
             color=ico["color"],
-            symbol=ico["symbol"],
+            symbol="diamond", # Se fuerza a diamante para compatibilidad total con la librería 3D
             line=dict(color="black", width=2)
         ),
         name=ico["name"],
