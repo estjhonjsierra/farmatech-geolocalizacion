@@ -98,7 +98,7 @@ categorias_seleccionadas = st.sidebar.multiselect(
     default=categorias_disponibles
 )
 
-# 2. NUEVO FILTRO ESPECÍFICO: Seleccionar Establecimientos por Nombre y Dirección
+# 2. Filtro por Nombre Específico
 establecimientos_filtrados_cat = [p for p in puntos_interes if p["cat"] in categorias_seleccionadas]
 nombres_disponibles = [p["name"] for p in establecimientos_filtrados_cat]
 
@@ -124,7 +124,7 @@ if distancia_cliente <= 1500:
 else:
     st.sidebar.error(f"❌ **FUERA DE COBERTURA STANDARD**\n\nDistancia: {distancia_cliente:.0f} metros.\nRequiere recargo o despacho ampliado.")
 
-# 4. NUEVO BOTÓN DE HERRAMIENTA: Exportar Pantallazo / Reporte Técnico
+# 4. Botón de Captura / Reporte Técnico
 st.sidebar.markdown("---")
 st.sidebar.subheader("📸 Herramientas de Reporte")
 if st.sidebar.button("📷 Capturar Pantallazo / Guardar Reporte"):
@@ -133,12 +133,12 @@ if st.sidebar.button("📷 Capturar Pantallazo / Guardar Reporte"):
             window.parent.print();
         </script>
     """, height=0, width=0)
-    st.sidebar.caption("💡 Tip: En el menú que se abre, selecciona 'Guardar como PDF' o 'Guardar Imagen' para conservar el estado actual del Dashboard.")
+    st.sidebar.caption("💡 Tip: En el menú que se abre, selecciona 'Guardar como PDF' para conservar el estado actual.")
 
 # --- CONSTRUCCIÓN DINÁMICA DEL MAPA ---
 m = folium.Map(location=[sede_lat, sede_lon], zoom_start=15, control_scale=True)
 
-# Círculo Base Operativo de 1.5 km (Fijo)
+# Círculo Base Operativo de 1.5 km (Fijo de fondo)
 folium.Circle(
     radius=1500,
     location=[sede_lat, sede_lon],
@@ -150,11 +150,22 @@ folium.Circle(
     tooltip="Área de Influencia Logística: 1.5 Kilómetros"
 ).add_to(m)
 
-# Sede Principal FarmaTech
+# 🚀 INYECCIÓN HTML CON FOTO REAL DE CAMPO PARA LA SEDE PRINCIPAL
+html_popup_sede = """
+<div style="font-family: Arial, sans-serif; width: 260px; line-height: 1.4;">
+    <h4 style="margin:0 0 5px 0; color:#1e7e34;">FarmaTech Ltda.</h4>
+    <b>Sede Principal Mall La 33</b><br>
+    <span style="color:#555;">Dirección: Av. 33 # 80-07</span><br>
+    <small style="color:#007bff; font-weight:bold;">Centro Operativo Omnicanal</small><br><br>
+    <img src="https://ibb.co" width="100%" style="border-radius:6px; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);" alt="Fachada FarmaTech">
+</div>
+"""
+
+# Sede Principal FarmaTech con Popup Fotográfico
 folium.Marker(
     [sede_lat, sede_lon],
-    popup="<b>FarmaTech Ltda.</b><br>Sede Principal Mall La 33<br>Dirección: Av. 33 # 80-07<br>Centro Operativo Omnicanal",
-    tooltip="FarmaTech Sede Principal",
+    popup=folium.Popup(html_popup_sede, max_width=290),
+    tooltip="FarmaTech Sede Principal (Click para ver foto)",
     icon=folium.Icon(color="green", icon="medkit", prefix="fa")
 ).add_to(m)
 
@@ -169,7 +180,7 @@ folium.Marker(
 # Línea visual entre la farmacia y el cliente
 folium.PolyLine([[sede_lat, sede_lon], [sim_lat, sim_lon]], color="gray", weight=2, dash_array="5, 5").add_to(m)
 
-# Renderizado de Marcadores Filtrados con su Dirección Coherente
+# Renderizado de Marcadores Filtrados con su Dirección Coherente (FÓRMULA CORREGIDA)
 for punto in puntos_finales:
     dist_comp = calcular_distancia(sede_lat, sede_lon, punto["loc"][0], punto["loc"][1])
     estado_cobertura = "DENTRO DEL RADIO" if dist_comp <= 1500 else "FUERA DE COBERTURA"
