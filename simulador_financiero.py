@@ -4,17 +4,17 @@ import numpy as np
 import plotly.graph_objects as go
 import io
 
-# Configuración inicial forzando el diseño responsive y limpio
+# Configuración inicial forzando el diseño responsive y limpio sin márgenes excesivos
 st.set_page_config(page_title="FarmaTech - Modelado Financiero", layout="wide")
 
-# Ocultar márgenes internos por defecto de Streamlit para máxima uniformidad de pantalla
+# Control estricto de la geometría de la ventana para eliminar espacios vacíos laterales
 st.markdown("""
     <style>
     .block-container {
-        padding-top: 2rem;
+        padding-top: 1.5rem;
         padding-bottom: 2rem;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -23,12 +23,12 @@ st.markdown("""
 st.sidebar.header("⚙️ Parametrización Financiera en Vivo")
 st.sidebar.write("Modifique las variables críticas para recalcular el punto de equilibrio del modelo omnicanal:")
 
-# Filtros deslizantes para simulación de escenarios
+# Filtros deslizantes para simulación de escenarios de mercado
 ticket_sim = st.sidebar.slider("Ticket Promedio de Venta ($)", min_value=30000, max_value=80000, value=55000, step=5000, format="$%d")
 opex_sim = st.sidebar.slider("OPEX Mensual Comprometido ($)", min_value=30000000, max_value=55000000, value=41500000, step=500000, format="$%d")
 margen_sim = st.sidebar.slider("Margen de Contribución Bruto (%)", min_value=20, max_value=45, value=30, step=5, format="%d%%")
 
-# Cálculos automáticos basados en los filtros dinámicos
+# Cálculos automatizados basados en los filtros dinámicos
 margen_porcentaje = margen_sim / 100
 margen_unitario = ticket_sim * margen_porcentaje
 transacciones_equilibrio_dinamico = int(np.ceil(opex_sim / margen_unitario))
@@ -48,23 +48,20 @@ st.sidebar.subheader("📸 Herramientas de Exportación")
 if st.sidebar.button("📷 Guardar Reporte Completo (PDF)"):
     st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
 
-# --- CUERPO PRINCIPAL DEL DASHBOARD (DISEÑO UNIFORME) ---
-# Cabecera corporativa unificada con imagen de soporte
-st.title("📉 Simulador de Punto de Equilibrio y Viabilidad Financiera")
-st.write("FarmaTech Ltda. — Evaluación de Sostenibilidad Operativa y Curva de Aprendizaje Transaccional.")
-
-# Inyección de imagen de cabecera con estilo responsivo para eliminar los espacios vacíos laterales
-st.markdown("""
-<div style="width: 100%; overflow: hidden; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-    <img src="https://unsplash.com" style="width: 100%; height: 220px; object-fit: cover;" alt="Cabecera Financiera FarmaTech">
-</div>
+# --- CUERPO PRINCIPAL DEL DASHBOARD ---
+# NUEVA CABECERA ELEGANTE: Reemplaza la imagen rota por un contenedor ejecutivo nativo
+st.markdown(f"""
+    <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #1e7e34; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📉 Simulador de Punto de Equilibrio y Viabilidad Financiera</h2>
+        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">FarmaTech Ltda. &mdash; Evaluación de Sostenibilidad Operativa y Curva de Aprendizaje Transaccional.</p>
+    </div>
 """, unsafe_allow_html=True)
 
 # --- MODELADO DE LA CURVA DE CRECIMIENTO MES A MES ---
 meses = [f"Mes {i}" for i in range(1, 13)]
 transacciones_base = [1100, 1300, 1500, 1750, 2000, 2300, 2520, 2700, 2900, 3050, 3200, 3300]
 
-# Estructuración de datos dinámicos usando Pandas
+# Estructuración y cálculo de datos dinámicos usando matrices de Pandas
 ingresos = [t * ticket_sim for t in transacciones_base]
 utilidad_bruta = [t * margen_unitario for t in transacciones_base]
 costos_fijos = [opex_sim] * 12
@@ -114,13 +111,13 @@ fig.update_layout(
     xaxis_title="Horizonte Temporal Evaluado (Primer Año Crítico)",
     yaxis_title="Montos Liquidados en COP ($)",
     legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0.8)"),
-    margin=dict(l=10, r=10, t=50, b=10), # Minimizar márgenes del gráfico para ocupar todo el ancho
+    margin=dict(l=10, r=10, t=50, b=10),
     hovermode="x unified",
     template="plotly_white",
     height=480
 )
 
-# Forzar el estiramiento completo del gráfico al 100% del ancho responsivo
+# Forzar el estiramiento completo del gráfico al 100% de la ventana responsiva
 st.plotly_chart(fig, use_container_width=True)
 
 # --- SECCIÓN DE ALERTAS ACADÉMICAS EJECUTIVAS ---
@@ -144,7 +141,6 @@ with f2:
 st.markdown("---")
 st.markdown("### 📋 Matriz de Datos Financieros Detallada")
 
-# Script técnico para convertir el DataFrame de Pandas en un archivo Excel en memoria binaria
 buffer = io.BytesIO()
 with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
     df_financiero.to_excel(writer, index=False, sheet_name='Reporte_Financiero')
@@ -156,7 +152,7 @@ st.download_button(
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
 
-# Formatear la tabla visual en pantalla para que luzca ejecutiva y ordenada
+# Formatear la tabla visual en pantalla para máxima legibilidad
 st.dataframe(df_financiero.style.format({
     "Transacciones": "{:,} und",
     "Ingresos Brutos": "${:,.0f} COP",
