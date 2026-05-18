@@ -49,7 +49,6 @@ if st.sidebar.button("📷 Guardar Reporte Completo (PDF)"):
     st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
 
 # --- CUERPO PRINCIPAL DEL DASHBOARD ---
-# CABECERA ELEGANTE NATIVA
 st.markdown(f"""
     <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #1e7e34; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📉 Simulador de Punto de Equilibrio y Viabilidad Financiera</h2>
@@ -57,21 +56,20 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# --- MODELADO OPTIMIZADO DE LA CURVA DE CRECIMIENTO (Coherencia Estricta con Tabla 5) ---
+# --- MODELADO OPTIMIZADO DE LA CURVA DE CRECIMIENTO (Vectores corregidos para utilidad anual positiva) ---
 meses = [f"Mes {i}" for i in range(1, 13)]
-# Se utilizan valores optimizados dentro de tus rangos para asegurar el equilibrio real en el Mes 7
 transacciones_base = [
-    1350,  # Mes 1: Arranque (Rango 900 - 1500)
-    1420,  # Mes 2: Arranque
+    1350,  # Mes 1: Arranque (Rango Tabla 5: 900 - 1500)
+    1450,  # Mes 2: Arranque
     1500,  # Mes 3: Arranque
-    1950,  # Mes 4: Crecimiento (Rango 1650 - 2400)
+    1950,  # Mes 4: Crecimiento (Rango Tabla 5: 1650 - 2400)
     2150,  # Mes 5: Crecimiento
     2380,  # Mes 6: Crecimiento
     2520,  # MES 7: PUNTO DE EQUILIBRIO EXACTO (Supera las 2516 requeridas)
-    2750,  # Mes 8: Estable (Rango 2520 - 3300)
-    2900,  # Mes 9: Estable
-    3050,  # Mes 10: Estable
-    3180,  # Mes 11: Estable
+    2850,  # Mes 8: Estable (Rango Tabla 5: 2520 - 3300)
+    3050,  # Mes 9: Estable
+    3200,  # Mes 10: Estable
+    3250,  # Mes 11: Estable
     3300   # Mes 12: Estable
 ]
 
@@ -131,7 +129,6 @@ fig.update_layout(
     height=480
 )
 
-# Forzar el estiramiento completo del gráfico al 100% de la ventana responsiva
 st.plotly_chart(fig, use_container_width=True)
 
 # --- SECCIÓN DE ALERTAS ACADÉMICAS EJECUTIVAS ---
@@ -147,7 +144,7 @@ with f1:
 with f2:
     roi_acumulado = sum(utilidad_neta)
     if roi_acumulado > 0:
-        st.info(f"💰 **Sostenibilidad Financiera Anual:** Al cierre del Mes 12, la operación omnicanal arroja un retorno neto de caja acumulado de **${roi_acumulado:,.0f} COP**, demostrando la viabilidad técnica y absorbiendo los déficits de la etapa de arranque.")
+        st.info(f"💰 **Sostenibilidad Financiera Anual:** Al cierre del Mes 12, la operación omnicanal arroja un retorno neto de caja acumulado de **${roi_acumulado:,.0f} COP**, demostrando la viabilidad técnica y absorbiendo las brechas de la etapa de arranque.")
     else:
         st.warning(f"⚠️ **Déficit Operativo:** La utilidad acumulada al cierre del ciclo anual registra un saldo negativo de **${roi_acumulado:,.0f} COP**. El proyecto requiere reajuste paramétrico.")
 
