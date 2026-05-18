@@ -4,9 +4,9 @@ import pandas as pd
 import numpy as np
 
 # Configuración inicial forzando el diseño responsive de pantalla completa
-st.set_page_config(page_title="FarmaTech - Plano Ingeniería 3D", layout="wide")
+st.set_page_config(page_title="FarmaTech - Infraestructura 3D Avanzada", layout="wide")
 
-# Control geométrico para eliminar márgenes muertos laterales
+# Control geométrico para eliminar márgenes muertos laterales y optimizar la visualización
 st.markdown("""
     <style>
     .block-container {
@@ -20,118 +20,151 @@ st.markdown("""
 
 # --- PANEL DE CONTROL SIDEBAR ---
 st.sidebar.header("⚙️ Control de Infraestructura e Ingeniería 3D")
-st.sidebar.write("Modelado de volumetrías físicas y equipamiento técnico bajo normativas INVIMA, Decreto 2200/2005 y Resolución 1403/2007.")
+st.sidebar.write("Modelado volumétrico de alta fidelidad, inventarios y equipamiento técnico bajo normativas INVIMA.")
 
 st.sidebar.subheader("📐 Desglose Técnico de Áreas (80 m²)")
 st.sidebar.markdown("""
-🛒 **Zona Dispensación (20 m²):** Frente comercial, mostrador ergonómico y terminales POS.
-📦 **Bodega General (15 m²):** Estantería industrial clasificada.
-👨‍⚕️ **Consultoría QF (8 m²):** Módulo privado para atención.
-🛵 **Nodo Logístico (8 m²):** Alistamiento de domicilios.
-🏢 **Administración (6 m²):** Estación de control contable.
-❄️ **Cadena de Frío (6 m²):** Cuarto técnico aislado con refrigeradores.
-📥 **Recepción/Cuarentena (5 m²):** Bahía de inspección de lotes.
-⚠️ **Unidad Residuos (4 m²):** Depósito y contenedor Punto Azul.
-🥼 **Servicios/Vestier (4 m²):** Zona de higiene interna.
-🚶 **Circulación (4 m²):** Pasillos técnicos unidireccionales.
+🛒 **Zona Dispensación (20 m²):** Mostradores, vitrinas y 3 terminales POS.
+📦 **Bodega General (15 m²):** Estantería metálica con inventario clasificado.
+👨‍⚕️ **Consultoría QF (8 m²):** Módulo privado para atención clínica.
+🛵 **Nodo Logístico (8 m²):** Alistamiento y empaque de domicilios.
+🏢 **Administración (6 m²):** Estación de control de sistemas ERP.
+❄️ **Cadena de Frío (6 m²):** Neveras con stock térmico controlado.
+📥 **Recepción/Cuarentena (5 m²):** Estibas de madera y mesa de inspección.
+⚠️ **Unidad Residuos (4 m²):** Depósito y guardián de Punto Azul.
+🥼 **Servicios/Vestier (4 m²):** Casilleros e higiene del personal.
+🚶 **Circulación (4 m²):** Pasillos demarcados unidireccionales.
 """)
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("📸 Herramientas de Reporte")
-if st.sidebar.button("📷 Guardar Maqueta Técnica 3D (PDF)"):
+if st.sidebar.button("📷 Guardar Maqueta de Ingeniería 3D (PDF)"):
     st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
 
 # --- CUERPO PRINCIPAL DEL DASHBOARD ---
 st.markdown(f"""
-    <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #0056b3; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📐 Plano Técnico y Modelado Volumétrico de Planta (80 m²)</h2>
-        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">FarmaTech Ltda. &mdash; Maqueta de Ingeniería con Equipamiento Técnico Integrado (INVIMA Compliance).</p>
+    <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 6px solid #117a65; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <h2 style="margin: 0; color: #1c2833; font-family: Arial, sans-serif;">📐 Modelado Físico y Distribución Industrial de Detalle (80 m²)</h2>
+        <p style="margin: 5px 0 0 0; color: #566573; font-size: 15px;">FarmaTech Ltda. &mdash; Simulación de Activos Tangibles, Inventarios y Equipamiento de Planta (BPA Compliance).</p>
     </div>
 """, unsafe_allow_html=True)
 
-# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (80 m² Totales) ---
+# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (80 m² Totales, Prismas Rectangulares Perfectos) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#2ca02c", "desc": "Área comercial. Mostrador ergonómico y 3 terminales POS."},
-    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#ff7f0e", "desc": "Custodia de inventarios. Estantería modular metálica clasificada."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4, 8], "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#1f77b4", "desc": "Asesoría privada. Escritorio clínico y base de datos para pacientes crónicos."},
-    {"name": "Nodo Logístico de Alistamiento", "x_range": [4, 8], "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#9467bd", "desc": "Mesa de picking y embalaje de despachos para WhatsApp Business."},
-    {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#7f7f7f", "desc": "Oficina administrativa. Gestión contable, archivo y control ERP."},
-    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#17becf", "desc": "Refrigeración técnica. Neveras horizontales calibradas de 2°C a 8°C."},
-    {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#bcbd22", "desc": "Estación de muestreo. Mesa de inspección física y estibas de cuarentena."},
-    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#d62728", "desc": "Área de residuos peligrosos y contenedor de fármacos posconsumo."},
-    {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#e377c2", "desc": "Higiene y vestuario del personal conforme a parámetros de BPA."},
-    {"name": "Corredores y Circulación Interna", "x_range": [1.6, 6.8], "y_range": [8.75, 9.53], "z_range": [0, 0.2], "area": 4, "color": "#8c564b", "desc": "Pasillos demarcados para tránsito seguro de personal y carros de carga."}
+    {"name": "Zona de Dispensación y Atención", "x_range":, "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#2ca02c", "desc": "Área comercial frontal orientada al usuario."},
+    {"name": "Bodega de Almacenamiento General", "x_range":, "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#ff7f0e", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range":, "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#1f77b4", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
+    {"name": "Nodo Logístico de Alistamiento", "x_range":, "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#9467bd", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal."},
+    {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#7f7f7f", "desc": "Oficina administrativa y servidores centralizados de sistemas ERP."},
+    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#17becf", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
+    {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#bcbd22", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
+    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#d62728", "desc": "Depósito de residuos peligrosos y punto ecológico posconsumo."},
+    {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#e377c2", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
+    {"name": "Corredores y Circulación Interna", "x_range": [1.6, 6.8], "y_range": [8.75, 9.53], "z_range": [0, 0.15], "area": 4, "color": "#8c564b", "desc": "Pasillos demarcados con pintura epóxica para tránsito continuo."}
 ]
 
-# --- BASE DE DATOS DE EQUIPAMIENTO TÉCNICO INTERNO INTERACTIVO ---
-equipamiento_tecnico = [
-    {"name": "🛠️ Mostrador de Atención y Terminales POS", "x": 4.0, "y": 1.2, "z": 1.0, "color": "white", "size": 10, "desc": "Estación comercial con 3 cajas registradoras ergonómicas."},
-    {"name": "🛠️ Estanterías Metálicas de Almacenamiento", "x": 2.0, "y": 4.5, "z": 1.2, "color": "black", "size": 8, "desc": "Góndolas industriales de almacenamiento organizadas por acción terapéutica."},
-    {"name": "🛠️ Escritorio de Consultoría Médica", "x": 6.0, "y": 3.5, "z": 0.8, "color": "white", "size": 8, "desc": "Módulo de atención individualizada para pacientes crónicos."},
-    {"name": "🛠️ Estación de Picking y Embalaje", "x": 6.0, "y": 5.5, "z": 0.9, "color": "white", "size": 8, "desc": "Mesa técnica para organización y despacho de pedidos omnicanal."},
-    {"name": "🛠️ Escritorio de Gestión Administrativa", "x": 1.2, "y": 7.5, "z": 0.8, "color": "black", "size": 8, "desc": "Puesto de control de tesorería, contabilidad y sistemas ERP."},
-    {"name": "🛠️ Refrigeradores Horizontales Clínicos", "x": 3.6, "y": 7.5, "z": 1.1, "color": "cyan", "size": 9, "desc": "Neveras horizontales certificadas INVIMA con rango estable de 2°C a 8°C."},
-    {"name": "🛠️ Mesa de Muestreo e Inspección", "x": 5.8, "y": 7.5, "z": 0.9, "color": "black", "size": 8, "desc": "Superficie de acero inoxidable para validación organoléptica de lotes."},
-    {"name": "🛠️ Contenedor Autorizado Punto Azul", "x": 7.4, "y": 8.1, "z": 1.3, "color": "yellow", "size": 10, "desc": "Depósito regulado por la Res. 0371/2009 para descarte de medicamentos vencidos."}
+# --- BASE DE DATOS DE EQUIPAMIENTO MOBILIARIO (Fijos Básicos) ---
+equipamiento_fijo = [
+    {"name": "🏢 Vitrinas y Mostrador Principal POS", "x": 4.0, "y": 1.2, "z": 1.0, "color": "#ffffff", "size": 11, "desc": "Estación comercial con 3 cajas ergonómicas."},
+    {"name": "🏢 Escritorio Clínico QF", "x": 6.0, "y": 3.5, "z": 0.8, "color": "#ffffff", "size": 9, "desc": "Módulo privado del Regente Farmacéutico."},
+    {"name": "🏢 Mesa de Empaque Logístico", "x": 6.0, "y": 5.5, "z": 0.9, "color": "#ffffff", "size": 9, "desc": "Superficie de alistamiento de domicilios de última milla."},
+    {"name": "🏢 Escritorio Gerencial", "x": 1.2, "y": 7.5, "z": 0.8, "color": "#1c2833", "size": 9, "desc": "Puesto de control de tesorería y contabilidad."},
+    {"name": "🏢 Refrigeradores Horizontales Clínicos", "x": 3.6, "y": 7.5, "z": 1.1, "color": "#00ffff", "size": 10, "desc": "Neveras certificadas con rango estable de 2°C a 8°C."},
+    {"name": "🏢 Mesa de Recepción de Acero", "x": 5.8, "y": 7.5, "z": 0.9, "color": "#5d6d7e", "size": 9, "desc": "Superficie de muestreo y validación organoléptica de mercancías."},
+    {"name": "🏢 Contenedor Autorizado Punto Azul", "x": 7.4, "y": 8.1, "z": 1.3, "color": "#f1c40f", "size": 12, "desc": "Depósito regulado (Res. 0371/2009) para medicamentos vencidos."}
 ]
 
-# --- FUNCION GEOMÉTRICA DE SÓLIDOS PERFECTOS ---
-def construir_cubo_tecnico(fig, x_rng, y_rng, z_rng, color, name, hover_text):
-    # Generación indexada de las 6 caras cuadradas de un prisma para evitar distorsiones visuales
-    x = [x_rng[0], x_rng[1], x_rng[1], x_rng[0], x_rng[0], x_rng[1], x_rng[1], x_rng[0]]
-    y = [y_rng[0], y_rng[0], y_rng[1], y_rng[1], y_rng[0], y_rng[0], y_rng[1], y_rng[1]]
-    z = [z_rng[0], z_rng[0], z_rng[0], z_rng[0], z_rng[1], z_rng[1], z_rng[1], z_rng[1]]
+# --- 🚀 NUEVA BASE DE DATOS DE ALTA DENSIDAD: INVENTARIOS Y DETALLES DE MERCANCÍA ---
+inventario_detallado = [
+    # Cajas de Mercancía en la Bodega General (Alta Densidad)
+    {"name": "📦 Lote Medicamentos OTC: Analgésicos", "x": 1.0, "y": 3.5, "z": 0.6, "color": "#3498db", "desc": "Acetaminofén e Ibuprofeno (Alta Rotación). Stock: 45 días."},
+    {"name": "📦 Lote Medicamentos OTC: Antigripales", "x": 1.0, "y": 4.5, "z": 0.6, "color": "#3498db", "desc": "Antigripales comunes en tabletas y jarabes. Stock en estantería."},
+    {"name": "📦 Medicamentos Crónicos: Antihipertensivos", "x": 2.0, "y": 3.5, "z": 1.4, "color": "#58d68d", "desc": "Losartán y Enalapril (Portafolio especializado SOM)."},
+    {"name": "📦 Medicamentos Crónicos: Diabetes", "x": 2.0, "y": 4.5, "z": 1.4, "color": "#58d68d", "desc": "Metformina y Glibenclamida para control de pacientes crónicos."},
+    {"name": "📦 Elementos Complementarios: Cuidado Bebé", "x": 3.0, "y": 3.5, "z": 0.8, "color": "#f5b041", "desc": "Pañales y productos de higiene infantil de alta rotación."},
+    {"name": "📦 Elementos Complementarios: Higiene Personal", "x": 3.0, "y": 4.5, "z": 0.8, "color": "#f5b041", "desc": "Champús, jabones y dermocosméticos básicos en góndola."},
     
-    i = [0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 4]
-    j = [1, 2, 3, 2, 5, 3, 6, 0, 7, 4, 5, 5]
-    k = [2, 3, 7, 5, 6, 6, 7, 4, 4, 5, 1, 6]
+    # Stock dentro del Cuarto de Cadena de Frío
+    {"name": "🧊 Stock Clínico: Insulinas Glargina", "x": 3.2, "y": 7.2, "z": 1.5, "color": "#ffffff", "desc": "Custodia crítica en nevera 1. Rango térmico: 4.2°C verificado."},
+    {"name": "🧊 Stock Clínico: Biológicos / Vacunas", "x": 4.0, "y": 7.2, "z": 1.5, "color": "#ffffff", "desc": "Custodia crítica en nevera 2. Monitoreo higrométrico permanente."},
+    
+    # Estibas y Mercancía en Recepción/Cuarentena
+    {"name": "🪵 Estiba de Madera No. 1 (Ingreso)", "x": 5.2, "y": 8.2, "z": 0.2, "color": "#a04000", "desc": "Plataforma de aislamiento del suelo exigida por Buenas Prácticas."},
+    {"name": "🪵 Estiba de Madera No. 2 (Muestreo)", "x": 6.4, "y": 8.2, "z": 0.2, "color": "#a04000", "desc": "Zona transitoria para inspección física por el auxiliar de turno."},
+    {"name": "📦 Cajas de Despacho Mayorista Coopidrogas", "x": 5.2, "y": 8.2, "z": 0.6, "color": "#ebd8ab", "desc": "Cajas de inventario recién desembarcadas listas para codificación."},
+    
+    # Control e Instrumentación Médica (INVIMA Compliance)
+    {"name": "🌡️ Termohigrómetro Digital Bodega", "x": 2.0, "y": 5.5, "z": 2.2, "color": "#e74c3c", "desc": "Sensor de control ambiental. Temperatura actual: 21.4°C | Humedad: 62%."},
+    {"name": "🌡️ Termohigrómetro Digital Cuarto Frío", "x": 3.0, "y": 8.2, "z": 2.2, "color": "#e74c3c", "desc": "Sensor de control de cadena de frío. Temperatura actual: 4.5°C | Humedad: 58%."},
+    {"name": "💨 Extractor y Renovador de Aire Flujo", "x": 7.5, "y": 9.0, "z": 2.4, "color": "#85929e", "desc": "Sistema mecánico de inyección de aire para renovación térmica ambiental (BPA)."}
+]
+
+# --- FUNCIÓN GEOMÉTRICA DE PRISMAS SÓLIDOS ---
+def construir_prisma_industrial(fig, x_rng, y_rng, z_rng, color, name, hover_text):
+    # Índices y coordenadas para construir cubos perfectos sin distorsión triangular en la web
+    x = [x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng, x_rng]
+    y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
+    z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
+    
+    i =
+    j =
+    k =
     
     fig.add_trace(go.Mesh3d(
         x=x, y=y, z=z, i=i, j=j, k=k,
         color=color,
-        opacity=0.70,
+        opacity=0.72,
         name=name,
         text=hover_text,
         hoverinfo="text",
         flatshading=True,
-        lighting=dict(ambient=0.6, diffuse=0.6, roughness=0.3, specular=0.2)
+        lighting=dict(ambient=0.65, diffuse=0.65, roughness=0.25, specular=0.15)
     ))
 
-# Instanciación del entorno gráfico 3D
+# Instanciación del entorno de gráficos 3D
 fig = go.Figure()
 
-# 1. Dibujar los cuartos técnicos funcionales con paredes tridimensionales sólidas
+# 1. Dibujar las paredes físicas volumétricas de las áreas de la farmacia
 for zona in zonas_3d:
-    info_html = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Techo a 2.5 metros<br>{zona['desc']}"
-    construir_cubo_tecnico(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], info_html)
+    html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Altura libre 2.5m<br>{zona['desc']}"
+    construir_prisma_industrial(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], html_zona)
 
-# 2. Inyectar los elementos y equipamiento interior de ingeniería de la droguería
-for eq in equipamiento_tecnico:
-    hover_eq = f"<b>{eq['name']}</b><br>{eq['desc']}<br>Ubicación técnica: X={eq['x']}, Y={eq['y']}, Z={eq['z']}"
-    
+# 2. Dibujar la capa de Equipamiento Mobiliario Base (Marcadores Diamantes)
+for eq in equipamiento_fijo:
+    html_eq = f"<b>{eq['name']}</b><br>{eq['desc']}<br>Coordenadas de planta: X={eq['x']}, Y={eq['y']}, Z={eq['z']}"
     fig.add_trace(go.Scatter3d(
         x=[eq["x"]], y=[eq["y"]], z=[eq["z"]],
         mode="markers",
+        marker=dict(size=eq["size"], color=eq["color"], symbol="diamond", line=dict(color="#1c2833", width=2)),
+        name=eq["name"], text=html_eq, hoverinfo="text"
+    ))
+
+# 3. 🚀 DIBUJAR LA NUEVA CAPA DE ALTA DENSIDAD DE MERCANCÍA E INVENTARIO REPLETO (Marcadores Esferas de Control)
+for inv in inventario_detallado:
+    html_inv = f"<b>{inv['name']}</b><br>{inv['desc']}<br>Ubicación técnica: X={inv['x']}, Y={inv['y']}, Z={inv['z']}"
+    fig.add_trace(go.Scatter3d(
+        x=[inv["x"]], y=[inv["y"]], z=[inv["z"]],
+        mode="markers",
         marker=dict(
-            size=eq["size"],
-            color=eq["color"],
-            symbol="diamond",
-            line=dict(color="black", width=2)
+            size=7,
+            color=inv["color"],
+            symbol="circle", # Círculos/Esferas perfectas para simular mercancía apilada
+            line=dict(color="black", width=1)
         ),
-        name=eq["name"],
-        text=hover_eq,
+        name=inv["name"],
+        text=html_inv,
         hoverinfo="text"
     ))
 
-# Ajustes de renderizado de la cámara y grillas de ingeniería
+# Configuración del espacio de renderizado, grillas métricas e iluminación de ingeniería
 fig.update_layout(
-    title=dict(text="🏢 Distribución Arquitectónica e Ingeniería de Planta (Layout Industrial 3D)", font=dict(size=18)),
+    title=dict(text="🏢 Distribución de Detalle y Modelado Físico de Inventarios (Layout 3D Realista)", font=dict(size=18)),
     scene=dict(
         xaxis=dict(title="Frente Comercial (Metros)", range=[-0.5, 8.5], dtick=1, backgroundcolor="rgb(245, 245, 245)", gridcolor="white", showbackground=True),
         yaxis=dict(title="Fondo Comercial (Metros)", range=[-0.5, 11.5], dtick=1, backgroundcolor="rgb(235, 235, 235)", gridcolor="white", showbackground=True),
         zaxis=dict(title="Altura Locativa (Metros)", range=[0, 3.5], dtick=1, backgroundcolor="rgb(225, 225, 225)", gridcolor="white", showbackground=True),
         camera=dict(
-            eye=dict(x=1.5, y=-1.5, z=1.7), # Ángulo isométrico de control óptimo
+            eye=dict(x=1.45, y=-1.45, z=1.65), # Ángulo isométrico optimizado
             up=dict(x=0, y=0, z=1)
         ),
         aspectmode="data"
@@ -142,7 +175,7 @@ fig.update_layout(
     hoverlabel=dict(bgcolor="white", font_size=13, font_family="Arial")
 )
 
-# Proyectar el entorno interactivo final
+# Proyectar el entorno interactivo final en Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 # --- CUADRO DE VALIDACIÓN SANITARIA (POR FUERA DEL MAPA) ---
