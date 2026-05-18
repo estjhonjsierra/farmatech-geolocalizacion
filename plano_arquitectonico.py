@@ -49,41 +49,41 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-2.5m) ---
+# --- BASE DE DATOS GEOMÉTRICA DE ÁREAS CORREGIDA (X: Frente 0-8m, Y: Fondo 0-10m, Z: Alto 0-1.0m para Open Layout) ---
 zonas_3d = [
-    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8], "y_range": [0, 2.5], "z_range": [0, 2.5], "area": 20, "color": "#a2d149", "desc": "Área comercial frontal orientada al usuario presencial."},
-    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4], "y_range": [2.5, 6.25], "z_range": [0, 2.5], "area": 15, "color": "#fcd12a", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4, 8], "y_range": [2.5, 4.5], "z_range": [0, 2.5], "area": 8, "color": "#3498db", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
-    {"name": "Nodo Logístico de Alistamiento", "x_range": [4, 8], "y_range": [4.5, 6.5], "z_range": [0, 2.5], "area": 8, "color": "#bb8fce", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
-    {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#b2babb", "desc": "Oficina administrativa y servidores de control central ERP."},
-    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 6, "color": "#5dedec", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
-    {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 2.5], "area": 5, "color": "#d4efdf", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
-    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 2.5], "area": 4, "color": "#ec7063", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
-    {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 2.5], "area": 4, "color": "#f5cba7", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
-    {"name": "Corredores y Circulación Interna", "x_range": [1.6, 6.8], "y_range": [8.75, 9.53], "z_range": [0, 0.05], "area": 4, "color": "#d5f5e3", "desc": "Pasillos demarcados para tránsito seguro de personal y carros de carga."}
+    {"name": "Zona de Dispensación y Atención", "x_range": [0, 8], "y_range": [0, 2.5], "z_range": [0, 1.0], "area": 20, "color": "#2ca02c", "desc": "Área comercial frontal orientada al usuario presencial."},
+    {"name": "Bodega de Almacenamiento General", "x_range": [0, 4], "y_range": [2.5, 6.25], "z_range": [0, 1.0], "area": 15, "color": "#ff7f0e", "desc": "Custodia técnica de stock mayorista (30-45 días de inventario)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x_range": [4, 8], "y_range": [2.5, 4.5], "z_range": [0, 1.0], "area": 8, "color": "#1f77b4", "desc": "Módulo privado para programas de lealtad y seguimiento a pacientes crónicos."},
+    {"name": "Nodo Logístico de Alistamiento", "x_range": [4, 8], "y_range": [4.5, 6.5], "z_range": [0, 1.0], "area": 8, "color": "#9467bd", "desc": "Centro de picking, empaque y despacho de pedidos omnicanal por WhatsApp."},
+    {"name": "Área Administrativa y Control Central", "x_range": [0, 2.4], "y_range": [6.25, 8.75], "z_range": [0, 1.0], "area": 6, "color": "#7f7f7f", "desc": "Oficina administrativa y servidores de control central ERP."},
+    {"name": "Cuarto de Cadena de Frío", "x_range": [2.4, 4.8], "y_range": [6.25, 8.75], "z_range": [0, 1.0], "area": 6, "color": "#17becf", "desc": "Aislamiento térmico para la custodia de medicamentos termolábiles."},
+    {"name": "Bahía de Recepción y Cuarentena", "x_range": [4.8, 6.8], "y_range": [6.25, 8.75], "z_range": [0, 1.0], "area": 5, "color": "#bcbd22", "desc": "Área técnica de descargue y muestreo organoléptico de lotes nuevos."},
+    {"name": "Unidad de Bioseguridad y Punto Azul", "x_range": [6.8, 8], "y_range": [6.5, 9.83], "z_range": [0, 1.0], "area": 4, "color": "#d62728", "desc": "Depósito de residuos hospitalarios peligrosos y punto ecológico posconsumo."},
+    {"name": "Servicios Sanitarios y Vestier", "x_range": [0, 1.6], "y_range": [8.75, 11.25], "z_range": [0, 1.0], "area": 4, "color": "#e377c2", "desc": "Higiene y bienestar físico para el personal operativo (BPA)."},
+    {"name": "Corredores y Circulación Interna", "x_range": [1.6, 6.8], "y_range": [8.75, 9.53], "z_range": [0, 0.05], "area": 4, "color": "#8c564b", "desc": "Pasillos demarcados para tránsito seguro de personal y carros de carga."}
 ]
 
 # --- BASE DE DATOS DE MOBILIARIO REALISTA EN 3D SÓLIDO (CUBOS INDEPENDIENTES REALES) ---
 mobiliario_3d = [
-    {"name": "🛋 ... Mostrador Ergonómico POS Principal", "x": [1.0, 7.0], "y": [1.0, 1.6], "z": [0, 1.1], "color": "#ffffff", "desc": "Mesa de dispensación lineal que alberga las 3 cajas registradoras."},
-    {"name": "🛋 ... Estantería Modular Pesada - Módulo A", "x": [0.2, 0.8], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para almacenamiento de medicamentos OTC."},
-    {"name": "🛋 ... Estantería Modular Pesada - Módulo B", "x": [1.4, 2.0], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para medicamentos de prescripción crónica (SOM)."},
-    {"name": "🛋 ... Escritorio de Consulta Clínica QF", "x": [5.0, 7.0], "y": [3.0, 4.0], "z": [0, 0.8], "color": "#eaecee", "desc": "Módulo administrativo del Regente para atención personalizada."},
-    {"name": "🛋 ... Mesa Técnica de Alistamiento y Despacho", "x": [5.0, 7.0], "y": [5.0, 6.0], "z": [0, 0.9], "color": "#ebf5fb", "desc": "Superficie de embalaje, etiquetado y picking omnicanal."},
-    {"name": "🛋 ... Refrigerador Clínico Horizontal No. 1", "x": [2.6, 3.4], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión con termohigrómetro integrado para insulinas."},
-    {"name": "🛋 ... Refrigerador Clínico Horizontal No. 2", "x": [3.8, 4.6], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión para custodia estable de biológicos y vacunas."},
-    {"name": "🛋 ... Mesa de Inspección de Acero Inoxidable", "x": [5.0, 6.6], "y": [6.6, 7.6], "z": [0, 0.9], "color": "#bdc3c7", "desc": "Superficie aséptica para la validación y muestreo de lotes mayoristas."},
-    {"name": "🛋 ... Estiba de Madera Regulada (Cuarentena)", "x": [5.0, 6.6], "y": [7.8, 8.6], "z": [0, 0.15], "color": "#ba4a00", "desc": "Plataforma de aislamiento del suelo exigida por las Buenas Prácticas (BPA)."},
-    {"name": "🛋 ... Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."}
+    {"name": "🛋️ Mostrador Ergonómico POS Principal", "x": [1.0, 7.0], "y": [1.0, 1.6], "z": [0, 1.1], "color": "#ffffff", "desc": "Mesa de dispensación lineal que alberga las 3 cajas registradoras."},
+    {"name": "🛋️ Estantería Modular Pesada - Módulo A", "x": [0.2, 0.8], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para almacenamiento de medicamentos OTC."},
+    {"name": "🛋️ Estantería Modular Pesada - Módulo B", "x": [1.4, 2.0], "y": [2.8, 5.8], "z": [0, 2.2], "color": "#34495e", "desc": "Góndola metálica industrial para medicamentos de prescripción crónica (SOM)."},
+    {"name": "🛋️ Escritorio de Consulta Clínica QF", "x": [5.0, 7.0], "y": [3.0, 4.0], "z": [0, 0.8], "color": "#eaecee", "desc": "Módulo administrativo del Regente para atención personalizada."},
+    {"name": "🛋️ Mesa Técnica de Alistamiento y Despacho", "x": [5.0, 7.0], "y": [5.0, 6.0], "z": [0, 0.9], "color": "#ebf5fb", "desc": "Superficie de embalaje, etiquetado y picking omnicanal."},
+    {"name": "🛋️ Refrigerador Clínico Horizontal No. 1", "x": [2.6, 3.4], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión con termohigrómetro integrado para insulinas."},
+    {"name": "🛋️ Refrigerador Clínico Horizontal No. 2", "x": [3.8, 4.6], "y": [6.6, 8.4], "z": [0, 1.2], "color": "#d1f2eb", "desc": "Nevera de alta precisión para custodia estable de biológicos y vacunas."},
+    {"name": "🛋️ Mesa de Inspección de Acero Inoxidable", "x": [5.0, 6.6], "y": [6.6, 7.6], "z": [0, 0.9], "color": "#bdc3c7", "desc": "Superficie aséptica para la validación y muestreo de lotes mayoristas."},
+    {"name": "🛋️ Estiba de Madera Regulada (Cuarentena)", "x": [5.0, 6.6], "y": [7.8, 8.6], "z": [0, 0.15], "color": "#ba4a00", "desc": "Plataforma de aislamiento del suelo exigida por las Buenas Prácticas (BPA)."},
+    {"name": "🛋️ Módulo de Depósito y Contenedor Punto Azul", "x": [7.0, 7.8], "y": [7.0, 8.0], "z": [0, 1.4], "color": "#f1c40f", "desc": "Contenedor de recolección selectiva posconsumo autorizado por la Resolución 0371 de 2009."}
 ]
 
-# --- 🚀 CORRECCIÓN DEFINITIVA DE SIMBOLOS COMPATIBLES: Todos configurados en "diamond" para evitar fallas 3D ---
+# --- CAPA DE ICONOS DE INSTRUMENTACIÓN E INVENTARIO INTERACTIVO (DIAMANTES FLOTANTES DE CONTROL) ---
 iconos_interactivos = [
     {"name": "📌 Terminal POS de Dispensación - Caja 1", "x": 1.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Terminal integrada conectada al ERP central de FarmaTech Ltda."},
     {"name": "📌 Terminal POS de Dispensación - Caja 2", "x": 4.0, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Punto de cobro intermedio habilitado para periodos de alta rotación."},
     {"name": "📌 Terminal POS de Dispensación - Caja 3", "x": 6.5, "y": 1.3, "z": 1.3, "color": "#1e7e34", "desc": "Terminal del canal digital orientada a la facturación de domicilios."},
-    {"name": "📌 Termohigrómetro de Control - Bodega", "x": 2.0, "y": 5.5, "z": 2.2, "color": "#dc3545", "desc": "Monitoreo INVIMA Compliance. Temperatura óptima ambiente: 21.4°C | Humedad: 62%."},
-    {"name": "📌 Termohigrómetro de Control - Cadena Frío", "x": 3.0, "y": 8.2, "z": 2.2, "color": "#dc3545", "desc": "Alerta crítica de refrigeración. Temperatura actual: 4.5°C | Humedad: 58% (Rango 2°C-8°C)."},
+    {"name": "📌 Termohigrómetro de Control - Bodega", "x": 2.0, "y": 5.5, "z": 2.3, "color": "#dc3545", "desc": "Monitoreo INVIMA Compliance. Temperatura óptima ambiente: 21.4°C | Humedad: 62%."},
+    {"name": "📌 Termohigrómetro de Control - Cadena Frío", "x": 3.0, "y": 8.2, "z": 2.3, "color": "#dc3545", "desc": "Alerta crítica de refrigeración. Temperatura actual: 4.5°C | Humedad: 58% (Rango 2°C-8°C)."},
     {"name": "📌 Lote Medicamentos OTC: Analgésicos", "x": 0.5, "y": 3.5, "z": 0.8, "color": "#007bff", "desc": "Acetaminofén e Ibuprofeno mayorista. Stock de seguridad para 45 días."},
     {"name": "📌 Medicamentos Crónicos: Antihipertensivos", "x": 1.7, "y": 4.5, "z": 1.5, "color": "#28a745", "desc": "Losartán y Enalapril (Estrategia de Nicho SOM - Core del negocio)."},
     {"name": "📌 Custodia de Insulinas Glargina (Nevera 1)", "x": 3.0, "y": 7.5, "z": 1.4, "color": "#17a2b8", "desc": "Medicamentos termolábiles de alta sensibilidad almacenados de forma hermética."},
@@ -97,20 +97,20 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
     y = [y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng, y_rng]
     z = [z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng, z_rng]
     
-    i = [0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 1, 1]
-    j = [1, 2, 3, 0, 3, 7, 2, 6, 4, 5, 5, 7]
-    k = [2, 3, 0, 1, 7, 6, 6, 5, 5, 6, 7, 4]
+    i =
+    j =
+    k =
     
     # Cuerpo del prisma sólido
     fig.add_trace(go.Mesh3d(
         x=x, y=y, z=z, i=i, j=j, k=k,
         color=color, opacity=opacidad, name=name,
         text=hover_text, hoverinfo="text", flatshading=True,
-        lighting=dict(ambient=0.7, diffuse=0.6, roughness=0.2, specular=0.1)
+        lighting=dict(ambient=0.75, diffuse=0.65, roughness=0.2, specular=0.1)
     ))
     
     # Líneas de contorno arquitectónico (Wireframe)
-    lineas_indices = [0, 1, 3, 2, 0, 4, 5, 7, 6, 4, 5, 1, 3, 7, 6, 2]
+    lineas_indices =
     lx = [x[idx] for idx in lineas_indices]
     ly = [y[idx] for idx in lineas_indices]
     lz = [z[idx] for idx in lineas_indices]
@@ -124,15 +124,15 @@ def construir_solido_hd(fig, x_rng, y_rng, z_rng, color, name, hover_text, opaci
 # Instanciación de la maqueta
 fig = go.Figure()
 
-# 1. Capa Arquitectónica: Cuartos técnicos (Translúcidos)
+# 1. Capa Arquitectónica: Cuartos técnicos (Sólidos - Altura de Maqueta Fija 1.0m para visibilidad interna)
 for zona in zonas_3d:
-    html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Altura libre 2.5m<br>{zona['desc']}"
-    construir_solido_hd(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], html_zona, opacidad=0.32, grosor_borde=1.5)
+    html_zona = f"<b>{zona['name']}</b><br>Área: {zona['area']} m²<br>Estructura: Altura de Maqueta 1.0m<br>{zona['desc']}"
+    construir_solido_hd(fig, zona["x_range"], zona["y_range"], zona["z_range"], zona["color"], zona["name"], html_zona, opacidad=1.0, grosor_borde=1.5)
 
-# 2. Capa Industrial: Mobiliario y Maquinaria (Opacos)
+# 2. Capa Industrial: Mobiliario y Maquinaria (Sólidos - Opacidad Total)
 for mob in mobiliario_3d:
     html_mob = f"<b>{mob['name']}</b><br>{mob['desc']}<br>Ubicación métrica real instalada."
-    construir_solido_hd(fig, mob["x"], mob["y"], mob["z"], mob["color"], mob["name"], html_mob, opacidad=0.95, grosor_borde=3.0)
+    construir_solido_hd(fig, mob["x"], mob["y"], mob["z"], mob["color"], mob["name"], html_mob, opacidad=1.0, grosor_borde=2.5)
 
 # 3. Capa Suprema Interactiva de Puntos de Control (DIAMANTES COMPATIBLES)
 for ico in iconos_interactivos:
@@ -144,7 +144,7 @@ for ico in iconos_interactivos:
         marker=dict(
             size=11,
             color=ico["color"],
-            symbol="diamond", # Se fuerza a diamante para compatibilidad total con la librería 3D
+            symbol="diamond",
             line=dict(color="black", width=2)
         ),
         name=ico["name"],
@@ -160,7 +160,7 @@ fig.update_layout(
         yaxis=dict(title="Fondo Comercial (Metros)", range=[-0.5, 11.5], dtick=1, backgroundcolor="rgb(235, 235, 235)", gridcolor="rgba(0,0,0,0.08)", showbackground=True),
         zaxis=dict(title="Altura Locativa (Metros)", range=[0, 3.5], dtick=1, backgroundcolor="rgb(225, 225, 225)", gridcolor="rgba(0,0,0,0.08)", showbackground=True),
         camera=dict(
-            eye=dict(x=1.40, y=-1.40, z=1.60),
+            eye=dict(x=1.45, y=-1.45, z=1.65), # Ángulo isométrico optimizado
             up=dict(x=0, y=0, z=1)
         ),
         aspectmode="data"
