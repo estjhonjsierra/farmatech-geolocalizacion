@@ -2,113 +2,165 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import io
 
-# Título de la sección financiera en Streamlit
-st.markdown("---")
-st.header("📉 Simulador Financiero Interactiva y Gráfico de Break-Even")
-st.write("Visualización dinámica de la curva de aprendizaje transaccional y el umbral de rentabilidad mes a mes.")
+# Configuración inicial forzando el diseño responsive y limpio
+st.set_page_config(page_title="FarmaTech - Modelado Financiero", layout="wide")
 
-# --- PARÁMETROS FIJOS DEL PROYECTO (COHERENCIA TOTAL) ---
-opex_fijo = 41500000       # $41.5M COP mensuales
-ticket_promedio = 55000    # $55.000 COP por venta
-margen_porcentaje = 0.30   # 30% de Margen Bruto
-margen_unitario = ticket_promedio * margen_porcentaje # $16.500 COP netos por transacción
+# Ocultar márgenes internos por defecto de Streamlit para máxima uniformidad de pantalla
+st.markdown("""
+    <style>
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-# Punto de equilibrio teórico exacto: 2516 transacciones
-transacciones_equilibrio = int(np.ceil(opex_fijo / margen_unitario))
+# --- PANEL DE CONTROL PARAMÉTRICO (BARRA LATERAL / SIDEBAR) ---
+st.sidebar.header("⚙️ Parametrización Financiera en Vivo")
+st.sidebar.write("Modifique las variables críticas para recalcular el punto de equilibrio del modelo omnicanal:")
 
-# --- MODELADO DE CRECIMIENTO REALISTA POR MESES (Curva de Aprendizaje) ---
-# Definimos las transacciones mensuales promedio basadas en los rangos de tu Tabla 5
+# Filtros deslizantes para simulación de escenarios
+ticket_sim = st.sidebar.slider("Ticket Promedio de Venta ($)", min_value=30000, max_value=80000, value=55000, step=5000, format="$%d")
+opex_sim = st.sidebar.slider("OPEX Mensual Comprometido ($)", min_value=30000000, max_value=55000000, value=41500000, step=500000, format="$%d")
+margen_sim = st.sidebar.slider("Margen de Contribución Bruto (%)", min_value=20, max_value=45, value=30, step=5, format="%d%%")
+
+# Cálculos automáticos basados en los filtros dinámicos
+margen_porcentaje = margen_sim / 100
+margen_unitario = ticket_sim * margen_porcentaje
+transacciones_equilibrio_dinamico = int(np.ceil(opex_sim / margen_unitario))
+
+# --- GLOSARIO LOGÍSTICO Y FINANCIERO EN LA BARRA LATERAL ---
+st.sidebar.markdown("---")
+st.sidebar.subheader("📖 Glosario Técnico del Reporte")
+st.sidebar.markdown("""
+📈 **Línea Verde Continua:** Margen Bruto acumulado obtenido a partir de las transacciones mensuales.
+🔴 **Línea Roja Discontinua:** Umbral de costos fijos operativos mensuales (OPEX Fijo).
+🔵 **Línea Azul Punteada:** Indicador del **Mes de Break-Even** o intersección de equilibrio.
+""")
+
+# --- BOTÓN DE HERRAMIENTA: EXPORTAR A PDF / IMPRESIÓN ---
+st.sidebar.markdown("---")
+st.sidebar.subheader("📸 Herramientas de Exportación")
+if st.sidebar.button("📷 Guardar Reporte Completo (PDF)"):
+    st.components.v1.html("<script>window.parent.print();</script>", height=0, width=0)
+
+# --- CUERPO PRINCIPAL DEL DASHBOARD (DISEÑO UNIFORME) ---
+# Cabecera corporativa unificada con imagen de soporte
+st.title("📉 Simulador de Punto de Equilibrio y Viabilidad Financiera")
+st.write("FarmaTech Ltda. — Evaluación de Sostenibilidad Operativa y Curva de Aprendizaje Transaccional.")
+
+# Inyección de imagen de cabecera con estilo responsivo para eliminar los espacios vacíos laterales
+st.markdown("""
+<div style="width: 100%; overflow: hidden; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <img src="https://unsplash.com" style="width: 100%; height: 220px; object-fit: cover;" alt="Cabecera Financiera FarmaTech">
+</div>
+""", unsafe_allow_html=True)
+
+# --- MODELADO DE LA CURVA DE CRECIMIENTO MES A MES ---
 meses = [f"Mes {i}" for i in range(1, 13)]
-transacciones_proyectadas = [
-    1100,  # Mes 1: Fase Arranque (Rango 900 - 1500)
-    1300,  # Mes 2: Fase Arranque
-    1500,  # Mes 3: Fase Arranque
-    1750,  # Mes 4: Fase Crecimiento (Rango 1650 - 2400)
-    2000,  # Mes 5: Fase Crecimiento
-    2300,  # Mes 6: Fase Crecimiento
-    2520,  # MES 7: CRUCE DEL PUNTO DE EQUILIBRIO (Supera las 2516 exactas)
-    2700,  # Mes 8: Fase Estable (Rango 2520 - 3300)
-    2900,  # Mes 9: Fase Estable
-    3050,  # Mes 10: Fase Estable
-    3200,  # Mes 11: Fase Estable
-    3300   # Mes 12: Fase Estable
-]
+transacciones_base = [1100, 1300, 1500, 1750, 2000, 2300, 2520, 2700, 2900, 3050, 3200, 3300]
 
-# --- CÁLCULO DE MATRICES FINANCIERAS CON PANDAS ---
-ingresos = [t * ticket_promedio for t in transacciones_proyectadas]
-utilidad_bruta = [t * margen_unitario for t in transacciones_proyectadas]
-costos_fijos = [opex_fijo] * 12
-utilidad_neta = [ub - opex_fijo for ub in utilidad_bruta]
+# Estructuración de datos dinámicos usando Pandas
+ingresos = [t * ticket_sim for t in transacciones_base]
+utilidad_bruta = [t * margen_unitario for t in transacciones_base]
+costos_fijos = [opex_sim] * 12
+utilidad_neta = [ub - opex_sim for ub in utilidad_bruta]
 
-# Creación del DataFrame de soporte
 df_financiero = pd.DataFrame({
     "Mes": meses,
-    "Transacciones": transacciones_proyectadas,
+    "Transacciones": transacciones_base,
     "Ingresos Brutos": ingresos,
-    "Margen Bruto (30%)": utilidad_bruta,
-    "OPEX Fijo (Costos)": costos_fijos,
+    "Margen Bruto Realizado": utilidad_bruta,
+    "OPEX Fijo Mensual": costos_fijos,
     "Utilidad Neta (EBITDA)": utilidad_neta
 })
 
-# --- CONSTRUCCIÓN DEL GRÁFICO DE INTERSECCIÓN CON PLOTLY ---
+# Identificación automática del mes de equilibrio según los filtros
+mes_cruce = "No alcanzado"
+for i, ub in enumerate(utilidad_bruta):
+    if ub >= opex_sim:
+        mes_cruce = f"Mes {i+1}"
+        break
+
+# --- RENDERIZADO DEL GRÁFICO TÉCNICO DE COHERENCIA CON PLOTLY ---
 fig = go.Figure()
 
-# Línea del Margen Bruto generado
 fig.add_trace(go.Scatter(
     x=df_financiero["Mes"], 
-    y=df_financiero["Margen Bruto (30%)"],
+    y=df_financiero["Margen Bruto Realizado"],
     mode='lines+markers',
     name='Margen Bruto Generado ($)',
-    line=dict(color='#28a745', width=3),
-    marker=dict(size=8)
+    line=dict(color='#28a745', width=3.5),
+    marker=dict(size=9, symbol="circle")
 ))
 
-# Línea base horizontal del OPEX fijo mensual
 fig.add_trace(go.Scatter(
     x=df_financiero["Mes"], 
-    y=df_financiero["OPEX Fijo (Costos)"],
+    y=df_financiero["OPEX Fijo Mensual"],
     mode='lines',
     name='Umbral del Costo Fijo (OPEX Mensual)',
-    line=dict(color='#dc3545', width=2, dash='dash')
+    line=dict(color='#dc3545', width=2.5, dash='dash')
 ))
 
-# Sombreado de zonas operativas (Rojo para pérdidas, Verde para ganancias)
-fig.add_vline(x="Mes 7", line_width=2, line_dash="dot", line_color="blue")
+if mes_cruce != "No alcanzado":
+    fig.add_vline(x=mes_cruce, line_width=2.5, line_dash="dot", line_color="#007bff")
 
 fig.update_layout(
-    title="📈 Gráfico Técnico de Break-Even (Punto de Equilibrio al Mes 7)",
-    xaxis_title="Evolución en el Horizonte de Tiempo (Primer Año de Operación)",
-    yaxis_title="Montos Financieros en COP ($)",
-    legend=dict(x=0.02, y=0.98),
-    margin=dict(l=40, r=40, t=60, b=40),
+    title=dict(text="📊 Curva Analítica de Intersección Financiera (Break-Even Point)", font=dict(size=18)),
+    xaxis_title="Horizonte Temporal Evaluado (Primer Año Crítico)",
+    yaxis_title="Montos Liquidados en COP ($)",
+    legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0.8)"),
+    margin=dict(l=10, r=10, t=50, b=10), # Minimizar márgenes del gráfico para ocupar todo el ancho
     hovermode="x unified",
-    height=500
+    template="plotly_white",
+    height=480
 )
 
-# Renderizado del gráfico interactivo en Streamlit
+# Forzar el estiramiento completo del gráfico al 100% del ancho responsivo
 st.plotly_chart(fig, use_container_width=True)
 
-# --- PANEL DE ALERTAS EJECUTIVAS DIGITALES ---
-st.markdown("### 🔍 Análisis Estadístico de la Proyección")
+# --- SECCIÓN DE ALERTAS ACADÉMICAS EJECUTIVAS ---
+st.markdown("### 🔍 Evaluación del Comportamiento Técnico")
 f1, f2 = st.columns(2)
 
 with f1:
-    st.success(f"🎯 **Punto de Equilibrio Alcanzado:** En el **Mes 7**, la droguería consolida **{transacciones_proyectadas[6]} transacciones**, superando la barrera técnica mínima de las **{transacciones_equilibrio} operaciones** requeridas para cubrir los gastos locativos y de nómina.")
+    if mes_cruce != "No alcanzado":
+        st.success(f"🎯 **Punto de Equilibrio Validado:** Bajo los parámetros actuales, el umbral de rentabilidad se consolida en el **{mes_cruce}**. Se requiere un volumen acumulado de **{transacciones_equilibrio_dinamico:,} transacciones** en el periodo para absorber la totalidad de los costos fijos locativos y de personal.")
+    else:
+        st.error(f"❌ **Modelo Inviable:** Con las variables seleccionadas, el margen bruto no logra interceptar la línea de costos fijos en el Año 1. Ajuste el ticket o reduzca el OPEX.")
 
 with f2:
     roi_acumulado = sum(utilidad_neta)
     if roi_acumulado > 0:
-        st.info(f"💰 **Retorno del Primer Año:** Al cierre del Mes 12, el modelo omnicanal genera una utilidad operativa acumulada neta de **${roi_acumulado:,.0f} COP**, absorbiendo las pérdidas de la etapa de arranque (Meses 1 a 6).")
+        st.info(f"💰 **Sostenibilidad Financiera Anual:** Al cierre del Mes 12, la operación omnicanal arroja un retorno neto de caja acumulado de **${roi_acumulado:,.0f} COP**, demostrando la viabilidad técnica de la escala de producción propuesta.")
     else:
-        st.warning(f"⚠️ **Atención:** Revisar estructura de costos.")
+        st.warning(f"⚠️ **Déficit Operativo:** La utilidad acumulada al cierre del ciclo anual registra un saldo negativo de **${roi_acumulado:,.0f} COP**. El proyecto requiere inyección suplementaria de capital.")
 
-# Mostrar la tabla de datos procesada por Pandas si el usuario lo desea
-if st.checkbox("📋 Visualizar Matriz de Datos Financieros Detallada"):
-    st.dataframe(df_financiero.style.format({
-        "Ingresos Brutos": "${:,.0f} COP",
-        "Margen Bruto (30%)": "${:,.0f} COP",
-        "OPEX Fijo (Costos)": "${:,.0f} COP",
-        "Utilidad Neta (EBITDA)": "${:,.0f} COP"
-    }), use_container_width=True)
+# --- MÓDULO EXCLUSIVO: DESCARGA INTERACTIVA A EXCEL ---
+st.markdown("---")
+st.markdown("### 📋 Matriz de Datos Financieros Detallada")
 
+# Script técnico para convertir el DataFrame de Pandas en un archivo Excel en memoria binaria
+buffer = io.BytesIO()
+with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+    df_financiero.to_excel(writer, index=False, sheet_name='Reporte_Financiero')
+    
+st.download_button(
+    label="📥 Descargar Matriz Completa en Formato Excel (.xlsx)",
+    data=buffer.getvalue(),
+    file_name="reporte_escala_produccion_farmatech.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
+
+# Formatear la tabla visual en pantalla para que luzca ejecutiva y ordenada
+st.dataframe(df_financiero.style.format({
+    "Transacciones": "{:,} und",
+    "Ingresos Brutos": "${:,.0f} COP",
+    "Margen Bruto Realizado": "${:,.0f} COP",
+    "OPEX Fijo Mensual": "${:,.0f} COP",
+    "Utilidad Neta (EBITDA)": "${:,.0f} COP"
+}), use_container_width=True)
