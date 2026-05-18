@@ -51,29 +51,29 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # --- BASE DE DATOS GEOMÉTRICA (Coordenadas X, Y a escala métrica real para un local de 8m x 10m) ---
-# Se definen los rectángulos [x0, y0, x1, y1] para simular las paredes reales de cada área
+# Se definen los vectores cerrados de coordenadas para dibujar las paredes de cada módulo
 zonas = [
-    {"name": "Zona de Dispensación y Atención", "x": [0, 0, 8, 8, 0], "y": [0, 2.5, 2.5, 0, 0], "area": 20, "color": "#2ca02c", "desc": "Frente comercial. 3 módulos POS simultáneos para atención presencial."},
-    {"name": "Bodega de Almacenamiento General", "x": [0, 0, 4, 4, 0], "y": [2.5, 6.25, 6.25, 2.5, 2.5], "area": 15, "color": "#ff7f0e", "desc": "Custodia técnica de inventarios de alta rotación (30-45 días de stock)."},
-    {"name": "Módulo de Consulta Farmacéutica (QF)", "x": [4, 4, 8, 8, 4], "y": [2.5, 4.5, 4.5, 2.5, 2.5], "area": 8, "color": "#1f77b4", "desc": "Orientación técnica personalizada al paciente crónico y captación de datos."},
-    {"name": "Nodo Logístico de Alistamiento", "x": [4, 4, 8, 8, 4], "y": [4.5, 6.5, 6.5, 4.5, 4.5], "area": 8, "color": "#9467bd", "desc": "Embalaje, picking y despacho centralizado de pedidos de WhatsApp Business."},
-    {"name": "Área Administrativa y Control", "x": [0, 0, 2.4, 2.4, 0], "y": [6.25, 8.75, 8.75, 6.25, 6.25], "area": 6, "color": "#7f7f7f", "desc": "Gestión contable, monitoreo del sistema ERP y tesorería."},
-    {"name": "Cuarto de Cadena de Frío", "x": [2.4, 2.4, 4.8, 4.8, 2.4], "y": [6.25, 8.75, 8.75, 6.25, 6.25], "area": 6, "color": "#17becf", "desc": "Custodia controlada de biológicos e insulinas (Neveras de 2°C a 8°C)."},
-    {"name": "Bahía de Recepción y Cuarentena", "x": [4.8, 4.8, 6.8, 6.8, 4.8], "y": [6.25, 8.75, 8.75, 6.25, 6.25], "area": 5, "color": "#bcbd22", "desc": "Inspección técnica de lotes, control de fechas de vencimiento y calidad."},
-    {"name": "Unidad de Bioseguridad y Punto Azul", "x": [6.8, 6.8, 8, 8, 6.8], "y": [6.5, 9.83, 9.83, 6.5, 6.5], "area": 4, "color": "#d62728", "desc": "Segregación de residuos hospitalarios y contenedor de fármacos posconsumo."},
-    {"name": "Servicios Sanitarios y Vestier", "x": [0, 0, 1.6, 1.6, 0], "y": [8.75, 11.25, 11.25, 8.75, 8.75], "area": 4, "color": "#e377c2", "desc": "Área de higiene, vestuario y bienestar para el personal operativo (BPA)."},
-    {"name": "Corredores y Circulación Interna", "x": [1.6, 1.6, 6.8, 6.8, 1.6], "y": [8.75, 9.53, 9.53, 8.75, 8.75], "area": 4, "color": "#8c564b", "desc": "Pasadizos e interconexiones técnicas para movilidad de mercancías."},
+    {"name": "Zona de Dispensación y Atención", "x": [0, 8, 8, 0, 0], "y": [0, 0, 2.5, 2.5, 0], "area": 20, "color": "#2ca02c", "desc": "Frente comercial. 3 módulos POS simultáneos para atención presencial."},
+    {"name": "Bodega de Almacenamiento General", "x": [0, 4, 4, 0, 0], "y": [2.5, 2.5, 6.25, 6.25, 2.5], "area": 15, "color": "#ff7f0e", "desc": "Custodia técnica de inventarios de alta rotación (30-45 días de stock)."},
+    {"name": "Módulo de Consulta Farmacéutica (QF)", "x": [4, 8, 8, 4, 4], "y": [2.5, 2.5, 4.5, 4.5, 2.5], "area": 8, "color": "#1f77b4", "desc": "Orientación técnica personalizada al paciente crónico y captación de datos."},
+    {"name": "Nodo Logístico de Alistamiento", "x": [4, 8, 8, 4, 4], "y": [4.5, 4.5, 6.5, 6.5, 4.5], "area": 8, "color": "#9467bd", "desc": "Embalaje, picking y despacho centralizado de pedidos de WhatsApp Business."},
+    {"name": "Área Administrativa y Control", "x": [0, 2.4, 2.4, 0, 0], "y": [6.25, 6.25, 8.75, 8.75, 6.25], "area": 6, "color": "#7f7f7f", "desc": "Gestión contable, monitoreo del sistema ERP y tesorería."},
+    {"name": "Cuarto de Cadena de Frío", "x": [2.4, 4.8, 4.8, 2.4, 2.4], "y": [6.25, 6.25, 8.75, 8.75, 6.25], "area": 6, "color": "#17becf", "desc": "Custodia controlada de biológicos e insulinas (Neveras de 2°C a 8°C)."},
+    {"name": "Bahía de Recepción y Cuarentena", "x": [4.8, 6.8, 6.8, 4.8, 4.8], "y": [6.25, 6.25, 8.75, 8.75, 6.25], "area": 5, "color": "#bcbd22", "desc": "Inspección técnica de lotes, control de fechas de vencimiento y calidad."},
+    {"name": "Unidad de Bioseguridad y Punto Azul", "x": [6.8, 8, 8, 6.8, 6.8], "y": [6.5, 6.5, 9.83, 9.83, 6.5], "area": 4, "color": "#d62728", "desc": "Segregación de residuos hospitalarios y contenedor de fármacos posconsumo."},
+    {"name": "Servicios Sanitarios y Vestier", "x": [0, 1.6, 1.6, 0, 0], "y": [8.75, 8.75, 11.25, 11.25, 8.75], "area": 4, "color": "#e377c2", "desc": "Área de higiene, vestuario y bienestar para el personal operativo (BPA)."},
+    {"name": "Corredores y Circulación Interna", "x": [1.6, 6.8, 6.8, 1.6, 1.6], "y": [8.75, 8.75, 9.53, 9.53, 8.75], "area": 4, "color": "#8c564b", "desc": "Pasadizos e interconexiones técnicas para movilidad de mercancías."},
 ]
 
 # --- CONSTRUCCIÓN DEL GRÁFICO ARQUITECTÓNICO CON PLOTLY ---
 fig = go.Figure()
 
 for zona in zonas:
-    # Dibujar la zona coloreada con bordes definidos que simulan paredes
+    # 🔥 CORRECCIÓN CRÍTICA: Se estandariza a fill="toself" para compatibilidad absoluta en la nube de Streamlit
     fig.add_trace(go.Scatter(
         x=zona["x"],
         y=zona["y"],
-        fill="subsection" if "Circulación" in zona["name"] else "assignment" if "Dispensación" in zona["name"] else "toself",
+        fill="toself",
         fillcolor=zona["color"],
         mode="lines",
         line=dict(color="#1c2833", width=2),
@@ -83,21 +83,23 @@ for zona in zonas:
         opacity=0.85
     ))
     
-    # Calcular el centro geométrico de cada zona para colocar el texto flotante de identificación
-    center_x = sum(set(zona["x"])) / len(set(zona["x"]))
-    center_y = sum(set(zona["y"])) / len(set(zona["y"]))
+    # Calcular el centro geométrico de cada polígono para fijar las etiquetas de texto
+    x_coords = list(set(zona["x"]))
+    y_coords = list(set(zona["y"]))
+    center_x = sum(x_coords) / len(x_coords)
+    center_y = sum(y_coords) / len(y_coords)
     
-    # Añadir el nombre abreviado de la zona directamente en el mapa para realismo
+    # Añadir el identificador textual de la zona en el layout
     fig.add_annotation(
         x=center_x,
         y=center_y,
-        text=f"<b>{zona['name'][:16]}...</b><br>{zona['area']} m²",
+        text=f"<b>{zona['name'][:14]}...</b><br>{zona['area']} m²",
         showarrow=False,
         font=dict(size=11, color="black"),
         align="center"
     )
 
-# Configuración de los ejes para simular un plano cuadriculado de ingeniería (Plano cartesiano métrico)
+# Configuración de los ejes cartesianos métricos (Simulación de cuadrícula de planos)
 fig.update_layout(
     title=dict(text="📐 Distribución en Planta (Layout Técnico Industrial - Vista Superior)", font=dict(size=18)),
     xaxis=dict(title="Frente Comercial del Establecimiento (Metros)", range=[-0.5, 8.5], dtick=1, showgrid=True, gridcolor="#e5e7e9"),
@@ -109,7 +111,7 @@ fig.update_layout(
     hoverlabel=dict(bgcolor="white", font_size=13, font_family="Arial")
 )
 
-# Renderizar el plano a escala responsivo al 100% de la pantalla
+# Renderizar el plano a escala responsivo
 st.plotly_chart(fig, use_container_width=True)
 
 # --- CUADRO DE VALIDACIÓN SANITARIA (POR FUERA DEL MAPA) ---
@@ -127,4 +129,3 @@ with c2:
     ⚠️ **Sustento del Presupuesto de Adecuación ($40M COP):**
     La habilitación física de estos 80 m² demanda intervenciones civiles específicas cubiertas por el CAPEX del proyecto: instalación de pisos epóxicos asépticos de media caña, sistemas de aire acondicionado con renovación de flujo para control térmico, termohigrómetros con calibración digital y la adecuación de la cabina aislada de Bioseguridad para el Punto Azul de residuos peligrosos.
     """)
-
