@@ -16,7 +16,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown('<h1 class="main-title">🚀 FarmaTech Ltda. — Centro de Control Analítico Avanzado</h1>', unsafe_allow_html=True)
-st.caption("Simulación Cuántica de Sensibilidad y Modelado de Costos Fijos Estructurales (OPEX 2026)")
+st.caption("Simulación de Sensibilidad y Modelado de Costos Fijos Estructurales (OPEX 2026)")
 st.markdown("---")
 
 # 1. BASE DE DATOS ESTRUCTURAL (Tabla 11 Oficial)
@@ -78,68 +78,64 @@ with col_visual2:
         color_discrete_sequence=px.colors.qualitative.Prism
     )
     fig_donut.update_traces(textposition='inside', textinfo='percent')
-    fig_donut.update_layout(margin=dict(t=10, b=10, l=10, r=10), showlegend=False, height=350)
-    st.plotly_chart(fig_donut, use_container_width=True)
+    fig_donut.update_layout(
+        margin=dict(t=10, b=10, l=10, r=10), 
+        showlegend=False, 
+        height=350
+    )
+    # Habilitar barra de herramientas para descarga de imagen
+    st.plotly_chart(fig_donut, use_container_width=True, config={'displayModeBar': True})
 
 st.markdown("---")
 
-# 5. EL NIVEL SUPERIOR: MODELADO MATEMÁTICO TRIDIMENSIONAL (SCATTER 3D REALISTA)
-st.subheader("🛸 Simulación Espacial 3D de Viabilidad Financiera")
-st.write("Esta gráfica modela escenarios combinando dinámicamente variaciones de Ticket, Margen y Transacciones. La esfera roja representa el estado actual seleccionado en tus controles.")
+# 5. NUEVO GRÁFICO RECOMENDADO: CURVA DE SENSIBILIDAD 2D TRADICIONAL ACADÉMICA
+st.subheader("📈 Curva de Sensibilidad Operativa (Análisis de Elasticidad)")
+st.write("El siguiente gráfico de dos dimensiones modela cuántas transacciones requiere el negocio según se mueva el Ticket Promedio. Usa la cámara de la esquina superior derecha del gráfico para exportar la captura de pantalla directa a tu informe.")
 
-# Generación aleatoria controlada de escenarios matemáticos para simulación Montecarlo básica
-np.random.seed(42)
-num_escenarios = 500
-tickets_sim = np.random.uniform(35000, 120000, num_escenarios)
-margenes_sim_pct = np.random.uniform(15, 50, num_escenarios)
-margenes_sim_pesos = tickets_sim * (margenes_sim_pct / 100)
-transacciones_sim = total_opex / margenes_sim_pesos
+# Generar datos secuenciales para la curva lineal
+tickets_curva = np.arange(35000, 125000, 5000)
+margenes_curva_pesos = tickets_curva * (margen_simulado_pct / 100)
+transacciones_curva = total_opex / margenes_curva_pesos
 
-# Creación de DataFrame de simulación espacial
-df_3d = pd.DataFrame({
-    'Ticket': tickets_sim,
-    'Margen_%': margenes_sim_pct,
-    'Transacciones': transacciones_sim
-})
+# Construir el gráfico de líneas premium
+fig_linea = go.Figure()
 
-# Graficar el espacio 3D
-fig_3d = go.Figure()
-
-# Agregar nube de puntos de fondo (Escenarios hipotéticos)
-fig_3d.add_trace(go.Scatter3d(
-    x=df_3d['Ticket'],
-    y=df_3d['Margen_%'],
-    z=df_3d['Transacciones'],
-    mode='markers',
-    marker=dict(
-        size=4,
-        color=df_3d['Transacciones'],
-        colorscale='Viridis',
-        opacity=0.6,
-        colorbar=dict(title="Volumen de Tx", x=0)
-    ),
-    name="Escenarios Virtuales"
+# Línea general de comportamiento del mercado
+fig_linea.add_trace(go.Scatter(
+    x=tickets_curva,
+    y=transacciones_curva,
+    mode='lines+markers',
+    name='Umbral de Equilibrio',
+    line=dict(color='#1e3d59', width=3),
+    marker=dict(size=6)
 ))
 
-# Agregar el punto actual (Hito FarmaTech en base a los Sliders)
-fig_3d.add_trace(go.Scatter3d(
+# Punto exacto seleccionado por el usuario en la barra lateral
+fig_linea.add_trace(go.Scatter(
     x=[ticket_simulado],
-    y=[margen_simulado_pct],
-    z=[tx_punto_equilibrio],
+    y=[tx_punto_equilibrio],
     mode='markers',
-    marker=dict(size=12, color='red', symbol='diamond', line=dict(color='white', width=2)),
-    name="Tu Configuración Real"
+    name='Tu Configuración Actual',
+    marker=dict(color='red', size=14, symbol='diamond', line=dict(color='white', width=2))
 ))
 
-fig_3d.update_layout(
-    scene=dict(
-        xaxis_title='Ticket Promedio ($)',
-        yaxis_title='Margen Bruto (%)',
-        zaxis_title='Tx de Equilibrio (Cant.)'
-    ),
+# Ajustes de etiquetas y diseño del gráfico lineal
+fig_linea.update_layout(
+    xaxis_title='Ticket Promedio de Venta (COP)',
+    yaxis_title='Transacciones Requeridas al Mes (Cant.)',
+    height=450,
     margin=dict(t=20, b=20, l=20, r=20),
-    height=550,
-    legend=dict(orientation="h", yanchor="bottom", y=0.9, xanchor="center", x=0.5)
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
 )
 
-st.plotly_chart(fig_3d, use_container_width=True)
+# Renderizar el gráfico con la barra de herramientas forzada para captura de imagen
+st.plotly_chart(fig_linea, use_container_width=True, config={
+    'displayModeBar': True,
+    'toImageButtonOptions': {
+        'format': 'png',
+        'filename': 'farmatech_sensibilidad_equilibrio',
+        'height': 600,
+        'width': 1000,
+        'scale': 2
+    }
+})
