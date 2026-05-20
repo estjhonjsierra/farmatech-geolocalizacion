@@ -8,3 +8,6 @@ streamlit
 streamlit-folium
 plotly
 openpyxl
+streamlit
+pandas
+plotly
