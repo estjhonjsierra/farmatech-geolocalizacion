@@ -1,171 +1,173 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
 
-# 1. CONFIGURACIÓN HIGH-DEFINITION DE LA INTERFAZ DE USUARIO (UI)
+# 1. CONFIGURACIÓN PREMIUM DE LA INTERFAZ DE USUARIO
 st.set_page_config(
-    page_title="FarmaTech - Balanced Scorecard",
+    page_title="FarmaTech - Quantum BSC Dashboard",
     layout="wide",
-    page_icon="🎯"
+    page_icon="🛸"
 )
 
-# Inyección de estilos CSS avanzados para crear tarjetas legibles y espaciadas
+# Inyección de CSS avanzado para interacciones realistas y diseño de vanguardia
 st.markdown("""
     <style>
     .main-title { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3d59; font-weight: 800; font-size: 2.5rem; margin-bottom: 0.2rem; }
     .section-desc { color: #6c757d; font-size: 1.05rem; margin-bottom: 1.5rem; }
     
-    /* Estilos para las tarjetas del Mapa Estratégico */
-    .bsc-node {
-        padding: 20px;
-        border-radius: 12px;
+    /* Efecto hover y diseño para los nodos interactivos */
+    .quantum-card {
+        padding: 22px;
+        border-radius: 14px;
         color: white;
-        font-family: Arial, sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         text-align: center;
-        margin: 10px auto;
-        max-width: 700px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin: 12px auto;
+        max-width: 750px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .fin-node { background-color: #1e3d59; border-left: 8px solid #0f202e; }
-    .cli-node { background-color: #ff7f0e; border-left: 8px solid #cc6600; }
-    .pro-node { background-color: #2ca02c; border-left: 8px solid #1e6b1e; }
-    .cre-node { background-color: #9467bd; border-left: 8px solid #6b438a; }
-    
-    .node-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-    .node-desc { font-size: 0.95rem; opacity: 0.95; line-height: 1.4; }
-    
-    /* Estilo para las flechas de conexión */
-    .arrow-connector {
-        text-align: center;
-        font-size: 2rem;
-        color: #6c757d;
-        line-height: 1;
-        margin: 5px 0;
-        font-weight: bold;
+    .quantum-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        cursor: pointer;
     }
+    
+    .f-node { background: linear-gradient(135deg, #1e3d59 0%, #112233 100%); border-left: 8px solid #00d2ff; }
+    .c-node { background: linear-gradient(135deg, #ff7f0e 0%, #b35900 100%); border-left: 8px solid #ffe600; }
+    .p-node { background: linear-gradient(135deg, #2ca02c 0%, #175217 100%); border-left: 8px solid #00ffcc; }
+    .a-node { background: linear-gradient(135deg, #9467bd 0%, #52356b 100%); border-left: 8px solid #f000ff; }
+    
+    .q-title { font-size: 1.25rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; }
+    .q-desc { font-size: 0.95rem; opacity: 0.9; margin-top: 5px; }
+    .q-indicator { font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; display: inline-block; margin-top: 8px; }
+    
+    .arrow-q { text-align: center; font-size: 2.2rem; color: #1e3d59; animation: pulse 2s infinite; font-weight: bold; margin: -5px 0; }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<h1 class="main-title">🚀 Tabla 20. Mapa estratégico — Objetivos por perspectiva BSC — FarmaTech Ltda.</h1>', unsafe_allow_html=True)
-st.markdown('<p class="section-desc">Cuadro de Mando Integral, Causalidad Operativa y Modelado de Elasticidad de Metas (2026)</p>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title">🛸 Módulo de Causalidad Cuántica — Balanced Scorecard (BSC)</h1>', unsafe_allow_html=True)
+st.markdown('<p class="section-desc">Tabla 20. Sistema de Simulación de Impacto Transversal en Cascada de Metas — FarmaTech Ltda.</p>', unsafe_allow_html=True)
 st.markdown("---")
 
-# 2. SECCIÓN DE CONTROLES E INDUCTORES EN LA BARRA LATERAL (SIDEBAR)
-st.sidebar.header("🎛️ Centro de Simulación de Metas")
-st.sidebar.markdown("Estrese el cumplimiento de los objetivos estratégicos modificando el avance real del POS.")
+# Configuración universal para descarga de reportes (Cámara 📸 activa)
+config_exportacion = {
+    'displayModeBar': True,
+    'toImageButtonOptions': {
+        'format': 'png',
+        'filename': 'farmatech_quantum_causality',
+        'height': 600,
+        'width': 1100,
+        'scale': 2
+    }
+}
 
-transacciones_reales_dia = st.sidebar.slider("Transacciones Reales Diarias (POS)", min_value=30, max_value=120, value=65, step=5)
-nps_actual = st.sidebar.slider("Índice de Satisfacción del Cliente (NPS)", min_value=40, max_value=100, value=74, step=2)
-horas_capacitacion = st.sidebar.slider("Horas de Capacitación Anual / Empleado", min_value=5, max_value=40, value=22, step=1)
+# 2. CONTROLES MAESTROS EN EL SIDEBAR
+st.sidebar.header("🎛️ Moduladores de Energía Operativa")
+st.sidebar.markdown("Manipule los inductores primarios para proyectar el impacto en la red corporativa.")
 
-# Base fija estructural para cálculos comparativos
-meta_transacciones_dia = 84
+horas_cap = st.sidebar.slider("Horas de Capacitación Anual / Empleado", min_value=0, max_value=40, value=20, step=2)
+eficiencia_procesos = st.sidebar.slider("Eficiencia Operativa del Canal Domicilios (%)", min_value=50, max_value=100, value=95, step=5)
 
-# 3. FILA DE TARJETAS METRICAS DINÁMICAS (KPI SCORING)
-st.subheader("📊 Monitoreo de Inductores y Alertas de Desempeño")
-col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
+# 3. CONSTRUCCIÓN DE LA ARQUITECTURA INTERACTIVA (HTML NODES)
+col_mapa, col_simulacion = st.columns()
 
-with col_kpi1:
-    eficiencia_financiera = (transacciones_reales_dia / meta_transacciones_dia) * 100
-    st.metric(
-        label="🎯 Eficiencia Financiera (Meta PE: 84 Tx/Día)", 
-        value=f"{transacciones_reales_dia} Tx/Día", 
-        delta=f"{eficiencia_financiera:.1f}% de la Meta de Caja"
-    )
-with col_kpi2:
-    delta_nps = nps_actual - 70
-    st.metric(
-        label="⭐ Indicador de Fidelización (Meta NPS: ≥70)", 
-        value=f"{nps_actual} NPS", 
-        delta=f"{delta_nps} Puntos sobre el Umbral"
-    )
-with col_kpi3:
-    delta_cap = horas_capacitacion - 20
-    st.metric(
-        label="📚 Desarrollo del Personal (Meta: ≥20 Hrs)", 
-        value=f"{horas_capacitacion} Horas/Año", 
-        delta=f"{delta_cap} Horas vs Estándar BPA"
-    )
-
-st.markdown("---")
-
-# Layout de dos bloques: Tabla de datos a la izquierda y Mapa legible a la derecha
-col_izq, col_der = st.columns([4, 5])
+with col_mapa:
+    st.subheader("🎯 Mapa de Nodos Estratégicos")
+    st.write("Haga clic en los selectores inferiores para activar la trazabilidad analítica de cada perspectiva.")
+    
+    # Renderizar las hermosas cajas degradadas premium
+    st.markdown("""
+        <div class="quantum-card f-node">
+            <div class="q-title">1. Perspectiva Financiera</div>
+            <div class="q-desc">Punto de Equilibrio (84 Tx/Día) • Ingresos de \$891M • Margen Neto Sostenido del 30%</div>
+            <div class="q-indicator">Inductor Final de Éxito Corporativo</div>
+        </div>
+        <div class="arrow-q">▲</div>
+        <div class="quantum-card c-node">
+            <div class="q-title">2. Perspectiva de Clientes</div>
+            <div class="q-desc">Capturar 15% del Nicho Crónico (675 Clientes) • NPS ≥ 70 • Omnicanalidad Digital del 40%</div>
+            <div class="q-indicator">Fidelización y Atracción de Demanda</div>
+        </div>
+        <div class="arrow-q">▲</div>
+        <div class="quantum-card p-node">
+            <div class="q-title">3. Perspectiva de Procesos Internos</div>
+            <div class="q-desc">SLA Express (20-45 Min en 95% de Envíos) • Stock Fijo ≥ 30 Días • Habilitación Sanitaria INVIMA</div>
+            <div class="q-indicator">Estándar de Calidad y Logística de Última Milla</div>
+        </div>
+        <div class="arrow-q">▲</div>
+        <div class="quantum-card a-node">
+            <div class="q-title">4. Perspectiva de Aprendizaje y Crecimiento</div>
+            <div class="q-desc">Capacitación Técnica Avanzada • Optimización del ERP Memphis • Meta de 2.500 Pacientes para 2028</div>
+            <div class="q-indicator">Motor Sostenible e Inductor de Competitividad Inicial</div>
+        </div>
+    """, unsafe_allow_html=True)
 
 # =============================================================================
-# BLOQUE IZQUIERDO: EXTRACCIÓN Y CONSULTA FILTRADA DE LA MATRIZ BSC
+# EL COMPONENTE INÉDITO: EL MOTOR DE IMPACTO CUÁNTICO EN TIEMPO REAL
 # =============================================================================
-with col_izq:
-    st.subheader("📋 Matriz de Planificación Estratégica")
+with col_simulacion:
+    st.subheader("🔮 Centro de Trazabilidad e Impacto en Cascada")
     
-    filtro_vista = st.selectbox(
-        "Filtrar Cuadro de Mando por Enfoque de Gestión:",
-        ["Todas las Perspectivas", "FINANCIERA", "CLIENTES", "PROCESOS", "CRECIMIENTO"]
+    # El selector interactivo que simula los clics en los bloques
+    nodo_seleccionado = st.radio(
+        "Seleccione un Nodo del Balanced Scorecard para disparar la simulación de impacto:",
+        ["Ninguno - Estado Neutro", "4. Aprendizaje y Crecimiento", "3. Procesos Internos", "2. Clientes", "1. Financiera"],
+        index=0
     )
     
-    bsc_raw_data = [
-        {"Perspectiva": "FINANCIERA", "Objetivo": "Alcanzar el punto de equilibrio financiero", "Meta": "≥ 84 transacciones/día (OPEX cubierto)", "Horizonte": "Mes 7 operación"},
-        {"Perspectiva": "FINANCIERA", "Objetivo": "Generar ingresos de $891 MM COP en el año 1", "Meta": "675 cl. × 2 compras × 12 meses × $55.000", "Horizonte": "Año 1"},
-        {"Perspectiva": "FINANCIERA", "Objetivo": "Mantener margen bruto del 30% sobre ingresos", "Meta": "≥ $41.500.000 COP/mes en margen", "Horizonte": "Permanente"},
-        {"Perspectiva": "FINANCIERA", "Objetivo": "Recuperar la inversión total de $280 MM", "Meta": "ROI positivo validado en flujo de caja", "Horizonte": "Año 3"},
-        {"Perspectiva": "CLIENTES", "Objetivo": "Capturar el 15% del nicho de pacientes crónicos", "Meta": "675 pacientes crónicos activos", "Horizonte": "Año 1"},
-        {"Perspectiva": "CLIENTES", "Objetivo": "Lograr NPS ≥ 70 en satisfacción de cliente", "Meta": "Encuesta WhatsApp post-entrega", "Horizonte": "Trimestral"},
-        {"Perspectiva": "CLIENTES", "Objetivo": "Lograr omnicanalidad efectiva vía WhatsApp", "Meta": "≥ 40% de pedidos por canal digital", "Horizonte": "Año 1"},
-        {"Perspectiva": "PROCESOS", "Objetivo": "Cumplir promesa de valor en domicilios express", "Meta": "95% de entregas en el rango 20-45 min", "Horizonte": "Mensual"},
-        {"Perspectiva": "PROCESOS", "Objetivo": "Garantizar disponibilidad de stock estratégico", "Meta": "Stock seguridad ≥ 30 días (crónicos)", "Horizonte": "Permanente"},
-        {"Perspectiva": "PROCESOS", "Objetivo": "Mantener habilitaciones sanitarias vigentes", "Meta": "Cero hallazgos críticos en visitas INVIMA", "Horizonte": "Permanente"},
-        {"Perspectiva": "CRECIMIENTO", "Objetivo": "Capacitar al 100% del personal en BPA y HTA", "Meta": "Capacitación ≥ 20 horas/empleado/año", "Horizonte": "Semestral"},
-        {"Perspectiva": "CRECIMIENTO", "Objetivo": "Liderazgo en el sector Laureles para 2028", "Meta": "≥ 2.500 pacientes fidelizados en el sistema", "Horizonte": "Año 2028"}
-    ]
-    df_bsc_all = pd.DataFrame(bsc_raw_data)
+    st.markdown("---")
     
-    if filtro_vista != "Todas las Perspectivas":
-        df_bsc_all = df_bsc_all[df_bsc_all["Perspectiva"] == filtro_vista]
+    if nodo_seleccionado == "Ninguno - Estado Neutro":
+        st.info("💡 **Sistema en Espera:** Seleccione una perspectiva para analizar cómo sus indicadores empujan, estresan y modifican de forma automática al resto de la organización en una cadena de causalidad real.")
         
-    st.dataframe(df_bsc_all, use_container_width=True, hide_index=True)
+    elif nodo_seleccionado == "4. Aprendizaje y Crecimiento":
+        st.markdown("### 🧬 Simulación de Impacto: Aprendizaje → Procesos")
+        st.write(f"Al programar `{horas_cap} horas` de capacitación en Buenas Prácticas de Almacenamiento (BPA), el sistema proyecta matemáticamente los siguientes efectos multiplicadores:")
+        
+        # Fórmulas predictivas basadas en las horas de capacitación de la barra lateral
+        reduccion_errores = horas_cap * 2.2
+        mejora_inventario = min(100.0, 70.0 + (horas_cap * 0.75))
+        
+        st.success(f"✔️ **Reducción de Errores de Dispensación:** Disminución proyectada del **{reduccion_errores:.1f}%** en confusiones de lotes.")
+        st.success(f"✔️ **Eficiencia en Custodia de Stock:** Precisión del inventario físico contra el ERP Memphis estimada en un **{mejora_inventario:.1f}%**.")
+        
+        # Gráfica lineal interactiva instantánea que modela esta causalidad predictiva
+        horas_rango = np.arange(0, 41, 2)
+        errores_rango = 100 - (horas_rango * 2.2)
+        fig_cap = go.Figure()
+        fig_cap.add_trace(go.Scatter(x=horas_rango, y=errores_rango, mode='lines', name='Curva de Error', line=dict(color='#9467bd', width=3)))
+        fig_cap.add_trace(go.Scatter(x=[horas_cap], y=[100 - reduccion_errores], mode='markers', name='Tu Impacto Actual', marker=dict(color='red', size=12, symbol='diamond')))
+        fig_cap.update_layout(title="Impacto del Aprendizaje sobre la Tasa de Error Interno", xaxis_title="Horas de Capacitación", yaxis_title="Índice de Error Residual (%)", height=250, margin=dict(t=30,b=10,l=10,r=10))
+        st.plotly_chart(fig_cap, use_container_width=True, config=config_exportacion)
 
-# =============================================================================
-# BLOQUE DERECHO: MAPA DE VECTORES EN ALTA DEFINICIÓN (HTML CLEAN)
-# =============================================================================
-with col_der:
-    st.subheader("🛸 Diagrama de Causalidad Estructural (Balanced Scorecard)")
-    st.write("Modelado de vectores de dependencia ascendente. El desarrollo del personal impulsa la cadena de procesos, la retención de clientes y la rentabilidad.")
-    
-    # 1. Tarjeta Financiera
-    st.markdown("""
-        <div class="bsc-node fin-node">
-            <div class="node-title">1. Perspectiva Financiera</div>
-            <div class="node-desc">Alcanzar Punto de Equilibrio (≥84 Tx/Día) • Generar Ingresos de $891M Anuales • Margen del 30% • ROI en Año 3</div>
-        </div>
-        <div class="arrow-connector">▲</div>
-    """, unsafe_allow_html=True)
-    
-    # 2. Tarjeta Clientes
-    st.markdown("""
-        <div class="bsc-node cli-node">
-            <div class="node-title">2. Perspectiva de Clientes</div>
-            <div class="node-desc">Capturar el 15% del Nicho Crónico (675 Pacientes) • Sostener NPS ≥ 70 • Omnicanalidad Digital del 40% vía WhatsApp</div>
-        </div>
-        <div class="arrow-connector">▲</div>
-    """, unsafe_allow_html=True)
-    
-    # 3. Tarjeta Procesos Internos
-    st.markdown("""
-        <div class="bsc-node pro-node">
-            <div class="node-title">3. Perspectiva de Procesos Internos</div>
-            <div class="node-desc">Garantizar SLA Express (20-45 Min en 95% de Envíos) • Stock Fijo ≥ 30 Días • Cero Hallazgos Críticos ante INVIMA</div>
-        </div>
-        <div class="arrow-connector">▲</div>
-    """, unsafe_allow_html=True)
-    
-    # 4. Tarjeta Aprendizaje y Crecimiento
-    st.markdown("""
-        <div class="bsc-node  cre-node">
-            <div class="node-title">4. Perspectiva de Aprendizaje y Crecimiento</div>
-            <div class="node-desc">Capacitación ≥ 20 Horas/Año en BPA • Optimización con Software ERP • Fidelización de 2.500 Usuarios para 2028</div>
-        </div>
-    """, unsafe_allow_html=True)
+    elif nodo_seleccionado == "3. Procesos Internos":
+        st.markdown("### 🏍️ Simulación de Impacto: Procesos → Clientes")
+        st.write(f"Con una eficiencia logística del `{eficiencia_procesos}%` en la flota de motocicletas, se altera directamente la percepción del usuario en Laureles-Estadio:")
+        
+        # Relación causal predictiva entre logística y satisfacción (NPS)
+        nps_proyectado = 50 + (eficiencia_procesos * 0.35)
+        st.warning(f"⭐ **Índice de Satisfacción Neto (NPS) Estimado:** El modelo predice un comportamiento de **{nps_proyectado:.0f} puntos NPS** gracias al cumplimiento del rango de 20-45 minutos.")
+        st.warning(f"⭐ **Retención del Nicho Crónico:** Probabilidad de recompra mensual estabilizada en un **{eficiencia_procesos:.1f}%**.")
 
-st.markdown("---")
-st.markdown("""
-> **Nota analítica de control de mando integral:** La matriz del Balanced Scorecard unifica los inductores de crecimiento del talento humano con los resultados de rentabilidad exigidos por la junta de socios. Las metas de la perspectiva de Procesos (como la cobertura del 95% de entregas en menos de 45 minutos) justifican el uso de las tres motocicletas de la flota logística, mientras que el volumen de la perspectiva financiera conversa directamente con la capacidad de las tres terminales POS en el frente comercial.
-""")
+    elif nodo_seleccionado == "2. Clientes":
+        st.markdown("### 👥 Simulación de Impacto: Clientes → Financiera")
+        st.write(f"Bajo el escenario actual de fidelización de la base de datos de pacientes crónicos, se proyecta la masa crítica transaccional:")
+        
+        # Simular volumen de ventas en base al slider de satisfacción de la barra lateral
+        ventas_fidelizadas = int(1200 + (nps_actual * 15.5))
+        ingresos_derivados = ventas_fidelizadas * 55000
+        
+        st.info(f"📈 **Masa Transaccional Traccionada:** El flujo de clientes fidelizados arrastra **{ventas_fidelizadas:,} transacciones anuales**.")
+        st.info(f"📈 **Inyección al Estado de Resultados:** Facturación complementaria estimada en **\${ingresos_derivados:,.0f} COP**.")
+
+    elif nodo_seleccionado == "1. Financiera":
+        st.markdown("### 💰 El Hito del Cierre: Viabilidad del Proyecto")
+        st.write("La perspectiva financiera consolida el éxito total de los inductores anteriores. Si los nodos 4, 3 y 2 operan de forma óptima, el modelo económico responde de la siguiente manera:")
+        
+        # Tarjetas de estado financiero final
+        col_f1, col_f2 = st.columns(2)
+        with col_f1:
+            st.metric(label="OPEX Fijo Mensual Unificado", value="\$41,500,000 COP")
+        with col_f2:
