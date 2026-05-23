@@ -11,7 +11,7 @@ st.set_page_config(
     page_icon="🎯"
 )
 
-# Inyección de estilos de cascada CSS para personalización avanzada
+# Inyección de estilos de cascada CSS para personalización avanzada del software
 st.markdown("""
     <style>
     .main-title { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3d59; font-weight: 800; font-size: 2.5rem; margin-bottom: 0.2rem; }
@@ -49,23 +49,23 @@ meta_transacciones_dia = 84
 
 # 3. FILA DE TARJETAS METRICAS DINÁMICAS (KPI SCORING)
 st.subheader("📊 Monitoreo de Inductores y Alertas de Desempeño")
-col_k1, col_k2, col_k3 = st.columns(3)
+col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
 
-with col_k1:
+with col_kpi1:
     eficiencia_financiera = (transacciones_reales_dia / meta_transacciones_dia) * 100
     st.metric(
         label="🎯 Eficiencia Financiera (Meta PE: 84 Tx/Día)", 
         value=f"{transacciones_reales_dia} Tx/Día", 
         delta=f"{eficiencia_financiera:.1f}% de la Meta de Caja"
     )
-with col_k2:
+with col_kpi2:
     delta_nps = nps_actual - 70
     st.metric(
         label="⭐ Indicador de Fidelización (Meta NPS: ≥70)", 
         value=f"{nps_actual} NPS", 
         delta=f"{delta_nps} Puntos sobre el Umbral"
     )
-with col_k3:
+with col_kpi3:
     delta_cap = horas_capacitacion - 20
     st.metric(
         label="📚 Desarrollo del Personal (Meta: ≥20 Hrs)", 
@@ -149,7 +149,7 @@ with col_der:
             hoverinfo="none", showlegend=False
         ))
 
-    # Dibujar las cajas rectangulares del Balanced Scorecard utilizando marcadores nativos estables
+    # Dibujar las cajas rectangulares del Balanced Scorecard utilizando el centrado corregido
     fig_mapa.add_trace(go.Scatter(
         x=nodos_x, y=nodos_y,
         mode="markers+text",
@@ -160,7 +160,7 @@ with col_der:
             line=dict(color="white", width=2)
         ),
         text=textos_nodos,
-        textposition="center",
+        textposition="middle center",
         textfont=dict(color="white", size=10, family="Arial"),
         showlegend=False
     ))
