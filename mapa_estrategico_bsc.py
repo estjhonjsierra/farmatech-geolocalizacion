@@ -1,8 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-import plotly.express as px
 
 # 1. CONFIGURACIÓN HIGH-DEFINITION DE LA INTERFAZ DE USUARIO (UI)
 st.set_page_config(
@@ -11,29 +8,46 @@ st.set_page_config(
     page_icon="🎯"
 )
 
-# Inyección de estilos de cascada CSS para personalización avanzada del software
+# Inyección de estilos CSS avanzados para crear tarjetas legibles y espaciadas
 st.markdown("""
     <style>
     .main-title { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3d59; font-weight: 800; font-size: 2.5rem; margin-bottom: 0.2rem; }
     .section-desc { color: #6c757d; font-size: 1.05rem; margin-bottom: 1.5rem; }
+    
+    /* Estilos para las tarjetas del Mapa Estratégico */
+    .bsc-node {
+        padding: 20px;
+        border-radius: 12px;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 10px auto;
+        max-width: 700px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .fin-node { background-color: #1e3d59; border-left: 8px solid #0f202e; }
+    .cli-node { background-color: #ff7f0e; border-left: 8px solid #cc6600; }
+    .pro-node { background-color: #2ca02c; border-left: 8px solid #1e6b1e; }
+    .cre-node { background-color: #9467bd; border-left: 8px solid #6b438a; }
+    
+    .node-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+    .node-desc { font-size: 0.95rem; opacity: 0.95; line-height: 1.4; }
+    
+    /* Estilo para las flechas de conexión */
+    .arrow-connector {
+        text-align: center;
+        font-size: 2rem;
+        color: #6c757d;
+        line-height: 1;
+        margin: 5px 0;
+        font-weight: bold;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown('<h1 class="main-title">🚀 Tabla 20. Mapa estratégico — Objetivos por perspectiva BSC — FarmaTech Ltda.</h1>', unsafe_allow_html=True)
 st.markdown('<p class="section-desc">Cuadro de Mando Integral, Causalidad Operativa y Modelado de Elasticidad de Metas (2026)</p>', unsafe_allow_html=True)
 st.markdown("---")
-
-# Configuración universal para descarga de reportes y capturas (Cámara 📸 activa)
-config_exportacion = {
-    'displayModeBar': True,
-    'toImageButtonOptions': {
-        'format': 'png',
-        'filename': 'farmatech_mapa_estrategico_bsc',
-        'height': 650,
-        'width': 1100,
-        'scale': 2
-    }
-}
 
 # 2. SECCIÓN DE CONTROLES E INDUCTORES EN LA BARRA LATERAL (SIDEBAR)
 st.sidebar.header("🎛️ Centro de Simulación de Metas")
@@ -44,7 +58,6 @@ nps_actual = st.sidebar.slider("Índice de Satisfacción del Cliente (NPS)", min
 horas_capacitacion = st.sidebar.slider("Horas de Capacitación Anual / Empleado", min_value=5, max_value=40, value=22, step=1)
 
 # Base fija estructural para cálculos comparativos
-opex_ancla = 41500000
 meta_transacciones_dia = 84
 
 # 3. FILA DE TARJETAS METRICAS DINÁMICAS (KPI SCORING)
@@ -75,8 +88,8 @@ with col_kpi3:
 
 st.markdown("---")
 
-# Layout de dos bloques para desglose visual y mapa de causalidad
-col_izq, col_der = st.columns(2)
+# Layout de dos bloques: Tabla de datos a la izquierda y Mapa legible a la derecha
+col_izq, col_der = st.columns([4, 5])
 
 # =============================================================================
 # BLOQUE IZQUIERDO: EXTRACCIÓN Y CONSULTA FILTRADA DE LA MATRIZ BSC
@@ -109,69 +122,50 @@ with col_izq:
         df_bsc_all = df_bsc_all[df_bsc_all["Perspectiva"] == filtro_vista]
         
     st.dataframe(df_bsc_all, use_container_width=True, hide_index=True)
-    
-    st.markdown("""
-    > **Nota analítica de control del mapa integral:** La matriz del Balanced Scorecard unifica los inductores de crecimiento del talento humano con los resultados de rentabilidad exigidos por la junta de socios. Las metas de la perspectiva de Procesos (como la cobertura del 95% de entregas en menos de 45 minutos) justifican el uso de las tres motocicletas de la flota logística, mientras que el volumen de la perspectiva financiera conversa directamente con la capacidad de las tres terminales POS en el frente comercial.
-    """)
 
 # =============================================================================
-# BLOQUE DERECHO: DIAGRAMA DE CAUSALIDAD INTERCONECTADO (MAPA EN 2D PREMIUM)
+# BLOQUE DERECHO: MAPA DE VECTORES EN ALTA DEFINICIÓN (HTML CLEAN)
 # =============================================================================
 with col_der:
-    st.subheader("🛸 Diagrama de Flujo y Vectores de Causalidad Estructural")
-    st.write("El mapa modela de forma visual cómo el aprendizaje indexado empuja el éxito de los procesos, la fidelización de clientes y la rentabilidad.")
+    st.subheader("🛸 Diagrama de Causalidad Estructural (Balanced Scorecard)")
+    st.write("Modelado de vectores de dependencia ascendente. El desarrollo del personal impulsa la cadena de procesos, la retención de clientes y la rentabilidad.")
     
-    # Coordenadas y textos de los bloques fijos del BSC
-    nodos_x = [1, 1, 1, 1]
-    nodos_y = [4, 3, 2, 1]
-    textos_nodos = [
-        "<b>1. PERSPECTIVA FINANCIERA</b><br>Punto de Equilibrio (84 Tx/Día) | ROI Año 3 | Margen 30%",
-        "<b>2. PERSPECTIVA DE CLIENTES</b><br>Niche Crónicos 15% | NPS ≥ 70 | Omnicanalidad WA 40%",
-        "<b>3. PERSPECTIVA DE PROCESOS INTERNOS</b><br>SLA Express 20-45 Min | Stock Fijo ≥ 30 Días | Normas INVIMA",
-        "<b>4. PERSPECTIVA DE APRENDIZAJE Y CRECIMIENTO</b><br>Capacitación ≥ 20 Hrs/Año | Automatización ERP | Fidelización 2.500 Pacientes"
-    ]
-    colores_nodos = ["#1e3d59", "#ff7f0e", "#2ca02c", "#9467bd"]
-
-    fig_mapa = go.Figure()
-
-    # Generar las líneas de interconexión con cabezas de flechas (Sincronizado)
-    for i in range(len(nodos_y) - 1):
-        fig_mapa.add_trace(go.Scatter(
-            x=[1, 1], y=[nodos_y[i+1]+0.2, nodos_y[i]-0.2],
-            mode="lines",
-            line=dict(color="#6c757d", width=3),
-            hoverinfo="none", showlegend=False
-        ))
-        fig_mapa.add_trace(go.Scatter(
-            x=[1], y=[nodos_y[i]-0.2],
-            mode="markers",
-            marker=dict(symbol="arrow-up", size=14, color="#6c757d"),
-            hoverinfo="none", showlegend=False
-        ))
-
-    # Dibujar las cajas rectangulares del Balanced Scorecard utilizando el centrado corregido
-    fig_mapa.add_trace(go.Scatter(
-        x=nodos_x, y=nodos_y,
-        mode="markers+text",
-        marker=dict(
-            symbol="square",
-            size=65,
-            color=colores_nodos,
-            line=dict(color="white", width=2)
-        ),
-        text=textos_nodos,
-        textposition="middle center",
-        textfont=dict(color="white", size=10, family="Arial"),
-        showlegend=False
-    ))
-
-    # Configuración de diseño del contenedor gráfico libre de ejes cartesianos
-    fig_mapa.update_layout(
-        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[0.5, 1.5]),
-        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[0.3, 4.7]),
-        margin=dict(t=10, b=10, l=10, r=10),
-        height=480,
-        plot_bgcolor="rgba(0,0,0,0)"
-    )
+    # 1. Tarjeta Financiera
+    st.markdown("""
+        <div class="bsc-node fin-node">
+            <div class="node-title">1. Perspectiva Financiera</div>
+            <div class="node-desc">Alcanzar Punto de Equilibrio (≥84 Tx/Día) • Generar Ingresos de $891M Anuales • Margen del 30% • ROI en Año 3</div>
+        </div>
+        <div class="arrow-connector">▲</div>
+    """, unsafe_allow_html=True)
     
-    st.plotly_chart(fig_mapa, use_container_width=True, config=config_exportacion)
+    # 2. Tarjeta Clientes
+    st.markdown("""
+        <div class="bsc-node cli-node">
+            <div class="node-title">2. Perspectiva de Clientes</div>
+            <div class="node-desc">Capturar el 15% del Nicho Crónico (675 Pacientes) • Sostener NPS ≥ 70 • Omnicanalidad Digital del 40% vía WhatsApp</div>
+        </div>
+        <div class="arrow-connector">▲</div>
+    """, unsafe_allow_html=True)
+    
+    # 3. Tarjeta Procesos Internos
+    st.markdown("""
+        <div class="bsc-node pro-node">
+            <div class="node-title">3. Perspectiva de Procesos Internos</div>
+            <div class="node-desc">Garantizar SLA Express (20-45 Min en 95% de Envíos) • Stock Fijo ≥ 30 Días • Cero Hallazgos Críticos ante INVIMA</div>
+        </div>
+        <div class="arrow-connector">▲</div>
+    """, unsafe_allow_html=True)
+    
+    # 4. Tarjeta Aprendizaje y Crecimiento
+    st.markdown("""
+        <div class="bsc-node  cre-node">
+            <div class="node-title">4. Perspectiva de Aprendizaje y Crecimiento</div>
+            <div class="node-desc">Capacitación ≥ 20 Horas/Año en BPA • Optimización con Software ERP • Fidelización de 2.500 Usuarios para 2028</div>
+        </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("---")
+st.markdown("""
+> **Nota analítica de control de mando integral:** La matriz del Balanced Scorecard unifica los inductores de crecimiento del talento humano con los resultados de rentabilidad exigidos por la junta de socios. Las metas de la perspectiva de Procesos (como la cobertura del 95% de entregas en menos de 45 minutos) justifican el uso de las tres motocicletas de la flota logística, mientras que el volumen de la perspectiva financiera conversa directamente con la capacidad de las tres terminales POS en el frente comercial.
+""")
