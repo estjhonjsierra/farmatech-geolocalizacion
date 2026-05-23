@@ -41,15 +41,17 @@ st.markdown('<h1 class="main-title">🚀 3.1 Cuadro de Mando Integral — Balanc
 st.markdown('<p class="section-desc">Estructura de Causalidad y Modelado del Ciclo Completo de Proyecciones (Meses 1 a 12) — FarmaTech Ltda.</p>', unsafe_allow_html=True)
 st.markdown("---")
 
-# Configuración universal para descarga de reportes (Cámara 📸 en Máxima Resolución)
+# CONFIGURACIÓN DE EXPORTACIÓN CON BARRA DE HERRAMIENTAS SIEMPRE VISIBLE
 config_exportacion = {
-    'displayModeBar': True,
+    'displayModeBar': True,        # Mantiene la barra siempre visible
+    'displaylogo': False,          # Quita el logo de Plotly para limpiar espacio
+    'modeBarButtonsToRemove': ['zoom2d', 'pan2d', 'select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d'], # Deja solo la cámara y el hover
     'toImageButtonOptions': {
         'format': 'png',
         'filename': 'farmatech_balanced_scorecard_maestro',
-        'height': 650,
-        'width': 1150,
-        'scale': 2
+        'height': 600,
+        'width': 1100,
+        'scale': 2                  # Duplica la resolución para que se vea nítido en Word
     }
 }
 
@@ -62,17 +64,17 @@ st.write("Representación de la ruta crítica adaptada al manual de operaciones.
 st.markdown("""
     <div class="bsc-node fin-node">
         <div class="node-title">1. Perspectiva Financiera</div>
-        <div class="node-desc">Alcanzar Punto de Equilibrio (84 Tx/Día • Mes 7) \| Ingresos de \$891M Anuales \| Margen Neto Sostenido del 30% \| ROI en Año 3</div>
+        <div class="node-desc">Alcanzar Punto de Equilibrio (84 Tx/Día • Mes 7) | Ingresos de \$891M Anuales | Margen Neto Sostenido del 30% | ROI en Año 3</div>
     </div>
     <div class="arrow-connector">▲</div>
     <div class="bsc-node cli-node">
         <div class="node-title">2. Perspectiva de Clientes</div>
-        <div class="node-desc">Capturar el 15% del Nicho Crónico (675 Pacientes) \| Sostener NPS ≥ 70 \| Omnicanalidad Digital del 40% vía WhatsApp Business</div>
+        <div class="node-desc">Capturar el 15% del Nicho Crónico (675 Pacientes) | Sostener NPS ≥ 70 | Omnicanalidad Digital del 40% vía WhatsApp Business</div>
     </div>
     <div class="arrow-connector">▲</div>
     <div class="bsc-node pro-node">
         <div class="node-title">3. Perspectiva de Procesos Internos</div>
-        <div class="node-desc">Garantizar SLA Express (20-45 Min en 95% de Envíos) \| Abastecimiento Stock Fijo ≥ 30 Días \| Cero Hallazgos Críticos en INVIMA</div>
+        <div class="node-desc">Garantizar SLA Express (20-45 Min en 95% de Envíos) | Abastecimiento Stock Fijo ≥ 30 Días | Cero Hallazgos Críticos en INVIMA</div>
     </div>
     <div class="arrow-connector">▲</div>
     <div class="bsc-node cre-node">
@@ -87,11 +89,11 @@ st.markdown("---")
 # BLOQUE INFERIOR: LA GRAN GRÁFICA MAESTRA UNIFICADA (AÑO COMPLETO SIN FILTROS)
 # =============================================================================
 st.subheader("📊 5.3 Modelado de Rampa Comercial y Convergencia Financiera Coherente")
-st.write("La siguiente gráfica unifica el ciclo completo de los 12 meses en un solo plano visual. Use la cámara para guardarla en el Word.")
+st.write("La siguiente gráfica unifica el ciclo completo de los 12 meses en un solo plano visual. Use la cámara fija o el botón inferior para descargar.")
 
-# Datos reales de la Tabla 15 corregida y amarrada
+# Datos reales de la Tabla 15
 meses_lista = [f"Mes {i}" for i in range(1, 13)]
-transacciones_mes = [600, 900, 1350, 1700, 2100, 2400, 2520, 2560, 2600, 2640, 2680, 2700]
+transacciones_mes = [600, 900, 1350, 1700, 2100, 2400, 2520, 2550, 2580, 2620, 2660, 2700]
 
 ticket_promedio = 55000
 opex_fijo_mensual = 41500000
@@ -100,14 +102,14 @@ ingresos_mes = [tx * ticket_promedio for tx in transacciones_mes]
 margen_bruto_mes = [ing * 0.30 for ing in ingresos_mes]
 utilidad_neta_mes = [margen - opex_fijo_mensual for margen in margen_bruto_mes]
 
-# Calcular el Flujo de Caja Acumulado Real
+# Calcular Flujo de Caja Acumulado Real
 flujo_acumulado = []
 saldo_temporal = 0
 for util in utilidad_neta_mes:
     saldo_temporal += util
     flujo_acumulado.append(saldo_temporal)
 
-# Construcción de la Gráfica Maestra con dos sub-ejes o líneas continuas
+# Construcción de la Gráfica Maestra
 fig_maestra = go.Figure()
 
 # 1. Línea de OPEX Fijo Ancla
@@ -125,10 +127,10 @@ fig_maestra.add_trace(go.Scatter(
     marker=dict(size=8, symbol='circle')
 ))
 
-# 3. Línea del Flujo de Caja Acumulado (Muestra la absorción del colchón de $80M)
+# 3. Línea del Flujo de Caja Acumulado
 fig_maestra.add_trace(go.Scatter(
     x=meses_lista, y=flujo_acumulado,
-    mode='lines+markers', name='Flujo de Caja Acumulado (Déficit vs Superávit)',
+    mode='lines+markers', name='Flujo de Caja Acumulado',
     line=dict(color='#9467bd', width=3),
     marker=dict(size=6, symbol='diamond')
 ))
@@ -142,16 +144,15 @@ fig_maestra.add_trace(go.Scatter(
 
 # Ajustes de diseño premium libres de contaminación visual
 fig_maestra.update_layout(
-    title="Comportamiento del Estado de Resultados y Evolución del Flujo de Caja (Año 1)",
     xaxis_title="Cronología Mensual del Proyecto",
     yaxis_title="Unidades Monetarias en Pesos (COP)",
-    height=500,
-    margin=dict(t=40, b=20, l=20, r=20),
-    legend=dict(orientation="h", yanchor="bottom", y=-0.22, xanchor="center", x=0.5),
+    height=480,
+    margin=dict(t=20, b=20, l=20, r=20),
+    legend=dict(orientation="h", yanchor="bottom", y=-0.25, xanchor="center", x=0.5),
     hovermode="x unified"
 )
 
-# Renderizar la gráfica maestra con la barra de herramientas forzada para descargas PNG
+# Renderizar la gráfica maestra con la barra de herramientas fija
 st.plotly_chart(fig_maestra, use_container_width=True, config=config_exportacion)
 
 st.markdown("---")
