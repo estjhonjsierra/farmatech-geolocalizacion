@@ -43,7 +43,7 @@ st.markdown("""
     .q-desc { font-size: 0.95rem; opacity: 0.9; margin-top: 5px; }
     .q-indicator { font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; display: inline-block; margin-top: 8px; }
     
-    .arrow-q { text-align: center; font-size: 2.2rem; color: #1e3d59; animation: pulse 2s infinite; font-weight: bold; margin: -5px 0; }
+    .arrow-q { text-align: center; font-size: 2.2rem; color: #1e3d59; font-weight: bold; margin: -5px 0; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -71,11 +71,11 @@ horas_cap = st.sidebar.slider("Horas de Capacitación Anual / Empleado", min_val
 eficiencia_procesos = st.sidebar.slider("Eficiencia Operativa del Canal Domicilios (%)", min_value=50, max_value=100, value=95, step=5)
 
 # 3. CONSTRUCCIÓN DE LA ARQUITECTURA INTERACTIVA (HTML NODES)
-col_mapa, col_simulacion = st.columns()
+col_mapa, col_simulacion = st.columns(2)
 
 with col_mapa:
     st.subheader("🎯 Mapa de Nodos Estratégicos")
-    st.write("Haga clic en los selectores inferiores para activar la trazabilidad analítica de cada perspectiva.")
+    st.write("Modifique los sliders de la barra lateral para estresar y validar el impacto en tiempo real.")
     
     # Renderizar las hermosas cajas degradadas premium
     st.markdown("""
@@ -126,14 +126,13 @@ with col_simulacion:
         st.markdown("### 🧬 Simulación de Impacto: Aprendizaje → Procesos")
         st.write(f"Al programar `{horas_cap} horas` de capacitación en Buenas Prácticas de Almacenamiento (BPA), el sistema proyecta matemáticamente los siguientes efectos multiplicadores:")
         
-        # Fórmulas predictivas basadas en las horas de capacitación de la barra lateral
         reduccion_errores = horas_cap * 2.2
         mejora_inventario = min(100.0, 70.0 + (horas_cap * 0.75))
         
         st.success(f"✔️ **Reducción de Errores de Dispensación:** Disminución proyectada del **{reduccion_errores:.1f}%** en confusiones de lotes.")
         st.success(f"✔️ **Eficiencia en Custodia de Stock:** Precisión del inventario físico contra el ERP Memphis estimada en un **{mejora_inventario:.1f}%**.")
         
-        # Gráfica lineal interactiva instantánea que modela esta causalidad predictiva
+        # Gráfica lineal interactiva
         horas_rango = np.arange(0, 41, 2)
         errores_rango = 100 - (horas_rango * 2.2)
         fig_cap = go.Figure()
@@ -146,7 +145,6 @@ with col_simulacion:
         st.markdown("### 🏍️ Simulación de Impacto: Procesos → Clientes")
         st.write(f"Con una eficiencia logística del `{eficiencia_procesos}%` en la flota de motocicletas, se altera directamente la percepción del usuario en Laureles-Estadio:")
         
-        # Relación causal predictiva entre logística y satisfacción (NPS)
         nps_proyectado = 50 + (eficiencia_procesos * 0.35)
         st.warning(f"⭐ **Índice de Satisfacción Neto (NPS) Estimado:** El modelo predice un comportamiento de **{nps_proyectado:.0f} puntos NPS** gracias al cumplimiento del rango de 20-45 minutos.")
         st.warning(f"⭐ **Retención del Nicho Crónico:** Probabilidad de recompra mensual estabilizada en un **{eficiencia_procesos:.1f}%**.")
@@ -155,19 +153,23 @@ with col_simulacion:
         st.markdown("### 👥 Simulación de Impacto: Clientes → Financiera")
         st.write(f"Bajo el escenario actual de fidelización de la base de datos de pacientes crónicos, se proyecta la masa crítica transaccional:")
         
-        # Simular volumen de ventas en base al slider de satisfacción de la barra lateral
-        ventas_fidelizadas = int(1200 + (nps_actual * 15.5))
-        ingresos_derivados = ventas_fidelizadas * 55000
+        ventas_fidelizadas = int(1200 + (eficiencia_procesos * 15.5))
+        ingresos_derived = ventas_fidelizadas * 55000
         
         st.info(f"📈 **Masa Transaccional Traccionada:** El flujo de clientes fidelizados arrastra **{ventas_fidelizadas:,} transacciones anuales**.")
-        st.info(f"📈 **Inyección al Estado de Resultados:** Facturación complementaria estimada en **\${ingresos_derivados:,.0f} COP**.")
+        st.info(f"📈 **Inyección al Estado de Resultados:** Facturación complementaria estimada en **\${ingresos_derived:,.0f} COP**.")
 
     elif nodo_seleccionado == "1. Financiera":
         st.markdown("### 💰 El Hito del Cierre: Viabilidad del Proyecto")
         st.write("La perspectiva financiera consolida el éxito total de los inductores anteriores. Si los nodos 4, 3 y 2 operan de forma óptima, el modelo económico responde de la siguiente manera:")
         
-        # Tarjetas de estado financiero final
+        # Tarjetas corregidas alineadas con variables independientes
         col_f1, col_f2 = st.columns(2)
         with col_f1:
             st.metric(label="OPEX Fijo Mensual Unificado", value="\$41,500,000 COP")
         with col_f2:
+            st.metric(label="Umbral Mínimo de Facturación (PE)", value="\$138,600,000 COP", delta="Mes 7 Sostenible")
+        st.success("🏁 **Veredicto Financiero:** El capital inicial de \$280.000.000 COP amortiza con absoluta seguridad en el Año 3, consolidando un ROI positivo gracias al control cuántico del Balanced Scorecard.")
+
+st.markdown("---")
+st.markdown("""
