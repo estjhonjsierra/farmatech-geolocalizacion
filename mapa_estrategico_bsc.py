@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import plotly.express as px
 
 # 1. CONFIGURACIÓN HIGH-DEFINITION DE LA INTERFAZ DE USUARIO (UI)
 st.set_page_config(
@@ -10,12 +11,11 @@ st.set_page_config(
     page_icon="🎯"
 )
 
-# Inyección de estilos de cascada CSS para simular entorno de software empresarial
+# Inyección de estilos de cascada CSS para personalización avanzada
 st.markdown("""
     <style>
     .main-title { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3d59; font-weight: 800; font-size: 2.5rem; margin-bottom: 0.2rem; }
     .section-desc { color: #6c757d; font-size: 1.05rem; margin-bottom: 1.5rem; }
-    .card-kpi { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid #1e3d59; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -76,7 +76,7 @@ with col_k3:
 st.markdown("---")
 
 # Layout de dos bloques para desglose visual y mapa de causalidad
-col_izq, col_der = st.columns([4, 6])
+col_izq, col_der = st.columns(2)
 
 # =============================================================================
 # BLOQUE IZQUIERDO: EXTRACCIÓN Y CONSULTA FILTRADA DE LA MATRIZ BSC
@@ -121,8 +121,8 @@ with col_der:
     st.subheader("🛸 Diagrama de Flujo y Vectores de Causalidad Estructural")
     st.write("El mapa modela de forma visual cómo el aprendizaje indexado empuja el éxito de los procesos, la fidelización de clientes y la rentabilidad.")
     
-    # Definición manual de las cajas de texto de las perspectivas en ejes X e Y
-    nodos_x = [2, 2, 2, 2]
+    # Coordenadas y textos de los bloques fijos del BSC
+    nodos_x = [1, 1, 1, 1]
     nodos_y = [4, 3, 2, 1]
     textos_nodos = [
         "<b>1. PERSPECTIVA FINANCIERA</b><br>Punto de Equilibrio (84 Tx/Día) | ROI Año 3 | Margen 30%",
@@ -134,47 +134,44 @@ with col_der:
 
     fig_mapa = go.Figure()
 
-    # Dibujar las líneas conectores con flechas de causalidad ascendente
+    # Generar las líneas de interconexión con cabezas de flechas (Sincronizado)
     for i in range(len(nodos_y) - 1):
         fig_mapa.add_trace(go.Scatter(
-            x=[2, 2], y=[nodos_y[i+1]+0.35, nodos_y[i]-0.35],
+            x=[1, 1], y=[nodos_y[i+1]+0.2, nodos_y[i]-0.2],
             mode="lines",
             line=dict(color="#6c757d", width=3),
             hoverinfo="none", showlegend=False
         ))
-        # Agregar cabeza de la flecha
         fig_mapa.add_trace(go.Scatter(
-            x=[2], y=[nodos_y[i]-0.35],
+            x=[1], y=[nodos_y[i]-0.2],
             mode="markers",
             marker=dict(symbol="arrow-up", size=14, color="#6c757d"),
             hoverinfo="none", showlegend=False
         ))
 
-    # Dibujar los bloques de texto rectangulares (Cajas del BSC)
+    # Dibujar las cajas rectangulares del Balanced Scorecard utilizando marcadores nativos estables
     fig_mapa.add_trace(go.Scatter(
         x=nodos_x, y=nodos_y,
         mode="markers+text",
         marker=dict(
-            shape="square",
-            size=75,
+            symbol="square",
+            size=65,
             color=colores_nodos,
             line=dict(color="white", width=2)
         ),
         text=textos_nodos,
         textposition="center",
-        textfont=dict(color="white", size=11, family="Arial"),
+        textfont=dict(color="white", size=10, family="Arial"),
         showlegend=False
     ))
 
-    # Ajustes métricos y estéticos del contenedor del diagrama de flujo
+    # Configuración de diseño del contenedor gráfico libre de ejes cartesianos
     fig_mapa.update_layout(
-        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[1, 3]),
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[0.5, 1.5]),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[0.3, 4.7]),
         margin=dict(t=10, b=10, l=10, r=10),
         height=480,
         plot_bgcolor="rgba(0,0,0,0)"
     )
     
-    # Renderizado final del gráfico con la barra de exportación PNG activa
     st.plotly_chart(fig_mapa, use_container_width=True, config=config_exportacion)
-
