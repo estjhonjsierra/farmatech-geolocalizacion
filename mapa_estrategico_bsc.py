@@ -16,7 +16,6 @@ st.markdown("""
     .main-title { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3d59; font-weight: 800; font-size: 2.5rem; margin-bottom: 0.2rem; }
     .section-desc { color: #6c757d; font-size: 1.05rem; margin-bottom: 1.5rem; }
     
-    /* Efecto hover y diseño para los nodos interactivos */
     .quantum-card {
         padding: 22px;
         border-radius: 14px;
@@ -26,12 +25,6 @@ st.markdown("""
         margin: 12px auto;
         max-width: 750px;
         box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .quantum-card:hover {
-        transform: scale(1.02);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        cursor: pointer;
     }
     
     .f-node { background: linear-gradient(135deg, #1e3d59 0%, #112233 100%); border-left: 8px solid #00d2ff; }
@@ -77,7 +70,6 @@ with col_mapa:
     st.subheader("🎯 Mapa de Nodos Estratégicos")
     st.write("Modifique los sliders de la barra lateral para estresar y validar el impacto en tiempo real.")
     
-    # Renderizar las hermosas cajas degradadas premium
     st.markdown("""
         <div class="quantum-card f-node">
             <div class="q-title">1. Perspectiva Financiera</div>
@@ -105,12 +97,11 @@ with col_mapa:
     """, unsafe_allow_html=True)
 
 # =============================================================================
-# EL COMPONENTE INÉDITO: EL MOTOR DE IMPACTO CUÁNTICO EN TIEMPO REAL
+# EL COMPONENTE INTERACTIVO: EL MOTOR DE IMPACTO EN TIEMPO REAL
 # =============================================================================
 with col_simulacion:
     st.subheader("🔮 Centro de Trazabilidad e Impacto en Cascada")
     
-    # El selector interactivo que simula los clics en los bloques
     nodo_seleccionado = st.radio(
         "Seleccione un Nodo del Balanced Scorecard para disparar la simulación de impacto:",
         ["Ninguno - Estado Neutro", "4. Aprendizaje y Crecimiento", "3. Procesos Internos", "2. Clientes", "1. Financiera"],
@@ -120,56 +111,54 @@ with col_simulacion:
     st.markdown("---")
     
     if nodo_seleccionado == "Ninguno - Estado Neutro":
-        st.info("💡 **Sistema en Espera:** Seleccione una perspectiva para analizar cómo sus indicadores empujan, estresan y modifican de forma automática al resto de la organización en una cadena de causalidad real.")
+        st.info("💡 Seleccione una perspectiva para analizar la cadena de causalidad real del negocio.")
         
     elif nodo_seleccionado == "4. Aprendizaje y Crecimiento":
         st.markdown("### 🧬 Simulación de Impacto: Aprendizaje → Procesos")
-        st.write(f"Al programar `{horas_cap} horas` de capacitación en Buenas Prácticas de Almacenamiento (BPA), el sistema proyecta matemáticamente los siguientes efectos multiplicadores:")
+        st.write(f"Al programar {horas_cap} horas de capacitación en BPA, se proyectan los siguientes efectos:")
         
         reduccion_errores = horas_cap * 2.2
         mejora_inventario = min(100.0, 70.0 + (horas_cap * 0.75))
         
-        st.success(f"✔️ **Reducción de Errores de Dispensación:** Disminución proyectada del **{reduccion_errores:.1f}%** en confusiones de lotes.")
-        st.success(f"✔️ **Eficiencia en Custodia de Stock:** Precisión del inventario físico contra el ERP Memphis estimada en un **{mejora_inventario:.1f}%**.")
+        st.success(f"✔️ Reducción de Errores de Dispensación: Disminución proyectada del {reduccion_errores:.1f}% en lotes.")
+        st.success(f"✔️ Eficiencia en Custodia de Stock: Precisión estimada en un {mejora_inventario:.1f}%.")
         
-        # Gráfica lineal interactiva
         horas_rango = np.arange(0, 41, 2)
         errores_rango = 100 - (horas_rango * 2.2)
         fig_cap = go.Figure()
         fig_cap.add_trace(go.Scatter(x=horas_rango, y=errores_rango, mode='lines', name='Curva de Error', line=dict(color='#9467bd', width=3)))
         fig_cap.add_trace(go.Scatter(x=[horas_cap], y=[100 - reduccion_errores], mode='markers', name='Tu Impacto Actual', marker=dict(color='red', size=12, symbol='diamond')))
-        fig_cap.update_layout(title="Impacto del Aprendizaje sobre la Tasa de Error Interno", xaxis_title="Horas de Capacitación", yaxis_title="Índice de Error Residual (%)", height=250, margin=dict(t=30,b=10,l=10,r=10))
+        fig_cap.update_layout(title="Impacto de Capacitación sobre Error Interno", xaxis_title="Horas de Capacitación", yaxis_title="Error Residual (%)", height=250, margin=dict(t=30,b=10,l=10,r=10))
         st.plotly_chart(fig_cap, use_container_width=True, config=config_exportacion)
 
     elif nodo_seleccionado == "3. Procesos Internos":
         st.markdown("### 🏍️ Simulación de Impacto: Procesos → Clientes")
-        st.write(f"Con una eficiencia logística del `{eficiencia_procesos}%` en la flota de motocicletas, se altera directamente la percepción del usuario en Laureles-Estadio:")
+        st.write(f"Con una eficiencia logística del {eficiencia_procesos}% en motocicletas, se altera la percepción del usuario:")
         
         nps_proyectado = 50 + (eficiencia_procesos * 0.35)
-        st.warning(f"⭐ **Índice de Satisfacción Neto (NPS) Estimado:** El modelo predice un comportamiento de **{nps_proyectado:.0f} puntos NPS** gracias al cumplimiento del rango de 20-45 minutos.")
-        st.warning(f"⭐ **Retención del Nicho Crónico:** Probabilidad de recompra mensual estabilizada en un **{eficiencia_procesos:.1f}%**.")
+        st.warning(f"⭐ Índice de Satisfacción Neto Estimado: El modelo predice {nps_proyectado:.0f} puntos NPS.")
+        st.warning(f"⭐ Retención del Nicho Crónico: Probabilidad de recompra mensual del {eficiencia_procesos:.1f}%.")
 
     elif nodo_seleccionado == "2. Clientes":
         st.markdown("### 👥 Simulación de Impacto: Clientes → Financiera")
-        st.write(f"Bajo el escenario actual de fidelización de la base de datos de pacientes crónicos, se proyecta la masa crítica transaccional:")
+        st.write("Bajo el escenario actual de fidelización de la base de datos de pacientes crónicos, se proyecta:")
         
         ventas_fidelizadas = int(1200 + (eficiencia_procesos * 15.5))
         ingresos_derived = ventas_fidelizadas * 55000
         
-        st.info(f"📈 **Masa Transaccional Traccionada:** El flujo de clientes fidelizados arrastra **{ventas_fidelizadas:,} transacciones anuales**.")
-        st.info(f"📈 **Inyección al Estado de Resultados:** Facturación complementaria estimada en **\${ingresos_derived:,.0f} COP**.")
+        st.info(f"📈 Masa Transaccional Traccionada: {ventas_fidelizadas:,} transacciones anuales.")
+        st.info(f"📈 Inyección al Estado de Resultados: Facturación estimada en \${ingresos_derived:,.0f} COP.")
 
     elif nodo_seleccionado == "1. Financiera":
         st.markdown("### 💰 El Hito del Cierre: Viabilidad del Proyecto")
-        st.write("La perspectiva financiera consolida el éxito total de los inductores anteriores. Si los nodos 4, 3 y 2 operan de forma óptima, el modelo económico responde de la siguiente manera:")
+        st.write("La perspectiva financiera consolida el éxito total de los inductores anteriores:")
         
-        # Tarjetas corregidas alineadas con variables independientes
         col_f1, col_f2 = st.columns(2)
         with col_f1:
             st.metric(label="OPEX Fijo Mensual Unificado", value="\$41,500,000 COP")
         with col_f2:
-            st.metric(label="Umbral Mínimo de Facturación (PE)", value="\$138,600,000 COP", delta="Mes 7 Sostenible")
-        st.success("🏁 **Veredicto Financiero:** El capital inicial de \$280.000.000 COP amortiza con absoluta seguridad en el Año 3, consolidando un ROI positivo gracias al control cuántico del Balanced Scorecard.")
+            st.metric(label="Umbral Mínimo de Facturación (PE)", value="\$138,600,000 COP")
+        st.success("🏁 Veredicto: El capital inicial de \$280.000.000 COP amortiza de forma segura en el Año 3, consolidando un ROI positivo.")
 
 st.markdown("---")
-st.markdown("""
+st.markdown("Nota de soporte: El modelado interactivo expuesto en el simulador rompe el paradigma estático al integrar ecuaciones de causalidad dinámica.")
