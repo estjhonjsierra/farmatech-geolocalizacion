@@ -72,7 +72,7 @@ st.sidebar.markdown("**🚚 Dimensión Logística y Operativa (BPA)**")
 SLA_domicilios_sim = st.sidebar.slider("Eficiencia de SLA Express (<45 min)", 50, 100, 96)
 exactitud_inv_sim = st.sidebar.slider("Exactitud de Inventario Físico vs POS", 80.0, 100.0, 98.5, step=0.1)
 tasa_recompra_sim = st.sidebar.slider("Tasa de Recompra Mensual de Crónicos", 30, 100, 62)
-hallazgos_auditoria_rx = st.sidebar.selectbox("Incidentes de Dispensación detectados (Rx)", [0, 1, 2, 3, 5], index=0)
+hallazgos_auditoria_rx = st.sidebar.selectbox("Incidentes de Dispensación detectados (Rx)", [0, 1, 2, 3], index=0)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("**💰 Dimensión Presupuestal y Financiera**")
@@ -111,7 +111,7 @@ with col_card3:
 
 with col_card4:
     color_opex = "normal" if ejecución_opex_calculada <= 105.0 else "inverse"
-    st.metric("Control Presupuestal OPEX (Meta: ≤105%)", f"{ejecución_opex_calculada:.1f}%", f"{'Gasto Ajustado a Carga Fija' if ejecución_opex_calculada <= 105.0 else 'Sobrepresupuesto'}", delta_color=color_opex)
+    st.metric("Control Presupuestal OPEX (Meta: Ext. Max 105%)", f"{ejecución_opex_calculada:.1f}%", f"{'Gasto Ajustado Fijo' if ejecución_opex_calculada <= 105.0 else 'Sobrepresupuesto'}", delta_color=color_opex)
 
 st.divider()
 
@@ -173,4 +173,3 @@ st.divider()
 # 6. CENTRAL DE EXPORTACIÓN AVANZADA: GENERADOR EXCEL EJECUTIVO (XLSXWRITER)
 # =========================================================================
 st.subheader("⚙️ Central de Descargas de Reportes y Auditoría de Datos del SGC")
-st.write("Genere informes ejecutivos en tiempo real completamente formateados de forma directa para el comité evaluador.")col_down1, col_down2 = st.columns(2)with col_down1:excel_data_buffer = io.BytesIO()with pd.ExcelWriter(excel_data_buffer, engine='xlsxwriter') as workbook_builder:df_kpi_completo_data.to_excel(workbook_builder, sheet_name='Dashboard KPIs SGC', index=False, startrow=3)workbook_object = workbook_builder.booksheet_object = workbook_builder.sheets['Dashboard KPIs SGC']# Definición minuciosa de formatos corporativos en Excelheader_format = workbook_object.add_format({'bold': True, 'bg_color': '#1E3D59', 'font_color': 'white','font_name': 'Segoe UI', 'border': 1, 'align': 'center', 'valign': 'vcenter'})cell_format = workbook_object.add_format({'font_name': 'Segoe UI', 'font_size': 10, 'border': 1, 'align': 'left', 'valign': 'vcenter'})title_format = workbook_object.add_format({'bold': True, 'font_size': 14, 'font_color': '#1E3D59', 'font_name': 'Segoe UI'})subtitle_format = workbook_object.add_format({'font_size': 10, 'font_color': '#555555', 'font_name': 'Segoe UI', 'italic': True})# Escritura de marcas y títulos de la organización en Excelsheet_object.write('A1', 'FARMATECH LTDA. — REPORTE MENSUAL AUTOMATIZADO DEL CUADRO DE MANDO INTEGRAL', title_format)sheet_object.write('A2', f'Sincronización Avanzada con POS Memphis — Fecha de descarga: {datetime.now().strftime("%d/%m/%Y")}', subtitle_format)# Dimensiones óptimas de las columnas de Excelsheet_object.set_column('A:A', 26, cell_format)sheet_object.set_column('B:B', 48, cell_format)sheet_object.set_column('C:C', 38, cell_format)sheet_object.set_column('D:F', 24, cell_format)# Inyectar el formato premium de cabecerasfor col_idx, col_name in enumerate(df_kpi_completo_data.columns):sheet_object.write(3, col_idx, col_name, header_format)st.download_button(label="📥 Descargar Reporte de Cierre de la Tabla 33 en Excel (.xlsx)",data=excel_data_buffer.getvalue(),file_name=f"Reporte_KPI_FarmaTech_{datetime.now().strftime('%m_%Y')}.xlsx",mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",use_container_width=True)with col_down2:st.info("💡 Exportación limpia a formato PDF: Presione las teclas Ctrl + P (en Windows) o Cmd + P (en Mac) para abrir el panel de impresión de su navegador. El script CSS ocultará automáticamente las barras de desarrollo laterales e interfaces de usuario dinámicas.")st.divider()
