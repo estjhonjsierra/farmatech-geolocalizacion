@@ -5,9 +5,9 @@ import io
 import plotly.graph_objects as go
 from datetime import datetime
 
-# ==========================================
-# 1. ARQUITECTURA DE UI/UX Y ESTILOS DE INYECCIÓN CSS
-# ==========================================
+# =========================================================================
+# 1. ARQUITECTURA DE INTERFAZ CORPORATIVA (UI/UX) E INYECCIÓN DE ESTILOS CSS
+# =========================================================================
 st.set_page_config(
     page_title="FarmaTech - Enterprise Quality & KPI Suite",
     layout="wide",
@@ -15,122 +15,116 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilos CSS avanzados para maquetación web responsiva y optimización estricta de impresión PDF
+# Inyección de estilos CSS avanzados para maquetación web responsiva y optimización estricta de impresión PDF
 st.markdown("""
 <style>
     @import url('https://googleapis.com');
     
-    html, body, [data-testid="stSidebar"] { font-family: 'Inter', sans-serif; }
-    .main-header { color: #1E3D59; font-weight: 800; font-size: 2.4rem; margin-bottom: 0.1rem; letter-spacing: -0.5px; }
-    .sub-header { color: #555555; font-size: 1.1rem; margin-bottom: 1.8rem; font-weight: 400; }
-    .metric-container { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    html, body, [data-testid="stSidebar"] { font-family: 'Segoe UI', sans-serif; }
+    .main-header { color: #1E3D59; font-weight: 800; font-size: 2.5rem; margin-bottom: 0.1rem; letter-spacing: -0.5px; }
+    .sub-header { color: #555555; font-size: 1.15rem; margin-bottom: 2rem; font-weight: 400; }
+    .status-panel { background-color: #F8F9FA; border-radius: 12px; padding: 25px; border: 1px solid #E9ECEF; margin-bottom: 25px; }
     .pdf-only-header { display: none; }
     
     @media print {
         .stSidebar, div[data-testid="stSidebarCollapseButton"], button, .stCheckbox, [data-testid="stBorder"] { display: none !important; }
         .main { width: 100% !important; padding: 0 !important; }
-        .main-header { color: #000000 !important; font-size: 2rem; }
-        .pdf-only-header { display: block !important; font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #333333; border-bottom: 2px solid #1E3D59; padding-bottom: 6px; margin-bottom: 30px; }
+        .main-header { color: #000000 !important; font-size: 2.1rem; }
+        .pdf-only-header { display: block !important; font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; color: #222222; border-bottom: 3px solid #1E3D59; padding-bottom: 8px; margin-bottom: 35px; }
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Encabezado corporativo estructurado visible únicamente al exportar a PDF (Ctrl + P)
+# Encabezado corporativo estructurado visible únicamente al exportar a PDF (Ctrl + P o Cmd + P)
 st.markdown(f"""
 <div class="pdf-only-header">
     <table style="width:100%; border-collapse:collapse;">
         <tr>
-            <td style="text-align:left; font-weight:bold; font-size:1.1rem; color:#1E3D59;">FARMATECH LTDA. — INFORME GERENCIAL ANALÍTICO</td>
-            <td style="text-align:right; font-weight:600;">SGC — SECCIÓN 7.3</td>
+            <td style="text-align:left; font-weight:bold; font-size:1.2rem; color:#1E3D59;">FARMATECH LTDA. — INFORME CENTRAL DE CALIDAD E INDICADORES</td>
+            <td style="text-align:right; font-weight:600; color:#1E3D59;">SGC — SECCIÓN 7.3</td>
         </tr>
         <tr>
-            <td style="text-align:left; color:#666;">Sistema de Gestión de Calidad Automatizado (PHVA)</td>
-            <td style="text-align:right; color:#666;">Fecha de Extracción: {datetime.now().strftime('%d/%m/%Y')}</td>
+            <td style="text-align:left; color:#555;">Cuadro de Mando Integral Automatizado (Metodología PHVA)</td>
+            <td style="text-align:right; color:#555;">Fecha de Reporte: {datetime.now().strftime('%d/%m/%Y')}</td>
         </tr>
     </table>
 </div>
 """, unsafe_allow_html=True)
 
 st.markdown('<h1 class="main-header">📊 FarmaTech Ltda. — Cuadro de Mando Integral (KPIs)</h1>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header">Suite Avanzada de Monitoreo de Procesos Críticos e Integración de Datos del POS Memphis</p>', unsafe_allow_html=True)
+st.markdown('<p class="sub-header">Suite Avanzada de Automatización Comercial, Monitoreo de Procesos Críticos e Integración del POS Memphis</p>', unsafe_allow_html=True)
+st.divider()
 
-# ==========================================
-# 2. CAPA DE CONTROL LATERAL (FILTROS Y SIMULADOR PARAMÉTRICO)
-# ==========================================
-st.sidebar.markdown("### 🕹️ Centro de Control Analítico")
-st.sidebar.caption("Modifique los valores operativos en tiempo real para evaluar la salud del proyecto.")
-
-st.sidebar.markdown("---")
-st.sidebar.markdown("**📈 Parámetros Comerciales**")
-pacientes_activos = st.sidebar.slider("Pacientes Crónicos Activos en el Mes", 100, 1000, 684)
-conversión_wa = st.sidebar.slider("Tasa de Conversión WhatsApp (%)", 0.5, 10.0, 3.4, step=0.1)
-ticket_promedio_input = st.sidebar.number_input("Ticket Promedio por Transacción (\$ COP)", min_value=30000, max_value=100000, value=55400, step=100)
+# =========================================================================
+# 2. PANEL LATERAL DE ENTRADAS (FILTROS AVANZADOS Y SIMULADOR DE HARDWARE)
+# =========================================================================
+st.sidebar.markdown("### 🕹️ Consola de Control de Calidad")
+st.sidebar.caption("Sincronice las métricas reales para evaluar las alertas del SGC frente a las metas del Año 1.")
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("**🚚 Operación y Logística (BPA)**")
-SLA_domicilios_input = st.sidebar.slider("Cumplimiento SLA Domicilios (<45 min)", 60, 100, 96)
-exactitud_inv_input = st.sidebar.slider("Exactitud de Inventario Físico vs POS", 85.0, 100.0, 98.5, step=0.1)
-tasa_recompra_input = st.sidebar.slider("Tasa de Recompra Mensual Crónicos", 40, 100, 62)
-hallazgos_rx = st.sidebar.selectbox("Hallazgos por Dispensación Irregular (Rx)", [0, 1, 2, 3], index=0)
+st.sidebar.markdown("**📈 Dimensión Comercial y Ventas**")
+pacientes_activos_sim = st.sidebar.slider("Pacientes Crónicos Activos en base", 100, 1000, 684, help="Meta Año 1: 675 pacientes")
+ticket_promedio_sim = st.sidebar.number_input("Ticket Promedio de Transacción (\$ COP)", min_value=30000, max_value=100000, value=55400, step=200)
+conversion_wa_sim = st.sidebar.slider("Tasa de Conversión de Canales Digitales (%)", 0.5, 10.0, 3.4, step=0.1)
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("**💰 Control Presupuestal Financiero**")
-opex_real_mensual = st.sidebar.number_input("Gasto Operativo Fijo Ejecutado (\$ COP)", min_value=30000000, max_value=50000000, value=41650000, step=50000)
-nps_input = st.sidebar.slider("Nivel de Lealtad Evaluado (NPS)", -100, 100, 74)
+st.sidebar.markdown("**🚚 Dimensión Logística y Operativa (BPA)**")
+SLA_domicilios_sim = st.sidebar.slider("Eficiencia de SLA Express (<45 min)", 50, 100, 96)
+exactitud_inv_sim = st.sidebar.slider("Exactitud de Inventario Físico vs POS", 80.0, 100.0, 98.5, step=0.1)
+tasa_recompra_sim = st.sidebar.slider("Tasa de Recompra Mensual de Crónicos", 30, 100, 62)
+hallazgos_auditoria_rx = st.sidebar.selectbox("Incidentes de Dispensación detectados (Rx)", [0, 1, 2, 3, 5], index=0)
 
-# ==========================================
-# 3. MOTOR DE CÁLCULO LOGÍSTICO Y FINANCIERO INTERNO
-# ==========================================
-OPEX_PRESUPUESTADO_BASE = 41500000
-TOTAL_NICHO_CRONICOS = 4500
-INGRESOS_TEÓRICOS_MES = 111604166 # Base para consolidar los \$1.339.250.000 anuales
+st.sidebar.markdown("---")
+st.sidebar.markdown("**💰 Dimensión Presupuestal y Financiera**")
+opex_ejecutado_sim = st.sidebar.number_input("Gasto Operativo Mensual Real (\$ COP)", min_value=35000000, max_value=55000000, value=41650000, step=50000)
+nps_evaluado_sim = st.sidebar.slider("Indicador de Fidelidad del Cliente (NPS)", -100, 100, 74)
 
-# Cálculos dinámicos reales basados en inputs
-tasa_penetracion = (pacientes_activos / TOTAL_NICHO_CRONICOS) * 100
-ejecucion_opex_pct = (opex_real_mensual / OPEX_PRESUPUESTADO_BASE) * 100
-margen_bruto_calculado = 30.0 # Margen base del modelo de negocio de FarmaTech
+# =========================================================================
+# 3. MOTOR DE CÁLCULO LOGÍSTICO Y FINANCIERO AVANZADO
+# =========================================================================
+OPEX_PRESUPUESTADO_ANUAL_BASE = 41500000
+TOTAL_NICHO_MERCADO_CRONICOS = 4500
+INGRESOS_META_ANUAL_PROYECTADOS = 1339250000
 
-# ==========================================
-# 4. DESPLIEGUE COMPLETO DE SEMÁFOROS INTELIGENTES (KPI CARDS)
-# ==========================================
-st.subheader("🚨 Estado de Alertas y Semáforos de Gestión")
-c1, c2, c3, c4 = st.columns(4)
+# Cálculos dinámicos con base en las entradas analíticas
+tasa_penetración_calculada = (pacientes_activos_sim / TOTAL_NICHO_MERCADO_CRONICOS) * 100
+ejecución_opex_calculada = (opex_ejecutado_sim / OPEX_PRESUPUESTADO_ANUAL_BASE) * 100
+margen_bruto_fijo_modelo = 30.0
 
-with c1:
-    delta_color_inv = "normal" if exactitud_inv_input >= 98.0 else "inverse"
-    st.metric("Exactitud Inventario (Meta: ≥98%)", f"{exactitud_inv_input}%", f"{'Conforme BPA' if exactitud_inv_input >= 98.0 else 'Fuera de Tolerancia'}", delta_color=delta_color_inv)
+# =========================================================================
+# 4. SISTEMA DINÁMICO DE SEMÁFOROS (DASHBOARD METRICS)
+# =========================================================================
+st.subheader("🚨 Monitoreo en Tiempo Real de Alertas y Semáforos Críticos")
+col_card1, col_card2, col_card3, col_card4 = st.columns(4)
 
-with c2:
-    delta_color_dom = "normal" if SLA_domicilios_input >= 95 else "inverse"
-    st.metric("SLA Domicilios (Meta: ≥95%)", f"{SLA_domicilios_input}%", f"{'Cumple SLA 45min' if SLA_domicilios_input >= 95 else 'Retrasos Críticos'}", delta_color=delta_color_dom)
+with col_card1:
+    color_inventario = "normal" if exactitud_inv_sim >= 98.0 else "inverse"
+    st.metric("Exactitud Inventario (Meta: ≥98%)", f"{exactitud_inv_sim}%", f"{'Conforme Estándar BPA' if exactitud_inv_sim >= 98.0 else 'Alerta: Desfase Crítico'}", delta_color=color_inventario)
 
-with c3:
-    delta_color_nps = "normal" if nps_input >= 70 else "inverse"
-    st.metric("Lealtad NPS (Meta: ≥70)", f"{nps_input} pts", f"{'Zona Excelencia' if nps_input >= 70 else 'Riesgo Deserción'}", delta_color=delta_color_nps)
+with col_card2:
+    color_domicilios = "normal" if SLA_domicilios_sim >= 95 else "inverse"
+    st.metric("SLA de Domicilios (Meta: ≥95%)", f"{SLA_domicilios_sim}%", f"{'SLA Cumplido Express' if SLA_domicilios_sim >= 95 else 'Retrasos en Última Milla'}", delta_color=color_domicilios)
 
-with c4:
-    delta_color_opex = "normal" if ejecucion_opex_pct <= 105.0 else "inverse"
-    st.metric("Gasto OPEX (Meta: ≤105%)", f"{ejecucion_opex_pct:.1f}%", f"{'Presupuesto Controlado' if ejecucion_opex_pct <= 105.0 else 'Déficit por Gasto Fijo'}", delta_color=delta_color_opex)
+with col_card3:
+    color_nps = "normal" if nps_evaluado_sim >= 70 else "inverse"
+    st.metric("Satisfacción NPS (Meta: ≥70)", f"{nps_evaluado_sim} pts", f"{'Fidelización de Excelencia' if nps_evaluado_sim >= 70 else 'Riesgo de Deserción'}", delta_color=color_nps)
+
+with col_card4:
+    color_opex = "normal" if ejecución_opex_calculada <= 105.0 else "inverse"
+    st.metric("Control Presupuestal OPEX (Meta: ≤105%)", f"{ejecución_opex_calculada:.1f}%", f"{'Gasto Ajustado a Carga Fija' if ejecución_opex_calculada <= 105.0 else 'Sobrepresupuesto'}", delta_color=color_opex)
 
 st.divider()
 
-# ==========================================
-# 5. MAQUETACIÓN ESTÁTICA Y ESTRUCTURACIÓN DE LA TABLA 33 (10 KPIs EXACTOS)
-# ==========================================
+# =========================================================================
+# 5. CONSTRUCCIÓN DE LA TABLA 33 CON SUS 10 KPIs FIDEDIGNOS (PANDAS)
+# =========================================================================
 st.subheader("📋 Tabla 33. Tablero de indicadores clave de desempeño — FarmaTech Ltda.")
 
-diccionario_tabla_33 = {
+diccionario_kpis_tabla_33 = {
     "KPI": [
-        "Penetración Nicho Crónico", 
-        "Ticket Promedio", 
-        "Conversión WhatsApp", 
-        "Cumplimiento SLA Domicilios", 
-        "NPS (Net Promoter Score)", 
-        "Exactitud de Inventario", 
-        "Tasa de Recompra", 
-        "Margen Bruto", 
-        "Control de OPEX", 
-        "Cero Dispensaciones Rx"
+        "Penetración Nicho Crónico", "Ticket Promedio", "Conversión WhatsApp", 
+        "Cumplimiento SLA Domicilios", "NPS (Net Promoter Score)", "Exactitud de Inventario", 
+        "Tasa de Recompra", "Margen Bruto", "Control de OPEX", "Cero Dispensaciones Rx"
     ],
     "Definición y Objetivo": [
         "% capturado del nicho de 4.500 pacientes del sector.",
@@ -139,77 +133,44 @@ diccionario_tabla_33 = {
         "% de entregas en el rango garantizado de 20-45 minutos.",
         "Nivel de lealtad y satisfacción del cliente.",
         "Control de stock físico vs. sistema (BPA).",
-        "% de pacientes crónicos con pedido recurrentes mensual.",
+        "% de pacientes crónicos con pedido recurrente mensual.",
         "Rentabilidad después de costos mayoristas (COGS).",
         "Eficiencia del gasto frente al presupuesto operativo fijo.",
         "Seguridad sanitaria y cumplimiento de la Ley 485/1998."
     ],
     "Fórmula de Cálculo": [
-        "(Pacientes activos / 4.500) × 100",
-        "Ingresos totales / N.º transacciones",
-        "(Pedidos / Mensajes) × 100",
-        "(Dom. ≤ 45 min / Totales) × 100",
-        "% Promotores − % Detractores",
-        "(Ítems coincidentes / Total) × 100",
-        "(Recompras / Clientes mes ant.) × 100",
-        "((Ingresos − COGS) / Ingresos) × 100",
-        "(OPEX real / \$41.500.000) × 100",
-        "N.º de hallazgos en auditoría interna"
+        "(Pacientes activos / 4.500) × 100", "Ingresos totales / N.º transacciones",
+        "(Pedidos / Mensajes) × 100", "(Dom. ≤ 45 min / Totales) × 100",
+        "% Promotores − % Detractores", "(Ítems coincidentes / Total) × 100",
+        "(Recompras / Clientes mes ant.) × 100", "((Ingresos − COGS) / Ingresos) × 100",
+        "(OPEX real / \$41.500.000) × 100", "N.º de hallazgos en auditoría interna"
     ],
     "Meta Año 1": [
-        "15% (675 pacientes)",
-        "≥ \$55.000 COP",
-        "≥ 3% mensual",
-        "≥ 95%",
-        "≥ 70 puntos",
-        "≥ 98%",
-        "≥ 60%",
-        "≥ 30%",
-        "≤ 105%",
-        "0 fallos"
+        "15% (675 pacientes)", "≥ \$55.000 COP", "≥ 3% mensual", 
+        "≥ 95%", "≥ 70 puntos", "≥ 98%", 
+        "≥ 60%", "≥ 30%", "≤ 105%", "0 fallos"
     ],
-    "Valor Actual (Simulado)": [
-        f"{tasa_penetracion:.1f}%",
-        f"\${ticket_promedio_input:,} COP",
-        f"{conversión_wa:.1f}%",
-        f"{SLA_domicilios_input}%",
-        f"{nps_input} pts",
-        f"{exactitud_inv_input}%",
-        f"{tasa_recompra_input}%",
-        f"{margen_bruto_calculado:.1f}%",
-        f"{ejecucion_opex_pct:.1f}%",
-        f"{hallazgos_rx} fallos"
+    "Valor Actual Actualizado": [
+        f"{tasa_penetración_calculada:.1f}%", f"\${ticket_promedio_sim:,} COP", f"{conversion_wa_sim:.1f}%",
+        f"{SLA_domicilios_sim}%", f"{nps_evaluado_sim} pts", f"{exactitud_inv_sim}%",
+        f"{tasa_recompra_sim}%", f"{margen_bruto_fijo_modelo:.1f}%", f"{ejecución_opex_calculada:.1f}%",
+        f"{hallazgos_auditoria_rx} fallos"
     ],
     "Fuente de Medición": [
-        "Sistema POS",
-        "Reporte POS",
-        "WA Analytics",
-        "App de rutas / Logística",
-        "Encuesta WhatsApp",
-        "Auditoría semanal",
-        "Cohorte POS",
-        "P&L Mensual",
-        "Contabilidad / POS",
-        "Regente de Farmacia"
+        "Sistema POS", "Reporte POS", "WA Analytics", "App de rutas / Logística",
+        "Encuesta WhatsApp", "Auditoría semanal", "Cohorte POS", "P&L Mensual",
+        "Contabilidad / POS", "Regente de Farmacia"
     ]
 }
 
-df_final_kpi = pd.DataFrame(diccionario_tabla_33)
-
-# Mostrar la tabla en pantalla completa con diseño interactivo nativo
-st.dataframe(df_final_kpi, use_container_width=True, hide_index=True)
-st.caption("Fuente: Elaboración propia (2026). KPIs alineados con la proyección de ingresos de \$1.339.250.000 COP para el Año 1 y los protocolos del Regente de Farmacia (DT).")
+df_kpi_completo_data = pd.DataFrame(diccionario_kpis_tabla_33)
+st.dataframe(df_kpi_completo_data, use_container_width=True, hide_index=True)
+st.caption("Fuente: Elaboración propia (2026). KPIs alineados de forma estricta con la proyección de ingresos de \$1.339.250.000 COP para el Año 1 y los protocolos de la Dirección Técnica.")
 
 st.divider()
 
-# ==========================================
-# 6. ENTORNO DE AUTOMATIZACIÓN AVANZADA: GENERADOR EXCEL EXECUTIVO (.XLSX)
-# ==========================================
-st.subheader("🐍 Automatización de Reportabilidad Corporativa (Python Engineering)")
-st.write("El siguiente módulo compila de forma nativa los datos dinámicos del SGC en un libro de cálculo de Microsoft Excel utilizando las directivas binarias de `xlsxwriter`.")
-
-# Pipeline de construcción del buffer de descarga en memoria
-excel_buffer = io.BytesIO()
-with pd.ExcelWriter(excel_buffer, engine='xlsxwriter') as workbook_manager:
-    df_final_kpi.to_excel(workbook_manager, sheet_name='Dashboard SGC', index=False, startrow=3)
-    
+# =========================================================================
+# 6. CENTRAL DE EXPORTACIÓN AVANZADA: GENERADOR EXCEL EJECUTIVO (XLSXWRITER)
+# =========================================================================
+st.subheader("⚙️ Central de Descargas de Reportes y Auditoría de Datos del SGC")
+st.write("Genere informes ejecutivos en tiempo real completamente formateados de forma directa para el comité evaluador.")col_down1, col_down2 = st.columns(2)with col_down1:excel_data_buffer = io.BytesIO()with pd.ExcelWriter(excel_data_buffer, engine='xlsxwriter') as workbook_builder:df_kpi_completo_data.to_excel(workbook_builder, sheet_name='Dashboard KPIs SGC', index=False, startrow=3)workbook_object = workbook_builder.booksheet_object = workbook_builder.sheets['Dashboard KPIs SGC']# Definición minuciosa de formatos corporativos en Excelheader_format = workbook_object.add_format({'bold': True, 'bg_color': '#1E3D59', 'font_color': 'white','font_name': 'Segoe UI', 'border': 1, 'align': 'center', 'valign': 'vcenter'})cell_format = workbook_object.add_format({'font_name': 'Segoe UI', 'font_size': 10, 'border': 1, 'align': 'left', 'valign': 'vcenter'})title_format = workbook_object.add_format({'bold': True, 'font_size': 14, 'font_color': '#1E3D59', 'font_name': 'Segoe UI'})subtitle_format = workbook_object.add_format({'font_size': 10, 'font_color': '#555555', 'font_name': 'Segoe UI', 'italic': True})# Escritura de marcas y títulos de la organización en Excelsheet_object.write('A1', 'FARMATECH LTDA. — REPORTE MENSUAL AUTOMATIZADO DEL CUADRO DE MANDO INTEGRAL', title_format)sheet_object.write('A2', f'Sincronización Avanzada con POS Memphis — Fecha de descarga: {datetime.now().strftime("%d/%m/%Y")}', subtitle_format)# Dimensiones óptimas de las columnas de Excelsheet_object.set_column('A:A', 26, cell_format)sheet_object.set_column('B:B', 48, cell_format)sheet_object.set_column('C:C', 38, cell_format)sheet_object.set_column('D:F', 24, cell_format)# Inyectar el formato premium de cabecerasfor col_idx, col_name in enumerate(df_kpi_completo_data.columns):sheet_object.write(3, col_idx, col_name, header_format)st.download_button(label="📥 Descargar Reporte de Cierre de la Tabla 33 en Excel (.xlsx)",data=excel_data_buffer.getvalue(),file_name=f"Reporte_KPI_FarmaTech_{datetime.now().strftime('%m_%Y')}.xlsx",mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",use_container_width=True)with col_down2:st.info("💡 Exportación limpia a formato PDF: Presione las teclas Ctrl + P (en Windows) o Cmd + P (en Mac) para abrir el panel de impresión de su navegador. El script CSS ocultará automáticamente las barras de desarrollo laterales e interfaces de usuario dinámicas.")st.divider()
