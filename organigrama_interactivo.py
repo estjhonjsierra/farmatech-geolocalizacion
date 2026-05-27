@@ -106,7 +106,7 @@ with col_e2:
     act_gerencia = st.toggle("👔 NODO 2: GERENCIA GENERAL (Jhon Jaime Sierra - Representación Legal)", value=False)
     if act_gerencia:
         st.markdown("### 👔 Manual de Funciones: Gerente General")
-        st.write("**Misión:** Ejercer la representation legal y comercial de la compañía, salvaguardar las metas de empleo pactadas ante el SENA y auditar la rentabilidad del proyecto.")
+        st.write("**Misión:** Ejercer la representación legal y comercial de la compañía, salvaguardar las metas de empleo pactadas ante el SENA y auditar la rentabilidad del proyecto.")
         st.write("**Responsabilidades Críticas:**")
         st.markdown("1. Suscribir y firmar convenios de distribución mayorista de medicamentos con Coopidrogas.")
         st.markdown("2. Auditar de forma trimestral los flujos netos de caja generados por las operaciones presenciales y digitales.")
@@ -149,7 +149,7 @@ if act_dt:
         fig_dt = go.Figure(go.Indicator(
             mode = "gauge+number", value = cumplimiento_bpa,
             title = {'text': "Conformidad Estándar Sanitario e Inspección Seccional"},
-            gauge = {'axis': {'range':}, 'bar': {'color': "#1e3d59"}, 'threshold': {'line': {'color': "red", 'width': 4}, 'value': 95}}
+            gauge = {'axis': {'range': [0, 100]}, 'bar': {'color': "#1e3d59"}, 'threshold': {'line': {'color': "red", 'width': 4}, 'value': 95}}
         ))
         fig_dt.update_layout(height=230, margin=dict(t=30, b=10, l=10, r=10))
         st.plotly_chart(fig_dt, use_container_width=True, config=config_exportacion)
@@ -161,7 +161,7 @@ if act_dc:
     st.write("**Funciones Principales:**")
     st.markdown("1. Monitorear el embudo de conversión omnicanal de pedidos capturados desde la API de WhatsApp Business.")
     st.markdown("2. Controlar la ejecución del presupuesto de pauta publicitaria geo-segmentada de `$2.500.000 COP mensuales` fletado en la Tabla 11.")
-    st.markdown("3. Diseñar las campañas de fidelización y el programa 'Puntos Salud' para los pacientes de patologías crónicas.")
+    st.markdown("3. Diseñar las campaigns de fidelización y el programa 'Puntos Salud' para los pacientes de patologías crónicas.")
 
 if act_dterr:
     st.markdown("---")
