@@ -33,7 +33,7 @@ st.markdown("""
 
 st.markdown('<div class="main-title">📊 FarmaTech Ltda. — Cuadro de Mando Operativo (SGC)</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-desc">Monitoreo de KPIs en Tiempo Real y Ciclo PHVA integrado al Sistema POS Memphis</div>', unsafe_allow_html=True)
-st.hr()
+st.divider()
 
 # 2. PANEL LATERAL (FILTROS DINÁMICOS Y SIMULADOR DE SEMÁFOROS)
 st.sidebar.header("🕹️ Simulador del POS Memphis")
@@ -82,7 +82,7 @@ st.sidebar.markdown("---")
 st.sidebar.subheader("📄 Exportar Reporte de Calidad")
 st.sidebar.info("Para exportar la Tabla 32 y las evidencias limpias a PDF, presione **Ctrl + P** o **Cmd + P** en su navegador y guarde el reporte.")
 
-st.hr()
+st.divider()
 
 # 4. DESPLIEGUE COMPLETO DE LA TABLA 32 (7 PROCESOS EXACTOS)
 st.subheader("📋 Tabla 32. Procedimientos clave de control operativo — FarmaTech Ltda.")
@@ -111,7 +111,7 @@ datos_tabla_32 = {
         f"% domicilios en < 45 min (≥ 95%). Monitoreado: {tiempo_domicilios}%. NPS promedio (meta: ≥ 70). Actual: {nps_actual} pts.",
         "Cero dispensaciones sin fórmula (Rx). Cero hallazgos BPA críticos.",
         "Tasa de recompra: > 60%. Conversión WhatsApp: ≥ 3%.",
-        f"Margen bruto ≥ 30% (Actual simulado: {absorcion_opex_pct:.1f}% OPEX). Ingresos año 1: $1.339.250.000.",
+        f"Margen bruto ≥ 30% (Actual simulado: {absorcion_opex_pct:.1f}% OPEX). Ingresos año 1: $1,339,250,000.",
         f"Rotación: < 15%/año. Capacitación: ≥ 20 h/empleado/año. Registrado: {horas_capacitacion} h.",
         "Tasa resolución: > 95% en < 24 h. PQRS recurrentes: cero."
     ],
@@ -135,7 +135,7 @@ if filtro_proceso != "Todos":
 st.dataframe(df_control, use_container_width=True, hide_index=True)
 st.caption("Fuente: Elaboración propia (2026). Metodología PHVA aplicada a los procesos de FarmaTech Ltda. en coherencia con las metas financieras de la Tabla 15 y el manual de cargos de la Tabla 30.")
 
-st.hr()
+st.divider()
 
 # 5. MÓDULO FOTOGRÁFICO DE AUDITORÍA (CÁMARA DE VALIDACIÓN)
 st.subheader("📸 Captura de Evidencia Física — Auditoría de Calidad e Infraestructura")
@@ -150,4 +150,3 @@ if habilitar_camara:
         st.image(foto_evidencia, caption="Registro de Evidencia de Campo — Control Sanitario", width=400)
 else:
     st.info("El sensor de la cámara está en reposo. Active la casilla superior para capturar soporte visual para el reporte final.")
-
