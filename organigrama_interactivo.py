@@ -3,178 +3,169 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 
-# 1. CONFIGURACIÓN HIGH-DEFINITION DE LA INTERFAZ
+# 1. CONFIGURACIÓN HIGH-DEFINITION DE LA INTERFAZ CORPORATIVA (UI/UX)
 st.set_page_config(
-    page_title="FarmaTech - Enterprise Suite",
+    page_title="FarmaTech - Enterprise Talent Suite",
     layout="wide",
     page_icon="🏢"
 )
 
-# Inyección de CSS avanzado para simular los bloques exactos de la imagen y controlar los clics
+# Inyección de estilos CSS avanzados y limpios para estilización de fuentes y contenedores
 st.markdown("""
     <style>
-    .main-title { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3d59; font-weight: 800; font-size: 2.4rem; margin-bottom: 0.2rem; }
+    .main-title { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3d59; font-weight: 800; font-size: 2.6rem; margin-bottom: 0.1rem; }
     .section-desc { color: #6c757d; font-size: 1.05rem; margin-bottom: 1.5rem; }
-    
-    /* Forzar diseño de botones tipo bloques de organigrama */
-    div.stButton > button {
-        width: 100%;
-        font-family: 'Arial', sans-serif !important;
-        font-size: 1.1rem !important;
-        font-weight: bold !important;
-        padding: 15px !important;
-        border-radius: 8px !important;
-        color: white !important;
-        border: none !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    div.stButton > button:hover {
-        transform: scale(1.01);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-    
-    /* Clases de información corporativa */
-    .profile-box { padding: 20px; border-radius: 10px; background-color: #f8f9fa; border-left: 6px solid #1e3d59; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    .profile-title { font-size: 1.3rem; font-weight: bold; color: #1e3d59; margin-bottom: 10px; text-transform: uppercase; }
-    .metric-inline { font-weight: bold; color: #2ca02c; }
+    .header-nivel { padding: 8px 15px; border-radius: 6px; font-weight: bold; font-size: 1.1rem; margin-top: 15px; margin-bottom: 10px; }
+    .estrat-hdr { background-color: #1e3d59; color: white; }
+    .tact-hdr { background-color: #ff7f0e; color: white; }
+    .ope-hdr { background-color: #2ca02c; color: white; }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<h1 class="main-title">🏢 Componente 2: Estructura Orgánica y Manual de Funciones</h1>', unsafe_allow_html=True)
-st.markdown('<p class="section-desc">Tabla 26. Panel de Consulta de Perfiles, Requisitos ReTHUS y Asignaciones Salariales — FarmaTech Ltda.</p>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title">🏢 Componente 2: Estructura Orgánica, Nómina y Manual de Funciones</h1>', unsafe_allow_html=True)
+st.markdown('<p class="section-desc">Tabla 26. Matriz Avanzada de Consulta de Perfiles, Requisitos Legales ReTHUS y Asignaciones Salariales — FarmaTech Ltda.</p>', unsafe_allow_html=True)
 st.markdown("---")
 
-# Configuración universal para descarga de reportes (Cámara 📸 activa)
+# Configuración universal para descarga de reportes y capturas fotográficas (Cámara 📸 fija y activa)
 config_exportacion = {
     'displayModeBar': True,
+    'displaylogo': False,
+    'modeBarButtonsToRemove': ['zoom2d', 'pan2d', 'select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d'],
     'toImageButtonOptions': {
         'format': 'png',
-        'filename': 'farmatech_kpi_talento_humano',
-        'height': 500,
-        'width': 1000,
+        'filename': 'farmatech_reporte_talento_humano',
+        'height': 550,
+        'width': 1050,
         'scale': 2
     }
 }
 
-# Inicializar la variable de control de clics en la sesión
-if "cargo_activo" not in st.session_state:
-    st.session_state.cargo_activo = "Ninguno"
-
-# 2. CONTROLES DE SIMULACIÓN EN LA BARRA LATERAL (SIDEBAR)
-st.sidebar.header("🎛️ Centro de Simulación Cruzada")
-st.sidebar.markdown("Modifique las variables operativas en tiempo real para estresar los indicadores de cargo.")
-transacciones_dia = st.sidebar.slider("Transacciones Reales Diarias (POS)", min_value=30, max_value=120, value=65, step=5)
-horas_capacitacion = st.sidebar.slider("Horas de Capacitación Anual / Empleado", min_value=0, max_value=40, value=20, step=2)
-
-# Valores base de nómina (Tabla 11) y salario mínimo 2026
+# Variables financieras y legales de referencia unificada (Año 2026)
 smmlv_2026 = 1430000
+factor_prestacional = 1.48
 
-# 3. CONSTRUCCIÓN DE LA ARQUITECTURA DEL ORGANIGRAMA VISUAL
-st.subheader("🗺️ Tabla de Mandos y Organigrama")
-st.write("Haga clic directamente sobre cualquiera de los bloques de color para desplegar su ficha de perfil y simulación técnica.")
+# 2. SECCIÓN DE INDUCTORES DE CONTROL EN LA BARRA LATERAL (SIDEBAR)
+st.sidebar.header("🎛️ Centro de Simulación de Carga Operativa")
+st.sidebar.markdown("Modifique los inductores en tiempo real para estresar las métricas de rendimiento del personal de primera línea.")
 
-# BLOQUE 1: JUNTA DE SOCIOS (Azul Corporativo Oscuro)
-st.markdown("<style>div[key='btn_junta'] > button { background: linear-gradient(135deg, #1e3d59 0%, #102233 100%) !important; }</style>", unsafe_allow_html=True)
-if st.button("👥 1. JUNTA DE SOCIOS & ESTRUCTURA DE CAPITAL", key="btn_junta"):
-    st.session_state.cargo_activo = "Junta"
+transacciones_reales_dia = st.sidebar.slider("Transacciones Reales Diarias (POS)", min_value=30, max_value=120, value=65, step=5)
+horas_capacitacion = st.sidebar.slider("Horas de Capacitación Anual / Empleado", min_value=0, max_value=40, value=20, step=2)
+eficiencia_logistica = st.sidebar.slider("Eficiencia de Entrega de Flota (%)", min_value=50, max_value=100, value=95, step=5)
 
-st.markdown("<div style='text-align:center; font-size:1.2rem; color:#1e3d59; margin:2px 0;'>▼</div>", unsafe_allow_html=True)
-
-# BLOQUE 2: GERENCIA GENERAL (Azul Rey)
-st.markdown("<style>div[key='btn_gerencia'] > button { background: linear-gradient(135deg, #2b5c8f 0%, #1e3d59 100%) !important; }</style>", unsafe_allow_html=True)
-if st.button("👔 2. GERENCIA GENERAL (Representación Legal)", key="btn_gerencia"):
-    st.session_state.cargo_activo = "Gerencia"
-
-st.markdown("<div style='text-align:center; font-size:1.2rem; color:#1e3d59; margin:2px 0;'>▼</div>", unsafe_allow_html=True)
-
-# NIVEL TÁCTICO: TRES COLUMNAS EN PARALELO (Mismo orden de tu imagen)
-col_tact1, col_tact2, col_tact3 = st.columns(3)
-
-with col_tact1:
-    st.markdown("<style>div[key='btn_dt'] > button { background: linear-gradient(135deg, #2ca02c 0%, #195219 100%) !important; }</style>", unsafe_allow_html=True)
-    if st.button("⚙️ DIRECCIÓN TÉCNICA\n(Regente de Farmacia)", key="btn_dt"):
-        st.session_state.cargo_activo = "Direccion_Tecnica"
-
-with col_tact2:
-    st.markdown("<style>div[key='btn_dc'] > button { background: linear-gradient(135deg, #e65c00 0%, #993d00 100%) !important; }</style>", unsafe_allow_html=True)
-    if st.button("📢 DIRECCIÓN COMERCIAL\n(Órgano Consultor)", key="btn_dc"):
-        st.session_state.cargo_activo = "Direccion_Comercial"
-
-with col_tact3:
-    st.markdown("<style>div[key='btn_dterr'] > button { background: linear-gradient(135deg, #1f77b4 0%, #114466 100%) !important; }</style>", unsafe_allow_html=True)
-    if st.button("🗺️ DIRECCIÓN TERRITORIAL\n(Órgano Consultor)", key="btn_dterr"):
-        st.session_state.cargo_activo = "Direccion_Territorial"
-
-st.markdown("<div style='text-align:center; font-size:1.2rem; color:#1e3d59; margin:4px 0;'>▼</div>", unsafe_allow_html=True)
-
-# NIVEL OPERATIVO: TRES AUXILIARES + UN DOMICILIARIO
-col_ope1, col_ope2, col_ope3, col_ope4 = st.columns(4)
-
-with col_ope1:
-    st.markdown("<style>div[key='btn_aux1'] > button { background: #5a9bd5 !important; }</style>", unsafe_allow_html=True)
-    if st.button("📋 AUXILIAR 1\n(Terminal POS 1)", key="btn_aux1"):
-        st.session_state.cargo_activo = "Auxiliar1"
-
-with col_ope2:
-    st.markdown("<style>div[key='btn_aux2'] > button { background: #5a9bd5 !important; }</style>", unsafe_allow_html=True)
-    if st.button("💬 AUXILIAR 2\n(WhatsApp Business)", key="btn_aux2"):
-        st.session_state.cargo_activo = "Auxiliar2"
-
-with col_ope3:
-    st.markdown("<style>div[key='btn_aux3'] > button { background: #5a9bd5 !important; }</style>", unsafe_allow_html=True)
-    if st.button("📦 AUXILIAR 3\n(Bodega / FEFO)", key="btn_aux3"):
-        st.session_state.cargo_activo = "Auxiliar3"
-
-with col_ope4:
-    st.markdown("<style>div[key='btn_dom'] > button { background: linear-gradient(135deg, #ffc000 0%, #b38600 100%) !important; color:black !important; }</style>", unsafe_allow_html=True)
-    if st.button("🏍️ MENSAJERO\n(Última Milla)", key="btn_dom"):
-        st.session_state.cargo_activo = "Mensajero"
-
+st.subheader("🗺️ Tablero de Control y Mando del Organigrama")
+st.write("Active el interruptor de cualquier cargo estructural para desplegar su manual de funciones, auditoría de nómina y KPI con captura de imagen.")
 st.markdown("---")
 
 # =============================================================================
-# DETECCIÓN DE EVENTOS Y DESPLIEGUE DE FICHA DE CARGO E IMPACTO
+# 1. BLOQUE DE NIVEL ESTRATÉGICO
 # =============================================================================
-st.subheader("🔍 Ficha de Perfil Técnico y Análisis de Desempeño")
+st.markdown('<div class="header-nivel estrat-hdr">🏛️ NIVEL I: DIRECCIÓN ESTRATÉGICA Y GOBIERNO CORPORATIVO</div>', unsafe_allow_html=True)
 
-if st.session_state.cargo_activo == "Ninguno":
-    st.info("💡 **Sistema Activo:** Haga clic sobre cualquier bloque del organigrama superior para abrir su manual de funciones y simular sus métricas.")
+col_e1, col_e2 = st.columns(2)
 
-elif st.session_state.cargo_activo == "Junta":
-    st.markdown('<div class="profile-box">', unsafe_allow_html=True)
-    st.markdown('<div class="profile-title">👥 Junta de Socios — Composición del Capital Social</div>', unsafe_allow_html=True)
-    st.write("**Estructura Jurídica:** Sociedad de Responsabilidad Limitada (Ltda.) - Artículo 353 del Código de Comercio.")
-    st.write("**Distribución del Capital (\$280.000.000 COP):**")
-    st.markdown("- **Fondo Emprender SENA:** 40% (\$112.000.000 COP) • Inversionista Institucional")
-    st.markdown("- **Inversionista Ángel (IPS Local):** 25% (\$70.000.000 COP) • Aliado de Red de Pacientes")
-    st.markdown("- **Jhon Jaime Sierra:** 20% (\$56.000.000 COP) • Área Financiera/Tecnológica")
-    st.markdown("- **Lucy Semanate:** 10% (\$28.000.000 COP) • Operación de Territorio")
-    st.markdown("- **Danna Delgado (2,5%) & Mauricio Echeverry (2,5%):** (\$14.000.000 COP) • Estrategia Comercial y Legal")
-    st.markdown('</div>', unsafe_allow_html=True)
+with col_e1:
+    act_junta = st.toggle("👥 NODO 1: JUNTA DE SOCIOS (Composición del Capital Social)", value=False)
+    if act_junta:
+        st.markdown("### 👥 Manual de la Junta de Socios")
+        st.markdown("**Naturaleza Societaria:** Sociedad de Responsabilidad Limitada (Ltda.) bajo el Artículo 353 del Código de Comercio.")
+        st.markdown("**Matriz de Capital Social (\$280.000.000 COP - Consistencia con la Tabla 12):**")
+        
+        # Estructurar tabla de socios indexada
+        socios_data = {
+            "Socio / Inversionista": ["Fondo Emprender SENA", "Inversionista Ángel (IPS)", "Jhon Jaime Sierra", "Lucy Semanate", "Danna Delgado", "Mauricio Echeverry"],
+            "Aporte Capital": ["\$112.000.000", "\$70.000.000", "\$56.000.000", "\$28.000.000", "\$7.000.000", "\$7.000.000"],
+            "Participación (%)": ["40.0%", "25.0%", "20.0%", "10.0%", "2.5%", "2.5%"]
+        }
+        st.dataframe(pd.DataFrame(socios_data), use_container_width=True, hide_index=True)
+        st.caption("Nota de Control Laboral: Los socios operan ad honorem dentro del órgano consultor externo, evitando sobrecargar la nómina pre-equilibrio.")
 
-elif st.session_state.cargo_activo == "Gerencia":
-    st.markdown('<div class="profile-box">', unsafe_allow_html=True)
-    st.markdown('<div class="profile-title">👔 Gerencia General — Jhon Jaime Sierra Marín</div>', unsafe_allow_html=True)
-    st.write("**Misión:** Ejercer la representación legal, salvaguardar el cumplimiento de indicadores ante el SENA y liderar la estrategia de expansión corporativa.")
-    st.write("**Funciones:** Firmar contratos mayoristas, auditar estados financieros y evaluar el ROI al cierre del Año 3.")
-    st.markdown('</div>', unsafe_allow_html=True)
+with col_e2:
+    act_gerencia = st.toggle("👔 NODO 2: GERENCIA GENERAL (Jhon Jaime Sierra - Representación Legal)", value=False)
+    if act_gerencia:
+        st.markdown("### 👔 Manual de Funciones: Gerente General")
+        st.write("**Misión:** Ejercer la representación legal y comercial de la compañía, salvaguardar las metas de empleo pactadas ante el SENA y auditar la rentabilidad del proyecto.")
+        st.write("**Responsabilidades Críticas:**")
+        st.markdown("1. Suscribir y firmar convenios de distribución mayorista de medicamentos con Coopidrogas.")
+        st.markdown("2. Auditar de forma trimestral los flujos netos de caja generados por las operaciones presenciales y digitales.")
+        st.markdown("3. Evaluar el Retorno de Inversión (ROI) y autorizar los planes de expansión hacia la segunda sede en el Año 3.")
 
-elif st.session_state.cargo_activo == "Direccion_Tecnica":
-    st.markdown('<div class="profile-box">', unsafe_allow_html=True)
-    st.markdown('<div class="profile-title">⚙️ Dirección Técnica — Regente de Farmacia (Planta)</div>', unsafe_allow_html=True)
-    st.write("**Requisito Legal:** Tecnólogo en Regencia de Farmacia (Ley 485 de 1998), inscrito en el ReTHUS.")
-    st.write("**Asignación en OPEX:** `$4.500.000 COP/mes` (Costo unificado con carga prestacional completa).")
+st.markdown("<div class="arrow-q">▲</div>", unsafe_allow_html=True)
+
+# =============================================================================
+# 2. BLOQUE DE NIVEL TÁCTICO (DIRECCIONES EN TRES COLUMNAS EN PARALELO)
+# =============================================================================
+st.markdown('<div class="header-nivel tact-hdr">⚡ NIVEL II: DIRECCIÓN TÁCTICA Y CONTROL DE CALIDAD BIOSANITARIA</div>', unsafe_allow_html=True)
+
+col_t1, col_t2, col_t3 = st.columns(3)
+
+with col_t1:
+    act_dt = st.toggle("⚙️ NODO 3: DIRECCIÓN TÉCNICA (Regente de Farmacia)", value=False)
+with col_t2:
+    act_dc = st.toggle("📢 NODO 4: DIRECCIÓN COMERCIAL (Socio Consultor)", value=False)
+with col_t3:
+    act_dterr = st.toggle("🗺️ NODO 5: DIRECCIÓN TERRITORIAL (Socio Consultor)", value=False)
+
+if act_dt:
+    st.markdown("---")
+    st.markdown("### ⚙️ Manual Técnico de Cargo: Regente de Farmacia (Director Técnico)")
     
-    cumplimiento_bpa = min(100.0, 75.0 + (horas_capacitacion * 0.65))
-    st.markdown(f"📈 **Índice de Conformidad Sanitaria (BPA):** <span class='metric-inline'>{cumplimiento_bpa:.1f}%</span> (Meta Seccional de Salud: 100%)", unsafe_allow_html=True)
+    col_dt1, col_dt2 = st.columns(2)
+    with col_dt1:
+        st.write("**Requisito Normativo:** Título como Tecnólogo en Regencia de Farmacia (**Ley 485 de 1998**), con registro activo en el **ReTHUS** y tarjeta profesional vigente.")
+        st.write("**Asignación en OPEX (Tabla 11):** `$4.500.000 COP/mes` (Costo fijo empresarial con carga prestacional unificada).")
+        st.markdown("**Desglose Contable de la Carga de Nómina:**")
+        sueldo_base_dt = 3040000
+        st.markdown(f"- Salario Base Contractual: `\${sueldo_base_dt:,.0f} COP`")
+        st.markdown(f"- Prestaciones Sociales & Seguridad Social (factor 1.48): `\${sueldo_base_dt * 0.48:,.0f} COP`")
+        st.markdown("- Total Costo Fijo Mensual FarmaTech: `\$4.500.000 COP` (Consistencia Absoluta)")
     
-    fig = go.Figure(go.Indicator(
-        mode = "gauge+number", value = cumplimiento_bpa,
-        title = {'text': "Conformidad Estándar Sanitario Seccional de Salud"},
-        gauge = {'axis': {'range': [0, 100]}, 'bar': {'color': "#2ca02c"}, 'threshold': {'line': {'color': "red", 'width': 4}, 'value': 95}}
-    ))
-    fig.update_layout(height=220, margin=dict(t=30,b=10,l=10,r=10))
-    st.plotly_chart(fig, use_container_width=True, config=config_exportacion)
-    st.markdown('</div>', unsafe_allow_html=True)
+    with col_dt2:
+        # Simulación analítica de calidad basada en el slider de capacitación de la barra lateral
+        cumplimiento_bpa = min(100.0, 75.0 + (horas_capacitacion * 0.65))
+        st.markdown(f"📈 **Índice de Conformidad Sanitaria (BPA Estimado):** `{cumplimiento_bpa:.1f}%` (Umbral Seccional de Salud: 100%)")
+        
+        # Gráfica de control interactiva (Cámara 📸 fija activa)
+        fig_dt = go.Figure(go.Indicator(
+            mode = "gauge+number", value = cumplimiento_bpa,
+            title = {'text': "Conformidad Estándar Sanitario e Inspección Seccional"},
+            gauge = {'axis': {'range':}, 'bar': {'color': "#1e3d59"}, 'threshold': {'line': {'color': "red", 'width': 4}, 'value': 95}}
+        ))
+        fig_dt.update_layout(height=230, margin=dict(t=30, b=10, l=10, r=10))
+        st.plotly_chart(fig_dt, use_container_width=True, config=config_exportacion)
 
+if act_dc:
+    st.markdown("---")
+    st.markdown("### 📢 Manual de Cargo: Dirección Comercial (Órgano Consultor)")
+    st.write("**Estatus Laboral:** Asesoría externa ad honorem asumida por el socio fundador (Asignación: \$0 COP en OPEX).")
+    st.write("**Funciones Principales:**")
+    st.markdown("1. Monitorear el embudo de conversión omnicanal de pedidos capturados desde la API de WhatsApp Business.")
+    st.markdown(f"2. Controlar la ejecución del presupuesto de pauta publicitaria geo-segmentada de `\$2.500.000 COP mensuales` fletado en la Tabla 11.")
+    st.markdown("3. Diseñar las campañas de fidelización y el programa 'Puntos Salud' para los pacientes de patologías crónicas.")
+
+if act_dterr:
+    st.markdown("---")
+    st.markdown("### 🗺️ Manual de Cargo: Dirección Territorial (Órgano Consultor)")
+    st.write("**Estatus Laboral:** Gestión de operaciones externa ad honorem asumida por el socio fundador (Asignación: \$0 COP en OPEX).")
+    st.write("**Funciones Principales:**")
+    st.markdown("1. Coordinar y auditar la infraestructura física de los 80 m² localizada estratégicamente en el Mall La 33.")
+    st.markdown("2. Supervisar los turnos de la fuerza de venta operativa y gestionar las relaciones institucionales con clínicas del sector.")
+
+st.markdown("<div class="arrow-q">▲</div>", unsafe_allow_html=True)
+
+# =============================================================================
+# 3. BLOQUE DE NIVEL OPERATIVO (CUATRO COLUMNAS EN PARALELO)
+# =============================================================================
+st.markdown('<div class="header-nivel ope-hdr">🟩 NIVEL III: AREA OPERATIVA, ATENCIÓN OMNICANAL Y DISTRIBUCIÓN EXPRESS</div>', unsafe_allow_html=True)
+
+col_o1, col_o2, col_o3, col_o4 = st.columns(4)
+
+with col_o1:
+    act_aux1 = st.toggle("📋 NODO 6: AUXILIAR 1 (Terminal POS 1)", value=False)
+with col_o2:
+    act_aux2 = st.toggle("💬 NODO 7: AUXILIAR 2 (WhatsApp Business)", value=False)
+with col_o3:
+    act_aux3 = st.toggle("📦 NODO 8: AUXILIAR 3 (Almacén / FEFO)", value=False)
+with col_o4:
+    act_dom = st.toggle("🏍️ NODO 9: MENSAJERO (Última Milla)", value=False)
+
+if act_aux1 or act_aux2 or act_aux3:
